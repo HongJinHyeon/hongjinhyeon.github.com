@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <style>
+        /* Style the header */
+        header {
+            background-color: #666;
+            padding: 30px;
+            text-align: center;
+            font-size: 25px;
+            color: white;
+        }
+
+        .divTitle {
+            background-color: #ff6a00;
+            padding: 20px;
+            text-align: left;
+            font-size: 18px;
+            color: white;
+        }
+
+        input {
+            font-size : 18px;
+        }
+    </style>
+
+    <script>
+
+        function calculate_max_floors()
+        {
+            var max_sec;
+            var current_kill_count;
+            var attack;
+            var defense;
+            var health;
+            
+            //knight
+            attack  = document.getElementById("Part1_Attack1").value;
+            defense = document.getElementById("Part1_Defense1").value;
+            health  = document.getElementById("Part1_HP1").value;
+            max_sec = calculate_max_alive_time(defense, health);
+            current_kill_count = getTotalKillCount(attack, max_sec);
+                       
+            document.getElementById("Part1_SurvivalMiniute1").value = max_sec / 60;
+            document.getElementById("Part1_KillCount1").value = current_kill_count;
+
+            //Archer
+            attack = document.getElementById("Part1_Attack2").value;
+            defense = document.getElementById("Part1_Defense2").value;
+            health = document.getElementById("Part1_HP2").value;
+            max_sec = calculate_max_alive_time(defense, health);
+
+            alert(max_sec);
+            current_kill_count = getTotalKillCount(attack, max_sec);
+            alert(current_kill_count);
+
+            document.getElementById("Part1_SurvivalMiniute2").value = max_sec / 60;
+            document.getElementById("Part1_KillCount2").value = current_kill_count;
+
+            //Mage
+            attack = document.getElementById("Part1_Attack3").value;
+            defense = document.getElementById("Part1_Defense3").value;
+            health = document.getElementById("Part1_HP3").value;
+            max_sec = calculate_max_alive_time(defense, health);
+            current_kill_count = getTotalKillCount(attack, max_sec);
+
+            document.getElementById("Part1_SurvivalMiniute3").value = max_sec / 60;
+            document.getElementById("Part1_KillCount3").value = current_kill_count;
+            
+
+        }
+
+        function  calculate_max_alive_time(_defence, _health)
+        {
+            var damage_per_min = 25;
+            var knightdefence = _defence;
+            damage_per_min = damage_per_min - ( 25 * knightdefence / (knightdefence + 1000) );
+            var alive_sec = 60 * _health / damage_per_min;
+
+            return alive_sec;
+        }
+
+        function getTotalKillCount(_attack, max_sec)
+        {
+            var current_kill_count = _attack * max_sec / 60 / 200;
+            if (current_kill_count == 0) {
+                current_kill_count = 1;
+            }
+
+            return current_kill_count;
+        }
+       
+
+    </script>
+
+
+</head>
+
+
+<body>
+
+    <header>
+        <h2>EOS Knights Calculartor</h2>
+    </header>
+    <br />
+    <div class="divTitle">1.Max Floor that can reach</div>
+    <br />
+    <table>
+        <tr>
+            <th></th>
+            <th>Knight</th>
+            <th>Archer</th>
+            <th>Mage</th>
+        </tr>
+        <tr>
+            <th>Attack</th>
+            <td><input type="text" id="Part1_Attack1" value="2541"></td>
+            <td><input type="text" id="Part1_Attack2" value="2489"></td>
+            <td><input type="text" id="Part1_Attack3" value="2577"></td>
+        </tr>
+        <tr>
+            <th>Defense</th>
+            <td><input type="text" id="Part1_Defense1" value="577"></td>
+            <td><input type="text" id="Part1_Defense2" value="631"></td>
+            <td><input type="text" id="Part1_Defense3" value="767"></td>
+        </tr>
+        <tr>
+            <th>HP</th>
+            <td><input type="text" id="Part1_HP1" value="1872"></td>
+            <td><input type="text" id="Part1_HP2" value="1798"></td>
+            <td><input type="text" id="Part1_HP3" value="2064"></td>
+        </tr>
+        <tr>
+            <th>Survival Miniutes</th>
+            <td><input type="text" id="Part1_SurvivalMiniute1"></td>
+            <td><input type="text" id="Part1_SurvivalMiniute2"></td>
+            <td><input type="text" id="Part1_SurvivalMiniute3"></td>
+        </tr>
+        <tr>
+            <th>KillCounts</th>
+            <td><input type="text" id="Part1_KillCount1"></td>
+            <td><input type="text" id="Part1_KillCount2"></td>
+            <td><input type="text" id="Part1_KillCount3"></td>
+        </tr>
+        <tr>
+            <th>Total Floors</th>
+            <td colspan="2"><input type="text" id="Part1_Total Floors"></td>
+        </tr>
+    </table>
+
+    <br />
+
+    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors">
+
+
+
+    <br />
+    <br />
+    <div class="divTitle">2.Item Max Stat</div>
+
+    <br />
+    <table>
+        <tr>
+            <th>Now Item Level : </th>
+            <td><input type="text" id="Part2_NowItemLevel"></td>
+        </tr>
+        <tr>
+            <th>Target Item Level : </th>
+            <td><input type="text" id="Part2_TargetItemLevel"></td>
+        </tr>
+        <tr>
+            <th>First Stat : </th>
+            <td><input type="text" id="Part2_Stat1"></td>
+            <td><input type="text" id="Part2_Stat1Result"></td>
+        </tr>
+        <tr>
+            <th>Second Stat : </th>
+            <td><input type="text" id="Part2_Stat2"></td>
+            <td><input type="text" id="Part2_Stat2Result"></td>
+        </tr>
+        <tr>
+            <th>Thrid Stat : </th>
+            <td><input type="text" id="Part2_Stat3"></td>
+            <td><input type="text" id="Part2_Stat3Result"></td>
+        </tr>
+    </table>
+
+    <br />
+    <input type="button" onclick="calculate_max_ItemLevel()" value="calculate Max ItemLevel Stat">
+    <br />
+
+    <br />
+    <div class="divTitle">3.Item Origin Stat</div>
+
+    <br />
+    <table>
+        <tr>
+            <th>Now Item Level : </th>
+            <td><input type="text" id="Part3_NowItemLevel"></td>
+        </tr>
+        <tr>
+            <th>First Stat : </th>
+            <td><input type="text" id="Part3_Stat1"></td>
+            <td><input type="text" id="Part3_Stat1Result"></td>
+        </tr>
+        <tr>
+            <th>Second Stat : </th>
+            <td><input type="text" id="Part3_Stat2"></td>
+            <td><input type="text" id="Part3_Stat2Result"></td>
+        </tr>
+        <tr>
+            <th>Thrid Stat : </th>
+            <td><input type="text" id="Part3_Stat3"></td>
+            <td><input type="text" id="Part3_Stat3Result"></td>
+        </tr>
+    </table>
+
+    <br />
+    <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat">
+    <br />
+
+</body>
+</html>
+​​
