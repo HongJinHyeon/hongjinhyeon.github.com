@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EOS Knights Calculartor Version 1.0</title>
+    <title>EOS Knights Calculartor Version 1.1</title>
     <style>
         /* Style the header */
         header {
@@ -13,12 +13,12 @@
             color: white;
         }
 
-footer {
-    background-color: #777;
-    padding: 10px;
-    text-align: center;
-    color: white;
-}
+        footer {
+            background-color: #777;
+            padding: 10px;
+            text-align: center;
+            color: white;
+        }
 
         .divTitle {
             background-color: #ff6a00;
@@ -29,37 +29,35 @@ footer {
         }
 
         input {
-            font-size : 18px;
+            font-size: 18px;
         }
 
-	th.result{
-	   color : red;
+        th.result {
+            color: red;
         }
-
     </style>
 
     <script>
 
-        function calculate_max_floors()
-        {
+        function calculate_max_floors() {
             var max_sec;
             var current_kill_count;
             var attack;
             var defense;
             var health;
             var total_kill_count = 0;
-            
+
             //knight
-            attack  = document.getElementById("Part1_Attack1").value;
+            attack = document.getElementById("Part1_Attack1").value;
             defense = document.getElementById("Part1_Defense1").value;
-            health  = document.getElementById("Part1_HP1").value;
+            health = document.getElementById("Part1_HP1").value;
             max_sec = calculate_max_alive_time(defense, health);
-		
+
             current_kill_count = getTotalKillCount(attack, max_sec);
             total_kill_count += current_kill_count;
-                       
-            document.getElementById("Part1_SurvivalMiniute1").value =  parseInt( max_sec / 60 );
-            document.getElementById("Part1_KillCount1").value = current_kill_count;
+
+            document.getElementById("Part1_SurvivalMiniute1").value = parseInt(max_sec / 60);
+            document.getElementById("Part1_KillCount1").value = current_kill_count; //addComma(current_kill_count);
 
             //Archer
             attack = document.getElementById("Part1_Attack2").value;
@@ -67,11 +65,11 @@ footer {
             health = document.getElementById("Part1_HP2").value;
             max_sec = calculate_max_alive_time(defense, health);
 
-           
+
             current_kill_count = getTotalKillCount(attack, max_sec);
             total_kill_count += current_kill_count;
 
-            document.getElementById("Part1_SurvivalMiniute2").value =  parseInt( max_sec / 60 );
+            document.getElementById("Part1_SurvivalMiniute2").value = parseInt(max_sec / 60);
             document.getElementById("Part1_KillCount2").value = current_kill_count;
 
             //Mage
@@ -83,42 +81,131 @@ footer {
             current_kill_count = getTotalKillCount(attack, max_sec);
             total_kill_count += current_kill_count;
 
-            document.getElementById("Part1_SurvivalMiniute3").value=  parseInt( max_sec / 60 );
+            document.getElementById("Part1_SurvivalMiniute3").value = parseInt(max_sec / 60);
             document.getElementById("Part1_KillCount3").value = current_kill_count;
 
 
-        
-            document.getElementById("Part1_Total Floors").value = (parseInt(total_kill_count /10 ) + 1) + " floors | " + (total_kill_count % 10 ) + "/10";
+            var maxFloor = (parseInt(total_kill_count / 10) + 1);
+            document.getElementById("Part1_Total Floors").value = maxFloor + " floors | " + (total_kill_count % 10) + "/10";
+
+                       
+
+            //Drop Rate
+            var kv_floor_bonus_1000 = 20.0;
+            var floor_drop_bonus =  kv_floor_bonus_1000 * (maxFloor / 1000.0);
+            var drop_rate;
+                       
+             
+            //1.knight
+            drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck1").value);
+            drop_rate += floor_drop_bonus;
+            
+
+            if (drop_rate > 100.0) { drop_rate = 100.0; }
+            document.getElementById("Part1_DropRate1").value = drop_rate.toFixed(2) + " %";
+
+
+            //2.Archer
+            drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck2").value);
+            drop_rate += floor_drop_bonus;
+
+            if (drop_rate > 100.0) { drop_rate = 100.0; }
+            document.getElementById("Part1_DropRate2").value = drop_rate.toFixed(2) + " %";
+
+
+            //3.Mage
+            drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck3").value);
+            drop_rate += floor_drop_bonus;
+
+            if (drop_rate > 100.0) { drop_rate = 100.0; }
+            document.getElementById("Part1_DropRate3").value = drop_rate.toFixed(2) + " %";
+
+           
+
+            //[Magic Water]
+            var mw_killcount;
+            var mw_luck;
+
+            mw_killcount = document.getElementById("Part1_KillCount1").value;
+            mw_luck = document.getElementById("Part1_Luck1").value;
+            document.getElementById("Part1_MW1").value = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+
+            mw_killcount = document.getElementById("Part1_KillCount2").value;
+            mw_luck = document.getElementById("Part1_Luck2").value;
+            document.getElementById("Part1_MW2").value = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+
+            mw_killcount = document.getElementById("Part1_KillCount3").value;
+            mw_luck = document.getElementById("Part1_Luck3").value;
+            document.getElementById("Part1_MW3").value = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+
 
         }
 
-        function  calculate_max_alive_time(_defence, _health)
-        {
+        function get_MagicWater(kill_count, luck, maxFloor) {
+            var powder = 0;
+            var kv_kill_powder_rate = 50;
+
+            var current_powder = parseInt(kill_count) / parseInt(kv_kill_powder_rate);
+            var scaler = 1.0 + (parseInt(luck) / 1000.0);
+            if (scaler > 8) {
+                scaler = 8;
+            }
+
+            //alert(kill_count);
+            //alert(luck);
+            //alert(maxFloor);
+            //alert(current_powder);
+            //alert(scaler);
+            //alert(current_powder * scaler);
+
+            //return  current_powder * scaler;
+
+            current_powder = current_powder * scaler;
+            
+            current_powder = parseFloat(current_powder * (1.0 + (Math.min(1000, maxFloor) / 500.0)));
+            
+            if (current_powder <= 0) {
+                current_powder = 1;
+            }
+
+            return current_powder.toFixed(2);
+        }
+
+        function get_drop_rate_with_luck(luck) {
+            
+            var stage_drop_rate = parseInt(document.getElementById("Part1_StageDropBonus").value);
+            var nowLuck = parseInt(luck);
+
+            var addition = stage_drop_rate * (nowLuck / parseInt(nowLuck + parseInt("777")));
+
+            return parseInt(stage_drop_rate + addition);
+
+        }
+
+
+        function calculate_max_alive_time(_defence, _health) {
             var damage_per_min = 25;
             var knightdefence = Number(_defence);
-            damage_per_min -= ( parseInt( 25 * knightdefence / (knightdefence + Number("1000"))) );
-            var alive_sec =  parseInt(60 * _health / damage_per_min);
+            damage_per_min -= parseFloat(25) * knightdefence / (knightdefence + Number("1000"));
+            var alive_sec = parseInt(60 * _health / damage_per_min);
 
             return alive_sec;
         }
 
-        function getTotalKillCount(_attack, max_sec)
-        {
-            var current_kill_count = parseInt( _attack * max_sec / 60 / 200 );
+        function getTotalKillCount(_attack, max_sec) {
+            var current_kill_count = parseInt(_attack * max_sec / 60 / 200);
             if (current_kill_count == 0) {
                 current_kill_count = 1;
             }
 
             return current_kill_count;
         }
-       
-       
-	function getOriginStat(itemlevel,  nowStat)
-        {
+
+
+        function getOriginStat(itemlevel, nowStat) {
             var percent = 1.0;
 
-            switch (itemlevel)
-            {
+            switch (itemlevel) {
                 case "1":
                     percent = 1;
                     break;
@@ -137,75 +224,24 @@ footer {
                 default:
                     break;
             }
- 
+
             return parseInt((parseFloat(nowStat) / parseFloat(percent)));
 
         }
 
-        function calculate_max_ItemLevel()
-	{
-           
- 
-                document.getElementById("Part2_Stat1Result").value = "";
-                document.getElementById("Part2_Stat2Result").value = "";
-                document.getElementById("Part2_Stat3Result").value = "";
-
- 
-               
-
-                var percent = 1.0;
-
-                switch (document.getElementById("Part2_TargetItemLevel").value)
-                {
-                    case "2":
-                        percent = 1.2;
-                        break;
-                    case "3":
-                        percent = 1.4;
-                        break;
-                    case "4":
-                        percent = 1.8;
-                        break;
-                    case "5":
-                        percent = 2.6;
-                        break;
-                    default:
-                        break;
-                }
-
- 
-                if ( document.getElementById("Part2_Stat1").value != "")
-                {
-
-                    var origin1stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat1").value);
-                    document.getElementById("Part2_Stat1Result").value = parseInt(parseInt(origin1stat) * percent);
-                }
-                if ( document.getElementById("Part2_Stat2").value != "")
-                {
- 
-                    var origin2stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat2").value);
-                    document.getElementById("Part2_Stat2Result").value = parseInt(parseInt(origin2stat) * percent);
-                }
-                if ( document.getElementById("Part2_Stat3").value != "")
-                {
- 
-                    var origin3stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat3").value);
-                    document.getElementById("Part2_Stat3Result").value = parseInt(parseInt(origin3stat) * percent);
-                }
-        }
-
-       function calculate_origin_ItemLevel()
-       {
+        function calculate_max_ItemLevel() {
 
 
-            document.getElementById("Part3_Stat1Result").value = "";
-            document.getElementById("Part3_Stat2Result").value = "";
-            document.getElementById("Part3_Stat3Result").value = "";
+            document.getElementById("Part2_Stat1Result").value = "";
+            document.getElementById("Part2_Stat2Result").value = "";
+            document.getElementById("Part2_Stat3Result").value = "";
+
+
+
 
             var percent = 1.0;
 
-            switch (document.getElementById("Part3_NowItemLevel").value)
-            {
+            switch (document.getElementById("Part2_TargetItemLevel").value) {
                 case "2":
                     percent = 1.2;
                     break;
@@ -222,21 +258,67 @@ footer {
                     break;
             }
 
-            if (document.getElementById("Part3_Stat1").value != "")
-            {
-               document.getElementById("Part3_Stat1Result").value = Math.ceil(parseFloat( document.getElementById("Part3_Stat1").value) / percent);
+
+            if (document.getElementById("Part2_Stat1").value != "") {
+
+                var origin1stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat1").value);
+                document.getElementById("Part2_Stat1Result").value = parseInt(parseInt(origin1stat) * percent);
+            }
+            if (document.getElementById("Part2_Stat2").value != "") {
+
+                var origin2stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat2").value);
+                document.getElementById("Part2_Stat2Result").value = parseInt(parseInt(origin2stat) * percent);
+            }
+            if (document.getElementById("Part2_Stat3").value != "") {
+
+                var origin3stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat3").value);
+                document.getElementById("Part2_Stat3Result").value = parseInt(parseInt(origin3stat) * percent);
+            }
+        }
+
+        function calculate_origin_ItemLevel() {
+
+
+            document.getElementById("Part3_Stat1Result").value = "";
+            document.getElementById("Part3_Stat2Result").value = "";
+            document.getElementById("Part3_Stat3Result").value = "";
+
+            var percent = 1.0;
+
+            switch (document.getElementById("Part3_NowItemLevel").value) {
+                case "2":
+                    percent = 1.2;
+                    break;
+                case "3":
+                    percent = 1.4;
+                    break;
+                case "4":
+                    percent = 1.8;
+                    break;
+                case "5":
+                    percent = 2.6;
+                    break;
+                default:
+                    break;
             }
 
-            if (document.getElementById("Part3_Stat2").value != "")
-            {
-               document.getElementById("Part3_Stat2Result").value = Math.ceil(parseFloat( document.getElementById("Part3_Stat2").value) / percent);
+            if (document.getElementById("Part3_Stat1").value != "") {
+                document.getElementById("Part3_Stat1Result").value = Math.ceil(parseFloat(document.getElementById("Part3_Stat1").value) / percent);
             }
 
-            if (document.getElementById("Part3_Stat3").value != "")
-            {
-               document.getElementById("Part3_Stat3Result").value =  Math.ceil(parseFloat( document.getElementById("Part3_Stat3").value) / percent);
+            if (document.getElementById("Part3_Stat2").value != "") {
+                document.getElementById("Part3_Stat2Result").value = Math.ceil(parseFloat(document.getElementById("Part3_Stat2").value) / percent);
             }
-       }
+
+            if (document.getElementById("Part3_Stat3").value != "") {
+                document.getElementById("Part3_Stat3Result").value = Math.ceil(parseFloat(document.getElementById("Part3_Stat3").value) / percent);
+            }
+        }
+
+        function addComma(num) {
+            var regexp = /\B(?=(\d{3})+(?!\d))/g;
+            return num.toString().replace(regexp, ',');
+        }
 
     </script>
 
@@ -251,26 +333,26 @@ footer {
     </header>
 
     <p>
-    안녕하세요! 이오스나이츠를 사랑하는 게이머입니다. <br>
-    게임하면서 몇가지 필요한 기능이 있었는데 개인적으로 프로그램으로 만들어서 쓰다가 커뮤니티보니 엑셀로 만들어서<br>
-    불편하게 쓰시는것을 보고 웹페이지를 만들었습니다.<br>
+        안녕하세요! 이오스나이츠를 사랑하는 게이머입니다. <br>
+        게임하면서 몇가지 필요한 기능이 있었는데 개인적으로 프로그램으로 만들어서 쓰다가 커뮤니티보니 엑셀로 만들어서<br>
+        불편하게 쓰시는것을 보고 웹페이지를 만들었습니다.<br>
     </p>
 
     <p>
-    아이템드랍이 100층 200층 500층이 되어야만 유니크,전설,고대가 나오는데 500까지만 가고 싶어서 아이템을 교체하고 싶은데<br>
-    어떤 스탯이 얼마만큼 필요한지 미리 측정이 되면 편할거라는 생각을 했습니다. 거금들여맞췄는데 딱 499까지 가면 속상하잖아요
-    </p>
-    
-    <p>
-    그리고 하단의 2개는 아이템 구매 나 강화시에 미리 능력치를 계산해볼수 있는 기능을 추가했습니다.<br>
-    사용하시고 불편하시거나 개선사항이 있으면 메일(kerriganhjh@naver.com)주시면 개선하겠습니다.
-    감사합니다.
+        아이템드랍이 100층 200층 500층이 되어야만 유니크,전설,고대가 나오는데 500까지만 가고 싶어서 아이템을 교체하고 싶은데<br>
+        어떤 스탯이 얼마만큼 필요한지 미리 측정이 되면 편할거라는 생각을 했습니다. 거금들여맞췄는데 딱 499까지 가면 속상하잖아요
     </p>
 
     <p>
-    <i>혹시 추천인없으시면 kordeveloper 추천해주시면 감사하겠습니다. ^.^  </i>
-    (If this page is helped, please consider setting  "kordeveloper" as your referrer )
-    </p>    
+        그리고 하단의 2개는 아이템 구매 나 강화시에 미리 능력치를 계산해볼수 있는 기능을 추가했습니다.<br>
+        사용하시고 불편하시거나 개선사항이 있으면 메일(kerriganhjh@naver.com)주시면 개선하겠습니다.
+        감사합니다.
+    </p>
+
+    <p>
+        <i>혹시 추천인없으시면 kordeveloper 추천해주시면 감사하겠습니다. ^.^  </i> 
+        (If this page is helped, please consider setting  "kordeveloper" as your referrer )
+    </p>
 
     <br />
     <div class="divTitle">1.Max Floor that can reach ( 최대 도달층 확인 )</div>
@@ -294,11 +376,21 @@ footer {
             <td><input type="text" id="Part1_Defense2" ></td>
             <td><input type="text" id="Part1_Defense3" ></td>
         </tr>
-         <tr>
+        <tr>
             <th>HP</th>
-            <td><input type="text" id="Part1_HP1" ></td>
-            <td><input type="text" id="Part1_HP2" ></td>
-            <td><input type="text" id="Part1_HP3" ></td>
+            <td><input type="text" id="Part1_HP1"  ></td>
+            <td><input type="text" id="Part1_HP2"  ></td>
+            <td><input type="text" id="Part1_HP3"  ></td>
+        </tr>
+        <tr>
+            <th>Luck</th>
+            <td><input type="text" id="Part1_Luck1"  ></td>
+            <td><input type="text" id="Part1_Luck2"  ></td>
+            <td><input type="text" id="Part1_Luck3"  ></td>
+        </tr>
+        <tr>
+            <th>Stage Drop Bonus</th>
+            <td><input type="text" id="Part1_StageDropBonus" value="35"></td>
         </tr>
         <tr>
             <th class="result">Survival Miniutes</th>
@@ -311,6 +403,18 @@ footer {
             <td><input type="text" id="Part1_KillCount1"></td>
             <td><input type="text" id="Part1_KillCount2"></td>
             <td><input type="text" id="Part1_KillCount3"></td>
+        </tr>
+        <tr>
+            <th class="result">Drop Rate</th>
+            <td><input type="text" id="Part1_DropRate1"></td>
+            <td><input type="text" id="Part1_DropRate2"></td>
+            <td><input type="text" id="Part1_DropRate3"></td>
+        </tr>
+        <tr>
+            <th class="result">Magic Water</th>
+            <td><input type="text" id="Part1_MW1"></td>
+            <td><input type="text" id="Part1_MW2"></td>
+            <td><input type="text" id="Part1_MW3"></td>
         </tr>
         <tr>
             <th class="result">Total Floors</th>
@@ -331,7 +435,7 @@ footer {
     <br />
     <table>
         <tr>
-	    <th></th>
+            <th></th>
             <th>Input</th>
             <th>Result</th>
         </tr>
@@ -345,17 +449,17 @@ footer {
         </tr>
         <tr>
             <th>First Stat : </th>
-            <td><input type="text" id="Part2_Stat1" ></td>
+            <td><input type="text" id="Part2_Stat1"></td>
             <td><input type="text" id="Part2_Stat1Result"></td>
         </tr>
         <tr>
             <th>Second Stat : </th>
-            <td><input type="text" id="Part2_Stat2" ></td>
+            <td><input type="text" id="Part2_Stat2"></td>
             <td><input type="text" id="Part2_Stat2Result"></td>
         </tr>
         <tr>
             <th>Thrid Stat : </th>
-            <td><input type="text" id="Part2_Stat3" ></td>
+            <td><input type="text" id="Part2_Stat3"></td>
             <td><input type="text" id="Part2_Stat3Result"></td>
         </tr>
     </table>
@@ -370,7 +474,7 @@ footer {
     <br />
     <table>
         <tr>
-	    <th></th>
+            <th></th>
             <th>Input</th>
             <th>Result</th>
         </tr>
@@ -397,11 +501,11 @@ footer {
 
     <br />
     <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat">
-<br/>
-<br>
-<footer>
-  <p>presented by kordeveloper 2018.10.26</p>
-  <p>EOS Account : kordeveloper ( Thanks for donating  ~m^.^m~  )</p>
-</footer>
+    <br />
+    <br>
+    <footer>
+        <p>presented by kordeveloper 2018.10.26</p>
+        <p>EOS Account : kordeveloper ( Thanks for donating  ~m^.^m~  )</p>
+    </footer>
 </body>
 </html>
