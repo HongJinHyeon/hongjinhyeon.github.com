@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Page Title</title>
+    <title>EOS Knights Calculartor Version 1.0</title>
     <style>
         /* Style the header */
         header {
@@ -11,6 +12,13 @@
             font-size: 25px;
             color: white;
         }
+
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
 
         .divTitle {
             background-color: #ff6a00;
@@ -23,6 +31,11 @@
         input {
             font-size : 18px;
         }
+
+	th.result{
+	   color : red;
+        }
+
     </style>
 
     <script>
@@ -34,15 +47,18 @@
             var attack;
             var defense;
             var health;
+            var total_kill_count = 0;
             
             //knight
             attack  = document.getElementById("Part1_Attack1").value;
             defense = document.getElementById("Part1_Defense1").value;
             health  = document.getElementById("Part1_HP1").value;
             max_sec = calculate_max_alive_time(defense, health);
+		
             current_kill_count = getTotalKillCount(attack, max_sec);
+            total_kill_count += current_kill_count;
                        
-            document.getElementById("Part1_SurvivalMiniute1").value = max_sec / 60;
+            document.getElementById("Part1_SurvivalMiniute1").value =  parseInt( max_sec / 60 );
             document.getElementById("Part1_KillCount1").value = current_kill_count;
 
             //Archer
@@ -51,39 +67,44 @@
             health = document.getElementById("Part1_HP2").value;
             max_sec = calculate_max_alive_time(defense, health);
 
-            alert(max_sec);
+           
             current_kill_count = getTotalKillCount(attack, max_sec);
-            alert(current_kill_count);
+            total_kill_count += current_kill_count;
 
-            document.getElementById("Part1_SurvivalMiniute2").value = max_sec / 60;
+            document.getElementById("Part1_SurvivalMiniute2").value =  parseInt( max_sec / 60 );
             document.getElementById("Part1_KillCount2").value = current_kill_count;
 
             //Mage
             attack = document.getElementById("Part1_Attack3").value;
             defense = document.getElementById("Part1_Defense3").value;
             health = document.getElementById("Part1_HP3").value;
+
             max_sec = calculate_max_alive_time(defense, health);
             current_kill_count = getTotalKillCount(attack, max_sec);
+            total_kill_count += current_kill_count;
 
-            document.getElementById("Part1_SurvivalMiniute3").value = max_sec / 60;
+            document.getElementById("Part1_SurvivalMiniute3").value=  parseInt( max_sec / 60 );
             document.getElementById("Part1_KillCount3").value = current_kill_count;
-            
+
+
+        
+            document.getElementById("Part1_Total Floors").value = parseInt(total_kill_count /10 ) + " floors | " + (total_kill_count % 10 ) + "/10";
 
         }
 
         function  calculate_max_alive_time(_defence, _health)
         {
             var damage_per_min = 25;
-            var knightdefence = _defence;
-            damage_per_min = damage_per_min - ( 25 * knightdefence / (knightdefence + 1000) );
-            var alive_sec = 60 * _health / damage_per_min;
+            var knightdefence = Number(_defence);
+            damage_per_min -= ( parseInt( 25 * knightdefence / (knightdefence + Number("1000"))) );
+            var alive_sec =  parseInt(60 * _health / damage_per_min);
 
             return alive_sec;
         }
 
         function getTotalKillCount(_attack, max_sec)
         {
-            var current_kill_count = _attack * max_sec / 60 / 200;
+            var current_kill_count = parseInt( _attack * max_sec / 60 / 200 );
             if (current_kill_count == 0) {
                 current_kill_count = 1;
             }
@@ -91,6 +112,131 @@
             return current_kill_count;
         }
        
+       
+	function getOriginStat(itemlevel,  nowStat)
+        {
+            var percent = 1.0;
+
+            switch (itemlevel)
+            {
+                case "1":
+                    percent = 1;
+                    break;
+                case "2":
+                    percent = 1.2;
+                    break;
+                case "3":
+                    percent = 1.4;
+                    break;
+                case "4":
+                    percent = 1.8;
+                    break;
+                case "5":
+                    percent = 2.6;
+                    break;
+                default:
+                    break;
+            }
+ 
+            return parseInt((parseFloat(nowStat) / parseFloat(percent)));
+
+        }
+
+        function calculate_max_ItemLevel()
+	{
+           
+ 
+                document.getElementById("Part2_Stat1Result").value = "";
+                document.getElementById("Part2_Stat2Result").value = "";
+                document.getElementById("Part2_Stat3Result").value = "";
+
+ 
+               
+
+                var percent = 1.0;
+
+                switch (document.getElementById("Part2_TargetItemLevel").value)
+                {
+                    case "2":
+                        percent = 1.2;
+                        break;
+                    case "3":
+                        percent = 1.4;
+                        break;
+                    case "4":
+                        percent = 1.8;
+                        break;
+                    case "5":
+                        percent = 2.6;
+                        break;
+                    default:
+                        break;
+                }
+
+ 
+                if ( document.getElementById("Part2_Stat1").value != "")
+                {
+
+                    var origin1stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat1").value);
+                    document.getElementById("Part2_Stat1Result").value = parseInt(parseInt(origin1stat) * percent);
+                }
+                if ( document.getElementById("Part2_Stat2").value != "")
+                {
+ 
+                    var origin2stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat2").value);
+                    document.getElementById("Part2_Stat2Result").value = parseInt(parseInt(origin2stat) * percent);
+                }
+                if ( document.getElementById("Part2_Stat3").value != "")
+                {
+ 
+                    var origin3stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat3").value);
+                    document.getElementById("Part2_Stat3Result").value = parseInt(parseInt(origin3stat) * percent);
+                }
+        }
+
+       function calculate_origin_ItemLevel()
+       {
+
+
+            document.getElementById("Part3_Stat1Result").value = "";
+            document.getElementById("Part3_Stat2Result").value = "";
+            document.getElementById("Part3_Stat3Result").value = "";
+
+            var percent = 1.0;
+
+            switch (document.getElementById("Part3_NowItemLevel").value)
+            {
+                case "2":
+                    percent = 1.2;
+                    break;
+                case "3":
+                    percent = 1.4;
+                    break;
+                case "4":
+                    percent = 1.8;
+                    break;
+                case "5":
+                    percent = 2.6;
+                    break;
+                default:
+                    break;
+            }
+
+            if (document.getElementById("Part3_Stat1").value != "")
+            {
+               document.getElementById("Part3_Stat1Result").value = Math.ceil(parseFloat( document.getElementById("Part3_Stat1").value) / percent);
+            }
+
+            if (document.getElementById("Part3_Stat2").value != "")
+            {
+               document.getElementById("Part3_Stat2Result").value = Math.ceil(parseFloat( document.getElementById("Part3_Stat2").value) / percent);
+            }
+
+            if (document.getElementById("Part3_Stat3").value != "")
+            {
+               document.getElementById("Part3_Stat3Result").value =  Math.ceil(parseFloat( document.getElementById("Part3_Stat3").value) / percent);
+            }
+       }
 
     </script>
 
@@ -103,8 +249,31 @@
     <header>
         <h2>EOS Knights Calculartor</h2>
     </header>
+
+    <p>
+    안녕하세요! 이오스나이츠를 사랑하는 게이머입니다. <br>
+    게임하면서 몇가지 필요한 기능이 있었는데 개인적으로 프로그램으로 만들어서 쓰다가 커뮤니티보니 엑셀로 만들어서<br>
+    불편하게 쓰시는것을 보고 웹페이지를 만들었습니다.<br>
+    </p>
+
+    <p>
+    아이템드랍이 100층 200층 500층이 되어야만 유니크,전설,고대가 나오는데 500까지만 가고 싶어서 아이템을 교체하고 싶은데<br>
+    어떤 스탯이 얼마만큼 필요한지 미리 측정이 되면 편할거라는 생각을 했습니다. 거금들여맞췄는데 딱 499까지 가면 속상하잖아요
+    </p>
+    
+    <p>
+    그리고 하단의 2개는 아이템 구매 나 강화시에 미리 능력치를 계산해볼수 있는 기능을 추가했습니다.<br>
+    사용하시고 불편하시거나 개선사항이 있으면 메일(kerriganhjh@naver.com)주시면 개선하겠습니다.
+    감사합니다.
+    </p>
+
+    <p>
+    <i>혹시 추천인없으시면 kordevelper 추천해주시면 감사하겠습니다. ^.^  </i>
+    (If this page is helped, please consider setting  "kordeveloper" as your referrer )
+    </p>    
+
     <br />
-    <div class="divTitle">1.Max Floor that can reach</div>
+    <div class="divTitle">1.Max Floor that can reach ( 최대 도달층 확인 )</div>
     <br />
     <table>
         <tr>
@@ -115,36 +284,36 @@
         </tr>
         <tr>
             <th>Attack</th>
-            <td><input type="text" id="Part1_Attack1" value="2541"></td>
-            <td><input type="text" id="Part1_Attack2" value="2489"></td>
-            <td><input type="text" id="Part1_Attack3" value="2577"></td>
+            <td><input type="text" id="Part1_Attack1" ></td>
+            <td><input type="text" id="Part1_Attack2" ></td>
+            <td><input type="text" id="Part1_Attack3" ></td>
         </tr>
         <tr>
             <th>Defense</th>
-            <td><input type="text" id="Part1_Defense1" value="577"></td>
-            <td><input type="text" id="Part1_Defense2" value="631"></td>
-            <td><input type="text" id="Part1_Defense3" value="767"></td>
+            <td><input type="text" id="Part1_Defense1" ></td>
+            <td><input type="text" id="Part1_Defense2" ></td>
+            <td><input type="text" id="Part1_Defense3" ></td>
         </tr>
-        <tr>
+         <tr>
             <th>HP</th>
-            <td><input type="text" id="Part1_HP1" value="1872"></td>
-            <td><input type="text" id="Part1_HP2" value="1798"></td>
-            <td><input type="text" id="Part1_HP3" value="2064"></td>
+            <td><input type="text" id="Part1_HP1" ></td>
+            <td><input type="text" id="Part1_HP2" ></td>
+            <td><input type="text" id="Part1_HP3" ></td>
         </tr>
         <tr>
-            <th>Survival Miniutes</th>
+            <th class="result">Survival Miniutes</th>
             <td><input type="text" id="Part1_SurvivalMiniute1"></td>
             <td><input type="text" id="Part1_SurvivalMiniute2"></td>
             <td><input type="text" id="Part1_SurvivalMiniute3"></td>
         </tr>
         <tr>
-            <th>KillCounts</th>
+            <th class="result">KillCounts</th>
             <td><input type="text" id="Part1_KillCount1"></td>
             <td><input type="text" id="Part1_KillCount2"></td>
             <td><input type="text" id="Part1_KillCount3"></td>
         </tr>
         <tr>
-            <th>Total Floors</th>
+            <th class="result">Total Floors</th>
             <td colspan="2"><input type="text" id="Part1_Total Floors"></td>
         </tr>
     </table>
@@ -157,31 +326,36 @@
 
     <br />
     <br />
-    <div class="divTitle">2.Item Max Stat</div>
+    <div class="divTitle">2.Item Max Stat (아이템 강화 스탯확인)</div>
 
     <br />
     <table>
         <tr>
+	    <th></th>
+            <th>Input</th>
+            <th>Result</th>
+        </tr>
+        <tr>
             <th>Now Item Level : </th>
-            <td><input type="text" id="Part2_NowItemLevel"></td>
+            <td><input type="text" id="Part2_NowItemLevel" value="1"></td>
         </tr>
         <tr>
             <th>Target Item Level : </th>
-            <td><input type="text" id="Part2_TargetItemLevel"></td>
+            <td><input type="text" id="Part2_TargetItemLevel" value="5"></td>
         </tr>
         <tr>
             <th>First Stat : </th>
-            <td><input type="text" id="Part2_Stat1"></td>
+            <td><input type="text" id="Part2_Stat1" ></td>
             <td><input type="text" id="Part2_Stat1Result"></td>
         </tr>
         <tr>
             <th>Second Stat : </th>
-            <td><input type="text" id="Part2_Stat2"></td>
+            <td><input type="text" id="Part2_Stat2" ></td>
             <td><input type="text" id="Part2_Stat2Result"></td>
         </tr>
         <tr>
             <th>Thrid Stat : </th>
-            <td><input type="text" id="Part2_Stat3"></td>
+            <td><input type="text" id="Part2_Stat3" ></td>
             <td><input type="text" id="Part2_Stat3Result"></td>
         </tr>
     </table>
@@ -191,10 +365,15 @@
     <br />
 
     <br />
-    <div class="divTitle">3.Item Origin Stat</div>
+    <div class="divTitle">3.Item Origin Stat (아이템 기본 스탯확인)</div>
 
     <br />
     <table>
+        <tr>
+	    <th></th>
+            <th>Input</th>
+            <th>Result</th>
+        </tr>
         <tr>
             <th>Now Item Level : </th>
             <td><input type="text" id="Part3_NowItemLevel"></td>
@@ -218,8 +397,11 @@
 
     <br />
     <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat">
-    <br />
-
+<br/>
+<br>
+<footer>
+  <p>presented by kordeveloper 2018.10.26</p>
+  <p>EOS Account : kordeveloper ( Thanks for donating  ~m^.^m~  )</p>
+</footer>
 </body>
 </html>
-​​
