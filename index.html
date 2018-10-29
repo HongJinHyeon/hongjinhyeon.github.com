@@ -39,6 +39,7 @@
 
     <script>
 
+
         function calculate_max_floors() {
             var max_sec;
             var current_kill_count;
@@ -257,23 +258,29 @@
                 default:
                     break;
             }
-
+             
+            var max_stat;
 
             if (document.getElementById("Part2_Stat1").value != "") {
 
                 var origin1stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat1").value);
-                document.getElementById("Part2_Stat1Result").value = parseInt(parseInt(origin1stat) * percent);
+                max_stat = parseInt(parseInt(origin1stat) * percent);
+                document.getElementById("Part2_Stat1Result").value = max_stat + " (+" +  (max_stat - document.getElementById("Part2_Stat1").value) + ")";
             }
             if (document.getElementById("Part2_Stat2").value != "") {
 
                 var origin2stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat2").value);
-                document.getElementById("Part2_Stat2Result").value = parseInt(parseInt(origin2stat) * percent);
+		max_stat = parseInt(parseInt(origin2stat) * percent);
+                document.getElementById("Part2_Stat2Result").value = max_stat + " (+" +  (max_stat - document.getElementById("Part2_Stat2").value) + ")";
             }
             if (document.getElementById("Part2_Stat3").value != "") {
 
                 var origin3stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat3").value);
-                document.getElementById("Part2_Stat3Result").value = parseInt(parseInt(origin3stat) * percent);
+		max_stat = parseInt(parseInt(origin3stat) * percent);
+                document.getElementById("Part2_Stat3Result").value = max_stat + " (+" +  (max_stat - document.getElementById("Part2_Stat3").value) + ")";
             }
+
+
         }
 
         function calculate_origin_ItemLevel() {
@@ -320,6 +327,56 @@
             return num.toString().replace(regexp, ',');
         }
 
+	function setCookie(name,value) {
+	 var date = new Date();
+         date.setTime(date.getTime() + 1000*24*60*60*1000);
+         document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        }
+        
+        function getCookie(name)
+	{
+          
+          var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+          return value? value[2] : null;
+        }
+       
+	function save_now_stats()
+	{
+	    setCookie("K1", document.getElementById("Part1_Attack1").value);
+            setCookie("A1", document.getElementById("Part1_Attack2").value);
+            setCookie("M1", document.getElementById("Part1_Attack3").value);
+            setCookie("K2", document.getElementById("Part1_Defense1").value);
+            setCookie("A2", document.getElementById("Part1_Defense2").value);
+            setCookie("M2", document.getElementById("Part1_Defense3").value);
+            setCookie("K3", document.getElementById("Part1_HP1").value);
+            setCookie("A3", document.getElementById("Part1_HP2").value);
+            setCookie("M3", document.getElementById("Part1_HP3").value);
+            setCookie("K4", document.getElementById("Part1_Luck1").value);
+            setCookie("A4", document.getElementById("Part1_Luck2").value);
+            setCookie("M4", document.getElementById("Part1_Luck3").value);
+	    alert("save complete!");
+	}
+    
+        function load_saved_stats()
+        {
+	    document.getElementById("Part1_Attack1").value = getCookie("K1");
+            document.getElementById("Part1_Attack2").value = getCookie("A1");
+            document.getElementById("Part1_Attack3").value = getCookie("M1");
+
+            document.getElementById("Part1_Defense1").value = getCookie("K2");
+            document.getElementById("Part1_Defense2").value = getCookie("A2");
+            document.getElementById("Part1_Defense3").value = getCookie("M2");
+
+            document.getElementById("Part1_HP1").value = getCookie("K3");
+            document.getElementById("Part1_HP2").value = getCookie("A3");
+            document.getElementById("Part1_HP3").value = getCookie("M3");
+
+            document.getElementById("Part1_Luck1").value = getCookie("K4");
+            document.getElementById("Part1_Luck2").value = getCookie("A4");
+            document.getElementById("Part1_Luck3").value = getCookie("M4");
+	    alert("load complete!");
+        }
+        
     </script>
 
 
@@ -329,7 +386,7 @@
 <body>
 
     <header>
-        <h2>EOS Knights Calculartor</h2>
+        <h2>EOS Knights Calculartor Ver 1.2</h2>
     </header>
 
     <p>
@@ -355,7 +412,7 @@
     </p>
 
     <br />
-    <div class="divTitle">1.Max Floor that can reach ( 최대 도달층 확인 )</div>
+    <div class="divTitle">1.Max Floors you can reach ( 최대 도달층 확인 )</div>
     <br />
     <table>
         <tr>
@@ -365,32 +422,34 @@
             <th>Mage</th>
         </tr>
         <tr>
-            <th>Attack</th>
-            <td><input type="text" id="Part1_Attack1" ></td>
-            <td><input type="text" id="Part1_Attack2" ></td>
-            <td><input type="text" id="Part1_Attack3" ></td>
-        </tr>
-        <tr>
-            <th>Defense</th>
-            <td><input type="text" id="Part1_Defense1" ></td>
-            <td><input type="text" id="Part1_Defense2" ></td>
-            <td><input type="text" id="Part1_Defense3" ></td>
-        </tr>
-        <tr>
-            <th>HP</th>
-            <td><input type="text" id="Part1_HP1"  ></td>
-            <td><input type="text" id="Part1_HP2"  ></td>
-            <td><input type="text" id="Part1_HP3"  ></td>
-        </tr>
-        <tr>
-            <th>Luck</th>
-            <td><input type="text" id="Part1_Luck1"  ></td>
-            <td><input type="text" id="Part1_Luck2"  ></td>
-            <td><input type="text" id="Part1_Luck3"  ></td>
-        </tr>
+           <th>Attack</th>
+           <td><input type="text" id="Part1_Attack1" value=""></td>
+           <td><input type="text" id="Part1_Attack2" value=""></td>
+           <td><input type="text" id="Part1_Attack3" value=""></td>
+       </tr>
+       <tr>
+           <th>Defense</th>
+           <td><input type="text" id="Part1_Defense1" value=""></td>
+           <td><input type="text" id="Part1_Defense2" value=""></td>
+           <td><input type="text" id="Part1_Defense3" value=""></td>
+       </tr>
+       <tr>
+           <th>HP</th>
+           <td><input type="text" id="Part1_HP1" value=""></td>
+           <td><input type="text" id="Part1_HP2" value=""></td>
+           <td><input type="text" id="Part1_HP3" value=""></td>
+       </tr>
+       <tr>
+           <th>Luck</th>
+           <td><input type="text" id="Part1_Luck1" value=""></td>
+           <td><input type="text" id="Part1_Luck2" value=""></td>
+           <td><input type="text" id="Part1_Luck3" value=""></td>
+       </tr>
         <tr>
             <th>Stage Drop Bonus</th>
-            <td><input type="text" id="Part1_StageDropBonus" value="35"></td>
+            <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
+	    <td><input type="button" onclick="save_now_stats()" value="save now stats"></td>
+            <td><input type="button" onclick="load_saved_stats()" value="load saved stats"></td>
         </tr>
         <tr>
             <th class="result">Survival Miniutes</th>
@@ -424,13 +483,13 @@
 
     <br />
 
-    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors">
+    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14">
 
 
 
     <br />
     <br />
-    <div class="divTitle">2.Item Max Stat (아이템 강화 스탯확인)</div>
+    <div class="divTitle">2.Item's Max Stat (아이템 강화 스탯확인)</div>
 
     <br />
     <table>
@@ -441,35 +500,35 @@
         </tr>
         <tr>
             <th>Now Item Level : </th>
-            <td><input type="text" id="Part2_NowItemLevel" value="1"></td>
+            <td><input type="text" id="Part2_NowItemLevel" value="1" tabindex="15"></td>
         </tr>
         <tr>
             <th>Target Item Level : </th>
-            <td><input type="text" id="Part2_TargetItemLevel" value="5"></td>
+            <td><input type="text" id="Part2_TargetItemLevel" value="5" tabindex="16"></td>
         </tr>
         <tr>
             <th>First Stat : </th>
-            <td><input type="text" id="Part2_Stat1"></td>
+            <td><input type="text" id="Part2_Stat1"  tabindex="17"></td>
             <td><input type="text" id="Part2_Stat1Result"></td>
         </tr>
         <tr>
             <th>Second Stat : </th>
-            <td><input type="text" id="Part2_Stat2"></td>
+            <td><input type="text" id="Part2_Stat2"  tabindex="18"></td>
             <td><input type="text" id="Part2_Stat2Result"></td>
         </tr>
         <tr>
             <th>Thrid Stat : </th>
-            <td><input type="text" id="Part2_Stat3"></td>
+            <td><input type="text" id="Part2_Stat3"  tabindex="19"></td>
             <td><input type="text" id="Part2_Stat3Result"></td>
         </tr>
     </table>
 
     <br />
-    <input type="button" onclick="calculate_max_ItemLevel()" value="calculate Max ItemLevel Stat">
+    <input type="button" onclick="calculate_max_ItemLevel()" value="calculate Max ItemLevel Stat"  tabindex="20">
     <br />
 
     <br />
-    <div class="divTitle">3.Item Origin Stat (아이템 기본 스탯확인)</div>
+    <div class="divTitle">3.Item's Origin Stat (아이템 기본 스탯확인)</div>
 
     <br />
     <table>
@@ -480,27 +539,27 @@
         </tr>
         <tr>
             <th>Now Item Level : </th>
-            <td><input type="text" id="Part3_NowItemLevel"></td>
+            <td><input type="text" id="Part3_NowItemLevel"  tabindex="21"></td>
         </tr>
         <tr>
             <th>First Stat : </th>
-            <td><input type="text" id="Part3_Stat1"></td>
+            <td><input type="text" id="Part3_Stat1"  tabindex="22"></td>
             <td><input type="text" id="Part3_Stat1Result"></td>
         </tr>
         <tr>
             <th>Second Stat : </th>
-            <td><input type="text" id="Part3_Stat2"></td>
+            <td><input type="text" id="Part3_Stat2"  tabindex="23"></td>
             <td><input type="text" id="Part3_Stat2Result"></td>
         </tr>
         <tr>
             <th>Thrid Stat : </th>
-            <td><input type="text" id="Part3_Stat3"></td>
+            <td><input type="text" id="Part3_Stat3"  tabindex="24"></td>
             <td><input type="text" id="Part3_Stat3Result"></td>
         </tr>
     </table>
 
     <br />
-    <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat">
+    <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat"  tabindex="25">
     <br />
     <br>
     <footer>
