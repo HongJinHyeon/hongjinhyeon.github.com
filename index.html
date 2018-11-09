@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EOS Knights Calculartor Version 1.2</title>
+    <title>EOS Knights Calculartor</title>
     <style>
         /* Style the header */
         header {
@@ -47,12 +47,15 @@
             var defense;
             var health;
             var total_kill_count = 0;
+            var effectiveRibirthTime = 0;
 
             //knight
             attack = document.getElementById("Part1_Attack1").value;
             defense = document.getElementById("Part1_Defense1").value;
             health = document.getElementById("Part1_HP1").value;
             max_sec = calculate_max_alive_time(defense, health);
+
+            effectiveRibirthTime = max_sec;
 
             current_kill_count = getTotalKillCount(attack, max_sec);
             total_kill_count += current_kill_count;
@@ -65,6 +68,11 @@
             defense = document.getElementById("Part1_Defense2").value;
             health = document.getElementById("Part1_HP2").value;
             max_sec = calculate_max_alive_time(defense, health);
+
+            if(max_sec < effectiveRibirthTime) 
+            {
+              effectiveRibirthTime = max_sec;
+            }
 
 
             current_kill_count = getTotalKillCount(attack, max_sec);
@@ -82,12 +90,31 @@
             current_kill_count = getTotalKillCount(attack, max_sec);
             total_kill_count += current_kill_count;
 
+            if(max_sec < effectiveRibirthTime) 
+            {
+              effectiveRibirthTime = max_sec;
+            }
+
+
             document.getElementById("Part1_SurvivalMiniute3").value = parseInt(max_sec / 60);
             document.getElementById("Part1_KillCount3").value = current_kill_count;
 
 
             var maxFloor = (parseInt(total_kill_count / 10) + 1);
             document.getElementById("Part1_Total Floors").value = maxFloor + " floors | " + (total_kill_count % 10) + "/10";
+
+
+            effectiveRibirthTime =  parseInt(effectiveRibirthTime / 60);
+ 
+            if(effectiveRibirthTime > 60)
+            {
+                document.getElementById("Part1_EffectiveRebirthTime").value  = "BestRebrithTime " +  parseInt(effectiveRibirthTime / 60) + ":"+ parseInt(effectiveRibirthTime % 60);
+            }
+            else
+	    {
+                document.getElementById("Part1_EffectiveRebirthTime").value  = "BestRebrithTime 0:" + effectiveRibirthTime;
+	    }
+            
 
                        
 
@@ -126,18 +153,28 @@
             //[Magic Water]
             var mw_killcount;
             var mw_luck;
+            var mw_now;
+            var mw_total = 0;
 
             mw_killcount = document.getElementById("Part1_KillCount1").value;
             mw_luck = document.getElementById("Part1_Luck1").value;
-            document.getElementById("Part1_MW1").value = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+            mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+            document.getElementById("Part1_MW1").value = mw_now;
+            mw_total = mw_now;	    
 
             mw_killcount = document.getElementById("Part1_KillCount2").value;
             mw_luck = document.getElementById("Part1_Luck2").value;
-            document.getElementById("Part1_MW2").value = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+            mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+            document.getElementById("Part1_MW2").value = mw_now;
+            mw_total = parseFloat(mw_total) + parseFloat(mw_now);
 
             mw_killcount = document.getElementById("Part1_KillCount3").value;
             mw_luck = document.getElementById("Part1_Luck3").value;
-            document.getElementById("Part1_MW3").value = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+            mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+            document.getElementById("Part1_MW3").value = mw_now;
+            mw_total = parseFloat(mw_total) + parseFloat(mw_now);
+
+            document.getElementById("Part1_TotalMW").value =  mw_total.toFixed(2) + " MagicWater";
 
 
         }
@@ -386,7 +423,7 @@
 <body>
 
     <header>
-        <h2>EOS Knights Calculartor Ver 1.2</h2>
+        <h2>EOS Knights Calculartor Ver 1.3</h2>
     </header>
 
     <p>
@@ -408,7 +445,7 @@
 
     <p>
         <i>혹시 추천인없으시면 kordeveloper 추천해주시면 감사하겠습니다. ^.^  </i> 
-        (If this page is helped, please consider setting  "kordeveloper" as your referrer )
+        <i>(If this page is helped, please consider setting  "kordeveloper" as your referrer )</i> 
     </p>
 
     <br />
@@ -474,10 +511,13 @@
             <td><input type="text" id="Part1_MW1"></td>
             <td><input type="text" id="Part1_MW2"></td>
             <td><input type="text" id="Part1_MW3"></td>
+            
         </tr>
         <tr>
-            <th class="result">Total Floors</th>
-            <td colspan="2"><input type="text" id="Part1_Total Floors"></td>
+            <th class="result">Total Floors/MW</th>
+            <td><input type="text" id="Part1_Total Floors"></td>
+            <td><input type="text" id="Part1_TotalMW"></td>
+            <td><input type="text" id="Part1_EffectiveRebirthTime"></td>
         </tr>
     </table>
 
