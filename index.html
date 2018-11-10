@@ -1,41 +1,16 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 <head>
     <title>EOS Knights Calculartor</title>
-    <style>
-        /* Style the header */
-        header {
-            background-color: #666;
-            padding: 30px;
-            text-align: center;
-            font-size: 25px;
-            color: white;
-        }
-
-        footer {
-            background-color: #777;
-            padding: 10px;
-            text-align: center;
-            color: white;
-        }
-
-        .divTitle {
-            background-color: #ff6a00;
-            padding: 20px;
-            text-align: left;
-            font-size: 18px;
-            color: white;
-        }
-
-        input {
-            font-size: 18px;
-        }
-
-        th.result {
-            color: red;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
     <script>
 
@@ -69,9 +44,8 @@
             health = document.getElementById("Part1_HP2").value;
             max_sec = calculate_max_alive_time(defense, health);
 
-            if(max_sec < effectiveRibirthTime) 
-            {
-              effectiveRibirthTime = max_sec;
+            if (max_sec < effectiveRibirthTime) {
+                effectiveRibirthTime = max_sec;
             }
 
 
@@ -90,9 +64,8 @@
             current_kill_count = getTotalKillCount(attack, max_sec);
             total_kill_count += current_kill_count;
 
-            if(max_sec < effectiveRibirthTime) 
-            {
-              effectiveRibirthTime = max_sec;
+            if (max_sec < effectiveRibirthTime) {
+                effectiveRibirthTime = max_sec;
             }
 
 
@@ -104,30 +77,28 @@
             document.getElementById("Part1_Total Floors").value = maxFloor + " floors | " + (total_kill_count % 10) + "/10";
 
 
-            effectiveRibirthTime =  parseInt(effectiveRibirthTime / 60);
- 
-            if(effectiveRibirthTime > 60)
-            {
-                document.getElementById("Part1_EffectiveRebirthTime").value  = "BestRebrithTime " +  parseInt(effectiveRibirthTime / 60) + ":"+ parseInt(effectiveRibirthTime % 60);
-            }
-            else
-	    {
-                document.getElementById("Part1_EffectiveRebirthTime").value  = "BestRebrithTime 0:" + effectiveRibirthTime;
-	    }
-            
+            effectiveRibirthTime = parseInt(effectiveRibirthTime / 60);
 
-                       
+            if (effectiveRibirthTime > 60) {
+                document.getElementById("Part1_EffectiveRebirthTime").value = "BestRebrithTime " + parseInt(effectiveRibirthTime / 60) + ":" + parseInt(effectiveRibirthTime % 60);
+            }
+            else {
+                document.getElementById("Part1_EffectiveRebirthTime").value = "BestRebrithTime 0:" + effectiveRibirthTime;
+            }
+
+
+
 
             //Drop Rate
             var kv_floor_bonus_1000 = 20.0;
-            var floor_drop_bonus =  kv_floor_bonus_1000 * (maxFloor / 1000.0);
+            var floor_drop_bonus = kv_floor_bonus_1000 * (maxFloor / 1000.0);
             var drop_rate;
-                       
-             
+
+
             //1.knight
             drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck1").value);
             drop_rate += floor_drop_bonus;
-            
+
 
             if (drop_rate > 100.0) { drop_rate = 100.0; }
             document.getElementById("Part1_DropRate1").value = drop_rate.toFixed(2) + " %";
@@ -148,7 +119,7 @@
             if (drop_rate > 100.0) { drop_rate = 100.0; }
             document.getElementById("Part1_DropRate3").value = drop_rate.toFixed(2) + " %";
 
-           
+
 
             //[Magic Water]
             var mw_killcount;
@@ -160,7 +131,7 @@
             mw_luck = document.getElementById("Part1_Luck1").value;
             mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
             document.getElementById("Part1_MW1").value = mw_now;
-            mw_total = mw_now;	    
+            mw_total = mw_now;
 
             mw_killcount = document.getElementById("Part1_KillCount2").value;
             mw_luck = document.getElementById("Part1_Luck2").value;
@@ -174,7 +145,7 @@
             document.getElementById("Part1_MW3").value = mw_now;
             mw_total = parseFloat(mw_total) + parseFloat(mw_now);
 
-            document.getElementById("Part1_TotalMW").value =  mw_total.toFixed(2) + " MagicWater";
+            document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " MagicWater";
 
 
         }
@@ -199,9 +170,9 @@
             //return  current_powder * scaler;
 
             current_powder = current_powder * scaler;
-            
+
             current_powder = parseFloat(current_powder * (1.0 + (Math.min(1000, maxFloor) / 500.0)));
-            
+
             if (current_powder <= 0) {
                 current_powder = 1;
             }
@@ -210,7 +181,7 @@
         }
 
         function get_drop_rate_with_luck(luck) {
-            
+
             var stage_drop_rate = parseInt(document.getElementById("Part1_StageDropBonus").value);
             var nowLuck = parseInt(luck);
 
@@ -295,26 +266,26 @@
                 default:
                     break;
             }
-             
+
             var max_stat;
 
             if (document.getElementById("Part2_Stat1").value != "") {
 
                 var origin1stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat1").value);
                 max_stat = parseInt(parseInt(origin1stat) * percent);
-                document.getElementById("Part2_Stat1Result").value = max_stat + " (+" +  (max_stat - document.getElementById("Part2_Stat1").value) + ")";
+                document.getElementById("Part2_Stat1Result").value = max_stat + " (+" + (max_stat - document.getElementById("Part2_Stat1").value) + ")";
             }
             if (document.getElementById("Part2_Stat2").value != "") {
 
                 var origin2stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat2").value);
-		max_stat = parseInt(parseInt(origin2stat) * percent);
-                document.getElementById("Part2_Stat2Result").value = max_stat + " (+" +  (max_stat - document.getElementById("Part2_Stat2").value) + ")";
+                max_stat = parseInt(parseInt(origin2stat) * percent);
+                document.getElementById("Part2_Stat2Result").value = max_stat + " (+" + (max_stat - document.getElementById("Part2_Stat2").value) + ")";
             }
             if (document.getElementById("Part2_Stat3").value != "") {
 
                 var origin3stat = getOriginStat(document.getElementById("Part2_NowItemLevel").value, document.getElementById("Part2_Stat3").value);
-		max_stat = parseInt(parseInt(origin3stat) * percent);
-                document.getElementById("Part2_Stat3Result").value = max_stat + " (+" +  (max_stat - document.getElementById("Part2_Stat3").value) + ")";
+                max_stat = parseInt(parseInt(origin3stat) * percent);
+                document.getElementById("Part2_Stat3Result").value = max_stat + " (+" + (max_stat - document.getElementById("Part2_Stat3").value) + ")";
             }
 
 
@@ -364,22 +335,20 @@
             return num.toString().replace(regexp, ',');
         }
 
-	function setCookie(name,value) {
-	 var date = new Date();
-         date.setTime(date.getTime() + 1000*24*60*60*1000);
-         document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        function setCookie(name, value) {
+            var date = new Date();
+            date.setTime(date.getTime() + 1000 * 24 * 60 * 60 * 1000);
+            document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
         }
-        
-        function getCookie(name)
-	{
-          
-          var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-          return value? value[2] : null;
+
+        function getCookie(name) {
+
+            var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return value ? value[2] : null;
         }
-       
-	function save_now_stats()
-	{
-	    setCookie("K1", document.getElementById("Part1_Attack1").value);
+
+        function save_now_stats() {
+            setCookie("K1", document.getElementById("Part1_Attack1").value);
             setCookie("A1", document.getElementById("Part1_Attack2").value);
             setCookie("M1", document.getElementById("Part1_Attack3").value);
             setCookie("K2", document.getElementById("Part1_Defense1").value);
@@ -391,12 +360,11 @@
             setCookie("K4", document.getElementById("Part1_Luck1").value);
             setCookie("A4", document.getElementById("Part1_Luck2").value);
             setCookie("M4", document.getElementById("Part1_Luck3").value);
-	    alert("save complete!");
-	}
-    
-        function load_saved_stats()
-        {
-	    document.getElementById("Part1_Attack1").value = getCookie("K1");
+            alert("save complete!");
+        }
+
+        function load_saved_stats() {
+            document.getElementById("Part1_Attack1").value = getCookie("K1");
             document.getElementById("Part1_Attack2").value = getCookie("A1");
             document.getElementById("Part1_Attack3").value = getCookie("M1");
 
@@ -411,201 +379,238 @@
             document.getElementById("Part1_Luck1").value = getCookie("K4");
             document.getElementById("Part1_Luck2").value = getCookie("A4");
             document.getElementById("Part1_Luck3").value = getCookie("M4");
-	    alert("load complete!");
+            alert("load complete!");
         }
-        
+
     </script>
 
-
 </head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="images/logo.svg" alt="" /></span>
+						<h1>EOS Knights Calculrator Ver 2.0</h1>
+						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
+                        If this page is helped, please consider setting "kordeveloper" as your referrer <br/> 
+						presendted by <a href="">JinHyeon Hong</a> </p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+                        <ul>
+                            <li><a href="#MaxFloors" class="active">Max Floors</a></li>
+                            <li><a href="#ItemMaxStat">Item's Max Stats</a></li>
+                            <li><a href="#ItemOriginStat">Item's Origin Stat</a></li>
+                            <li><a href="#footer">Contacts</a></li>
+                        </ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Max Floors Section -->
+							<section id="MaxFloors" class="main">
+								<div class="spotlight">
+                                    <div class="content">
+                                        <header class="major">
+                                            <h2>1.Max Floors you can reach ( 최대 도달층 확인 )</h2>
+                                        </header>
+
+                                        <table>
+                                            <tr>
+                                                <th></th>
+                                                <th text-algin="center">Knight</th>
+                                                <th text-algin="center">Archer</th>
+                                                <th text-algin="center">Mage</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Attack</th>
+                                                <td><input type="text" id="Part1_Attack1" tabindex="1"></td>
+                                                <td><input type="text" id="Part1_Attack2" tabindex="5"></td>
+                                                <td><input type="text" id="Part1_Attack3" tabindex="9"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Defense</th>
+                                                <td><input type="text" id="Part1_Defense1" tabindex="2"></td>
+                                                <td><input type="text" id="Part1_Defense2" tabindex="6"></td>
+                                                <td><input type="text" id="Part1_Defense3" tabindex="10"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>HP</th>
+                                                <td><input type="text" id="Part1_HP1" tabindex="3"></td>
+                                                <td><input type="text" id="Part1_HP2" tabindex="7"></td>
+                                                <td><input type="text" id="Part1_HP3" tabindex="11"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Luck</th>
+                                                <td><input type="text" id="Part1_Luck1" tabindex="4"></td>
+                                                <td><input type="text" id="Part1_Luck2" tabindex="8"></td>
+                                                <td><input type="text" id="Part1_Luck3" tabindex="12"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Stage Drop Bonus</th>
+                                                <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
+                                                <td><input type="button" onclick="save_now_stats()" value="save now stats"></td>
+                                                <td><input type="button" onclick="load_saved_stats()" value="load saved stats"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">Survival Miniutes</th>
+                                                <td><input type="text" id="Part1_SurvivalMiniute1"></td>
+                                                <td><input type="text" id="Part1_SurvivalMiniute2"></td>
+                                                <td><input type="text" id="Part1_SurvivalMiniute3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">KillCounts</th>
+                                                <td><input type="text" id="Part1_KillCount1"></td>
+                                                <td><input type="text" id="Part1_KillCount2"></td>
+                                                <td><input type="text" id="Part1_KillCount3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">Drop Rate</th>
+                                                <td><input type="text" id="Part1_DropRate1"></td>
+                                                <td><input type="text" id="Part1_DropRate2"></td>
+                                                <td><input type="text" id="Part1_DropRate3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">Magic Water</th>
+                                                <td><input type="text" id="Part1_MW1"></td>
+                                                <td><input type="text" id="Part1_MW2"></td>
+                                                <td><input type="text" id="Part1_MW3"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">Total Floors/MW</th>
+                                                <td><input type="text" id="Part1_Total Floors"></td>
+                                                <td><input type="text" id="Part1_TotalMW"></td>
+                                                <td><input type="text" id="Part1_EffectiveRebirthTime"></td>
+                                            </tr>
+                                        </table>
+
+                                        <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14">
+
+                                    </div>
+									 
+								</div>
+							</section>
+
+						<!-- Items' Max Stats Section -->
+                            <section id="ItemMaxStat" class="main">
+                                <div class="content">
+                                    <header class="major">
+                                        <h2>2.Item's Max Stat (아이템 강화 스탯확인)</h2>
+                                    </header>
+
+                                    <table>
+                                        <tr>
+                                            <th></th>
+                                            <th>Input</th>
+                                            <th>Result</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Now Item Level : </th>
+                                            <td><input type="text" id="Part2_NowItemLevel" value="1" tabindex="15"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Target Item Level : </th>
+                                            <td><input type="text" id="Part2_TargetItemLevel" value="5" tabindex="16"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>First Stat : </th>
+                                            <td><input type="text" id="Part2_Stat1" tabindex="17"></td>
+                                            <td><input type="text" id="Part2_Stat1Result"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Second Stat : </th>
+                                            <td><input type="text" id="Part2_Stat2" tabindex="18"></td>
+                                            <td><input type="text" id="Part2_Stat2Result"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Thrid Stat : </th>
+                                            <td><input type="text" id="Part2_Stat3" tabindex="19"></td>
+                                            <td><input type="text" id="Part2_Stat3Result"></td>
+                                        </tr>
+                                    </table>
+
+                                    <input type="button" onclick="calculate_max_ItemLevel()" value="calculate Max ItemLevel Stat" tabindex="20">
+
+                                </div>
 
 
-<body>
+                            </section>
 
-    <header>
-        <h2>EOS Knights Calculartor Ver 1.3</h2>
-    </header>
+						<!-- Item's Origin Stats Section -->
+                            <section id="ItemOriginStat" class="main">
+                                <header class="major">
+                                    <h2>3.Item's Origin Stat (아이템 기본 스탯확인)</h2>
+                                </header>
 
-    <p>
-        안녕하세요! 이오스나이츠를 사랑하는 게이머입니다. <br>
-        게임하면서 몇가지 필요한 기능이 있었는데 개인적으로 프로그램으로 만들어서 쓰다가 커뮤니티보니 엑셀로 만들어서<br>
-        불편하게 쓰시는것을 보고 웹페이지를 만들었습니다.<br>
-    </p>
+                                <table>
+                                    <tr>
+                                        <th></th>
+                                        <th>Input</th>
+                                        <th>Result</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Now Item Level : </th>
+                                        <td><input type="text" id="Part3_NowItemLevel" tabindex="21"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>First Stat : </th>
+                                        <td><input type="text" id="Part3_Stat1" tabindex="22"></td>
+                                        <td><input type="text" id="Part3_Stat1Result"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Second Stat : </th>
+                                        <td><input type="text" id="Part3_Stat2" tabindex="23"></td>
+                                        <td><input type="text" id="Part3_Stat2Result"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Thrid Stat : </th>
+                                        <td><input type="text" id="Part3_Stat3" tabindex="24"></td>
+                                        <td><input type="text" id="Part3_Stat3Result"></td>
+                                    </tr>
+                                </table>
 
-    <p>
-        아이템드랍이 100층 200층 500층이 되어야만 유니크,전설,고대가 나오는데 500까지만 가고 싶어서 아이템을 교체하고 싶은데<br>
-        어떤 스탯이 얼마만큼 필요한지 미리 측정이 되면 편할거라는 생각을 했습니다. 거금들여맞췄는데 딱 499까지 가면 속상하잖아요
-    </p>
+                                <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat" tabindex="25">
 
-    <p>
-        그리고 하단의 2개는 아이템 구매 나 강화시에 미리 능력치를 계산해볼수 있는 기능을 추가했습니다.<br>
-        사용하시고 불편하시거나 개선사항이 있으면 메일(kerriganhjh@naver.com)주시면 개선하겠습니다.
-        감사합니다.
-    </p>
+                            </section>
+						  
+					</div>
 
-    <p>
-        <i>혹시 추천인없으시면 kordeveloper 추천해주시면 감사하겠습니다. ^.^  </i> 
-        <i>(If this page is helped, please consider setting  "kordeveloper" as your referrer )</i> 
-        <a href="test.html" style="text-decoration: none">^.^</a>
-    </p>
+				<!-- Footer -->
+					<footer id="footer">
+                        <section>
+                            <h2>Hello~ EOSKinights Player</h2>
+                            <p>Please Feel free to send your opinion about adding new features and Repoting bugs. </p>
+                            <p><a href="previousIndex.html">You can use the previous versions of EOS Knights Calculator to click here </a></p>
+                        </section>
+						<section>
+							<h2>Donating</h2>
+                            <dl class="alt">
+                                <dt>EOSAccount</dt>
+                                <dd>kordeveloper</dd>
+                                <dt>Email</dt>
+                                <dd>kerriganhjh@naver.com</dd>
+                            </dl>
+							 
+						</section>
+						<p class="copyright">&copy; Jinhyeon Hong.</p>
+					</footer>
 
-    <br />
-    <div class="divTitle">1.Max Floors you can reach ( 최대 도달층 확인 )</div>
-    <br />
-    <table>
-        <tr>
-            <th></th>
-            <th>Knight</th>
-            <th>Archer</th>
-            <th>Mage</th>
-        </tr>
-        <tr>
-           <th>Attack</th>
-           <td><input type="text" id="Part1_Attack1" tabindex="1"></td>
-           <td><input type="text" id="Part1_Attack2" tabindex="5"></td>
-           <td><input type="text" id="Part1_Attack3" tabindex="9"></td>
-       </tr>
-       <tr>
-           <th>Defense</th>
-           <td><input type="text" id="Part1_Defense1" tabindex="2"></td>
-           <td><input type="text" id="Part1_Defense2" tabindex="6"></td>
-           <td><input type="text" id="Part1_Defense3" tabindex="10"></td>
-       </tr>
-       <tr>
-           <th>HP</th>
-           <td><input type="text" id="Part1_HP1" tabindex="3"></td>
-           <td><input type="text" id="Part1_HP2" tabindex="7"></td>
-           <td><input type="text" id="Part1_HP3" tabindex="11"></td>
-       </tr>
-       <tr>
-           <th>Luck</th>
-           <td><input type="text" id="Part1_Luck1" tabindex="4"></td>
-           <td><input type="text" id="Part1_Luck2" tabindex="8"></td>
-           <td><input type="text" id="Part1_Luck3" tabindex="12"></td>
-       </tr>
-        <tr>
-            <th>Stage Drop Bonus</th>
-            <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
-	    <td><input type="button" onclick="save_now_stats()" value="save now stats"></td>
-            <td><input type="button" onclick="load_saved_stats()" value="load saved stats"></td>
-        </tr>
-        <tr>
-            <th class="result">Survival Miniutes</th>
-            <td><input type="text" id="Part1_SurvivalMiniute1"></td>
-            <td><input type="text" id="Part1_SurvivalMiniute2"></td>
-            <td><input type="text" id="Part1_SurvivalMiniute3"></td>
-        </tr>
-        <tr>
-            <th class="result">KillCounts</th>
-            <td><input type="text" id="Part1_KillCount1"></td>
-            <td><input type="text" id="Part1_KillCount2"></td>
-            <td><input type="text" id="Part1_KillCount3"></td>
-        </tr>
-        <tr>
-            <th class="result">Drop Rate</th>
-            <td><input type="text" id="Part1_DropRate1"></td>
-            <td><input type="text" id="Part1_DropRate2"></td>
-            <td><input type="text" id="Part1_DropRate3"></td>
-        </tr>
-        <tr>
-            <th class="result">Magic Water</th>
-            <td><input type="text" id="Part1_MW1"></td>
-            <td><input type="text" id="Part1_MW2"></td>
-            <td><input type="text" id="Part1_MW3"></td>
-            
-        </tr>
-        <tr>
-            <th class="result">Total Floors/MW</th>
-            <td><input type="text" id="Part1_Total Floors"></td>
-            <td><input type="text" id="Part1_TotalMW"></td>
-            <td><input type="text" id="Part1_EffectiveRebirthTime"></td>
-        </tr>
-    </table>
+			</div>
 
-    <br />
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
 
-    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14">
-
-
-
-    <br />
-    <br />
-    <div class="divTitle">2.Item's Max Stat (아이템 강화 스탯확인)</div>
-
-    <br />
-    <table>
-        <tr>
-            <th></th>
-            <th>Input</th>
-            <th>Result</th>
-        </tr>
-        <tr>
-            <th>Now Item Level : </th>
-            <td><input type="text" id="Part2_NowItemLevel" value="1" tabindex="15"></td>
-        </tr>
-        <tr>
-            <th>Target Item Level : </th>
-            <td><input type="text" id="Part2_TargetItemLevel" value="5" tabindex="16"></td>
-        </tr>
-        <tr>
-            <th>First Stat : </th>
-            <td><input type="text" id="Part2_Stat1"  tabindex="17"></td>
-            <td><input type="text" id="Part2_Stat1Result"></td>
-        </tr>
-        <tr>
-            <th>Second Stat : </th>
-            <td><input type="text" id="Part2_Stat2"  tabindex="18"></td>
-            <td><input type="text" id="Part2_Stat2Result"></td>
-        </tr>
-        <tr>
-            <th>Thrid Stat : </th>
-            <td><input type="text" id="Part2_Stat3"  tabindex="19"></td>
-            <td><input type="text" id="Part2_Stat3Result"></td>
-        </tr>
-    </table>
-
-    <br />
-    <input type="button" onclick="calculate_max_ItemLevel()" value="calculate Max ItemLevel Stat"  tabindex="20">
-    <br />
-
-    <br />
-    <div class="divTitle">3.Item's Origin Stat (아이템 기본 스탯확인)</div>
-
-    <br />
-    <table>
-        <tr>
-            <th></th>
-            <th>Input</th>
-            <th>Result</th>
-        </tr>
-        <tr>
-            <th>Now Item Level : </th>
-            <td><input type="text" id="Part3_NowItemLevel"  tabindex="21"></td>
-        </tr>
-        <tr>
-            <th>First Stat : </th>
-            <td><input type="text" id="Part3_Stat1"  tabindex="22"></td>
-            <td><input type="text" id="Part3_Stat1Result"></td>
-        </tr>
-        <tr>
-            <th>Second Stat : </th>
-            <td><input type="text" id="Part3_Stat2"  tabindex="23"></td>
-            <td><input type="text" id="Part3_Stat2Result"></td>
-        </tr>
-        <tr>
-            <th>Thrid Stat : </th>
-            <td><input type="text" id="Part3_Stat3"  tabindex="24"></td>
-            <td><input type="text" id="Part3_Stat3Result"></td>
-        </tr>
-    </table>
-
-    <br />
-    <input type="button" onclick="calculate_origin_ItemLevel()" value="calculate Origin ItemLevel Stat"  tabindex="25">
-    <br />
-    <br>
-    <footer>
-        <p>presented by kordeveloper 2018.10.26</p>
-        <p>EOS Account : kordeveloper ( Thanks for donating  ~m^.^m~  )</p>
-    </footer>
-</body>
+	</body>
 </html>
