@@ -80,10 +80,10 @@
             effectiveRibirthTime = parseInt(effectiveRibirthTime / 60);
 
             if (effectiveRibirthTime > 60) {
-                document.getElementById("Part1_EffectiveRebirthTime").value = "BestRebrithTime " + parseInt(effectiveRibirthTime / 60) + ":" + parseInt(effectiveRibirthTime % 60);
+                document.getElementById("Part1_EffectiveRebirthTime").value = "BestRebrithTime " + parseInt(effectiveRibirthTime / 60) + ":" + pad(parseInt(effectiveRibirthTime % 60),2);
             }
             else {
-                document.getElementById("Part1_EffectiveRebirthTime").value = "BestRebrithTime 0:" + effectiveRibirthTime;
+                document.getElementById("Part1_EffectiveRebirthTime").value = "BestRebrithTime 0:" + pad(effectiveRibirthTime,2);
             }
 
 
@@ -148,6 +148,12 @@
             document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " MagicWater";
 
 
+        }
+
+        function pad(n, width) 
+        {
+            n = n + '';
+            return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
         }
 
         function get_MagicWater(kill_count, luck, maxFloor) {
@@ -393,7 +399,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-						<h1>EOS Knights Calculrator Ver 2.0</h1>
+						<h1>EOS Knights Calculrator Ver 2.1</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">Now there are some UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presendted by <a href="">JinHyeon Hong</a> </p>
@@ -511,25 +517,25 @@
                                             <th>Result</th>
                                         </tr>
                                         <tr>
-                                            <th>Now Item Level : </th>
+                                            <th>Now Item Level</th>
                                             <td><input type="text" id="Part2_NowItemLevel" value="1" tabindex="15"></td>
                                         </tr>
                                         <tr>
-                                            <th>Target Item Level : </th>
+                                            <th>Target Item Level</th>
                                             <td><input type="text" id="Part2_TargetItemLevel" value="5" tabindex="16"></td>
                                         </tr>
                                         <tr>
-                                            <th>First Stat : </th>
+                                            <th>First Stat</th>
                                             <td><input type="text" id="Part2_Stat1" tabindex="17"></td>
                                             <td><input type="text" id="Part2_Stat1Result"></td>
                                         </tr>
                                         <tr>
-                                            <th>Second Stat : </th>
+                                            <th>Second Stat</th>
                                             <td><input type="text" id="Part2_Stat2" tabindex="18"></td>
                                             <td><input type="text" id="Part2_Stat2Result"></td>
                                         </tr>
                                         <tr>
-                                            <th>Thrid Stat : </th>
+                                            <th>Thrid Stat</th>
                                             <td><input type="text" id="Part2_Stat3" tabindex="19"></td>
                                             <td><input type="text" id="Part2_Stat3Result"></td>
                                         </tr>
@@ -555,21 +561,21 @@
                                         <th>Result</th>
                                     </tr>
                                     <tr>
-                                        <th>Now Item Level : </th>
+                                        <th>Now Item Level</th>
                                         <td><input type="text" id="Part3_NowItemLevel" tabindex="21"></td>
                                     </tr>
                                     <tr>
-                                        <th>First Stat : </th>
+                                        <th>First Stat</th>
                                         <td><input type="text" id="Part3_Stat1" tabindex="22"></td>
                                         <td><input type="text" id="Part3_Stat1Result"></td>
                                     </tr>
                                     <tr>
-                                        <th>Second Stat : </th>
+                                        <th>Second Stat</th>
                                         <td><input type="text" id="Part3_Stat2" tabindex="23"></td>
                                         <td><input type="text" id="Part3_Stat2Result"></td>
                                     </tr>
                                     <tr>
-                                        <th>Thrid Stat : </th>
+                                        <th>Thrid Stat</th>
                                         <td><input type="text" id="Part3_Stat3" tabindex="24"></td>
                                         <td><input type="text" id="Part3_Stat3Result"></td>
                                     </tr>
@@ -584,7 +590,7 @@
 				<!-- Footer -->
 					<footer id="footer">
                         <section>
-                            <h2>Hello~ EOSKinights Player</h2>
+                            <h2>Hello~ EOSKinights Players</h2>
                             <p>Please feel free to send your opinion about adding new features and repoting bugs. 
                             If this page is helped, please consider setting "kordeveloper" as your referrer   </p>
                             <p><a href="previousIndex.html">You can use the previous versions of EOS Knights Calculator to click here </a></p>
