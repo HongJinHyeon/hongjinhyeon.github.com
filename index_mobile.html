@@ -12,26 +12,7 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     <script src="knightAsset/js/knightscommon.js"></script>
-    
-    <!--
-    <script>
-
-        var filter = "win16|win32|win64|mac";
-
-        if(navigator.platform)
-        {
-
-            if( 0 > filter.indexOf(navigator.platform.toLowerCase()))
-            {
-                //모바일용 페이지로 접속처리하기
-                window.location.href = "http://naver.com";
-                
-            }
-        }
-
-    </script>
-    -->
-
+ 
 </head>
 	<body class="is-preload">
 
@@ -41,9 +22,9 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-						<h1>EOS Knights Calculrator Ver 2.2</h1>
+						<h1>EOS Knights Calculrator Ver 2.1</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
-                        <font color="red">If there are some UI Breakdown on mobile devices, please use the landscape mode</font> <br />
+                        <font color="red">Now there are some UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presendted by <a href="">JinHyeon Hong</a> </p>
 					</header>
 
@@ -62,14 +43,13 @@
 
 						<!-- Max Floors Section -->
 							<section id="MaxFloors" class="main">
-								
+								<div class="spotlight">
                                     <div class="content">
-
                                         <header class="major">
                                             <h2>1.Max Floors you can reach ( 최대 도달층 확인 )</h2>
                                         </header>
 
-                                        <table style="overflow-x:auto">
+                                        <table>
                                             <tr>
                                                 <th></th>
                                                 <th text-algin="center">Knight</th>
@@ -103,7 +83,8 @@
                                             <tr>
                                                 <th>Stage Drop Bonus</th>
                                                 <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
-                                               
+                                                <td><input type="button" onclick="save_now_stats()" value="save now stats"></td>
+                                                <td><input type="button" onclick="load_saved_stats()" value="load saved stats"></td>
                                             </tr>
                                             <tr>
                                                 <th style="color:red">Survival Miniutes</th>
@@ -112,13 +93,13 @@
                                                 <td><input type="text" id="Part1_SurvivalMiniute3"></td>
                                             </tr>
                                             <tr>
-                                                <th style="color:red">Kill</th>
+                                                <th style="color:red">KillCounts</th>
                                                 <td><input type="text" id="Part1_KillCount1"></td>
                                                 <td><input type="text" id="Part1_KillCount2"></td>
                                                 <td><input type="text" id="Part1_KillCount3"></td>
                                             </tr>
                                             <tr>
-                                                <th style="color:red">DropRate</th>
+                                                <th style="color:red">Drop Rate</th>
                                                 <td><input type="text" id="Part1_DropRate1"></td>
                                                 <td><input type="text" id="Part1_DropRate2"></td>
                                                 <td><input type="text" id="Part1_DropRate3"></td>
@@ -138,19 +119,16 @@
                                             </tr>
                                         </table>
 
-                                        <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br><br>
-                                        <input type="button" title="save now stat" onclick="save_now_stats()" value="save now stat"> 
-                                        <input type="button" title="load saved stat" onclick="load_saved_stats()" value="load saved stat">
+                                        <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14">
 
                                     </div>
-                                
+									 
+								</div>
 							</section>
 
 						<!-- Items' Max Stats Section -->
                             <section id="ItemMaxStat" class="main">
-
                                 <div class="content">
-
                                     <header class="major">
                                         <h2>2.Item's Max Stat (아이템 강화 스탯확인)</h2>
                                     </header>
@@ -162,25 +140,25 @@
                                             <th>Result</th>
                                         </tr>
                                         <tr>
-                                            <th>Now Level</th>
+                                            <th>Now Item Level</th>
                                             <td><input type="text" id="Part2_NowItemLevel" value="1" tabindex="15"></td>
                                         </tr>
                                         <tr>
-                                            <th>Target Level</th>
+                                            <th>Target Item Level</th>
                                             <td><input type="text" id="Part2_TargetItemLevel" value="5" tabindex="16"></td>
                                         </tr>
                                         <tr>
-                                            <th>1st Stat</th>
+                                            <th>First Stat</th>
                                             <td><input type="text" id="Part2_Stat1" tabindex="17"></td>
                                             <td><input type="text" id="Part2_Stat1Result"></td>
                                         </tr>
                                         <tr>
-                                            <th>2nd Stat</th>
+                                            <th>Second Stat</th>
                                             <td><input type="text" id="Part2_Stat2" tabindex="18"></td>
                                             <td><input type="text" id="Part2_Stat2Result"></td>
                                         </tr>
                                         <tr>
-                                            <th>3rd Stat</th>
+                                            <th>Thrid Stat</th>
                                             <td><input type="text" id="Part2_Stat3" tabindex="19"></td>
                                             <td><input type="text" id="Part2_Stat3Result"></td>
                                         </tr>
@@ -206,21 +184,21 @@
                                         <th>Result</th>
                                     </tr>
                                     <tr>
-                                        <th>Now Level</th>
+                                        <th>Now Item Level</th>
                                         <td><input type="text" id="Part3_NowItemLevel" tabindex="21"></td>
                                     </tr>
                                     <tr>
-                                        <th>1st Stat</th>
+                                        <th>First Stat</th>
                                         <td><input type="text" id="Part3_Stat1" tabindex="22"></td>
                                         <td><input type="text" id="Part3_Stat1Result"></td>
                                     </tr>
                                     <tr>
-                                        <th>2nd Stat</th>
+                                        <th>Second Stat</th>
                                         <td><input type="text" id="Part3_Stat2" tabindex="23"></td>
                                         <td><input type="text" id="Part3_Stat2Result"></td>
                                     </tr>
                                     <tr>
-                                        <th>3rd Stat</th>
+                                        <th>Thrid Stat</th>
                                         <td><input type="text" id="Part3_Stat3" tabindex="24"></td>
                                         <td><input type="text" id="Part3_Stat3Result"></td>
                                     </tr>
