@@ -436,9 +436,9 @@ function load_palyerRevenu()
     if (this.readyState === this.DONE) {
 
         var resultObj = JSON.parse(this.responseText);
-        var profit = parseInt(  resultObj.rows[0].selling.replace("EOS","")) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
+        var profit = parseFloat(  resultObj.rows[0].selling.replace("EOS","")) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
 
-        document.getElementById("revenu").innerHTML = " Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + ",Spending:" + ( parseFloat( resultObj.rows[0].spending.replace("EOS","")) + parseFloat( resultObj.rows[0].buying.replace("EOS","")) ).toFixed(4) + " EOS )";
+        document.getElementById("revenue").innerHTML = " Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + ",Spending:" + ( parseFloat( resultObj.rows[0].spending.replace("EOS","")) + parseFloat( resultObj.rows[0].buying.replace("EOS","")) ).toFixed(4) + " EOS )";
     }
     });
 

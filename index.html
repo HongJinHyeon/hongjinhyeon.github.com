@@ -24,7 +24,7 @@
             if( 0 > filter.indexOf(navigator.platform.toLowerCase()))
             {
                 //모바일용 페이지로 접속처리하기
-                window.location.href = "http://naver.com";
+                window.location.href = "";
                 
             }
         }
@@ -41,7 +41,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-						<h1>EOS Knights Calculrator Ver 3.0</h1>
+						<h1>EOS Knights Calculrator Ver 3.1</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">If there are UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presendted by <a href="">JinHyeon Hong</a> </p>
@@ -73,12 +73,12 @@
                                         
                                         <table>
                                                  
-                                            <tr style="padding: 2px">
-                                                <th style="width: 180px;"><input type="text" id="EOSAccountName" tabindex="0" style="width: 200px; height: 30px;"> </th>        
-                                                <th><input type="button"  style="height: 40px;" onclick="load_palyerStatAndRevenu()" value="load account info">  </th>
+                                            <tr  >
+                                                <th style="width: 180px;"><input type="text" id="EOSAccountName" tabindex="0" style="width: 180px; height: 30px;"> </th>        
+                                                <th><input type="button"  style="height: 38px;" onclick="load_palyerStatAndRevenu()" value="load account">  </th>
                                             </tr>
                                              <tr>
-                                                    <label id="revenu" style="color:red" ></label>
+                                                    <label id="revenue" style="color:red" ></label>
                                              </tr>
                                         </table>
  
@@ -254,25 +254,35 @@
 					</div>
 
 				<!-- Footer -->
-					<footer id="footer">
+                    <footer id="footer">
                         <section>
                             <h2>Hello~ EOSKinights Players</h2>
-                            <p>Please feel free to send your opinion about adding new features and repoting bugs. 
-                            If this page is helped, please consider setting "kordeveloper" as your referrer   </p>
+                            <p>
+                                Please feel free to send your opinion about adding new features and repoting bugs.
+                                If this page is helped, please consider setting "kordeveloper" as your referrer
+                            </p>
                             <p><a href="previousIndex.html">You can use the previous versions of EOS Knights Calculator to click here </a></p>
                         </section>
-						<section>
-							<h2>Donating</h2>
+                        <section>
+                            <h2>Donating</h2>
                             <dl class="alt">
                                 <dt>EOSAccount</dt>
                                 <dd>kordeveloper</dd>
                                 <dt>Email</dt>
                                 <dd>kerriganhjh@naver.com</dd>
+                                <br />
+                                <dt>Donators&nbsp;&nbsp;:)</dt>
                             </dl>
-							 
-						</section>
-						<p class="copyright">&copy; Jinhyeon Hong.</p>
-					</footer>
+                            <div style="margin-top:-25px">
+                                <a href="https://eosflare.io/tx/82c872d26f8f64d0e0484a2021db46d2e83cb62073484b7193013f830a60da45" target="_blank"> eos11godmuse : 0.1000 EOS </a><br />
+                            </div>
+                            
+
+                        </section>
+                         
+                        <p class="copyright">&copy; Jinhyeon Hong.</p>
+                         
+                    </footer>
 
 			</div>
 
