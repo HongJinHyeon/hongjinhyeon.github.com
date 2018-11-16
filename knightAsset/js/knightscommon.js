@@ -376,3 +376,24 @@ function load_saved_stats() {
     document.getElementById("Part1_Luck3").value = getCookie("M4");
     alert("load complete!");
 }
+
+function load_palyerStatAndRevenu(account)
+{
+    
+    //var data = JSON.stringify({"json":true,"code":"eosknightsio","scope":"eosknightsio","table":"knight","key_type":"name","lower_bound":"kordeveloper","index_position":1,"limit":1});
+    var data = JSON.stringify({"json":true,"code":"eosknightsio","scope":"eosknightsio","table":"revenue","key_type":"name","lower_bound":"kordeveloper","index_position":1,"limit":1});
+    alert(data);
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+        alert(this.responseText);
+    }
+    });
+
+    xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
+    
+    xhr.send(data);
+}
