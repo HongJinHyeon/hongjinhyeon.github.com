@@ -41,7 +41,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-						<h1>EOS Knights Calculrator Ver 2.2</h1>
+						<h1>EOS Knights Calculrator Ver 2.3</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">If there are some UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presendted by <a href="">JinHyeon Hong</a> </p>
@@ -66,10 +66,25 @@
                                     <div class="content">
 
                                         <header class="major">
-                                            <h2>1.Max Floors you can reach ( 최대 도달층 확인 )</h2>
+                                            <h2>1.Max Floors you can reach</h2>
                                         </header>
 
-                                        <table style="overflow-x:auto">
+                                        <h4>You can load your knights stats by your account name</h4>
+                                        
+                                        <table>
+                                                 
+                                            <tr style="padding: 2px">
+                                                <th style="width: 180px;"><input type="text" id="EOSAccountName" tabindex="0" style="width: 180px; height: 30px;"> </th>        
+                                                <th><input type="button"   onclick="load_palyerStatAndRevenu()" value="load account">  </th>
+                                            </tr>
+                                             <tr>
+                                                    <label id="revenu" style="color:red" ></label>
+                                             </tr>
+                                        </table>
+ 
+                                       
+
+                                        <table>
                                             <tr>
                                                 <th></th>
                                                 <th text-algin="center">Knight</th>
@@ -131,10 +146,16 @@
 
                                             </tr>
                                             <tr>
-                                                <th style="color:red">Total Floors/MW</th>
-                                                <td><input type="text" id="Part1_Total Floors"></td>
-                                                <td><input type="text" id="Part1_TotalMW"></td>
-                                                <td><input type="text" id="Part1_EffectiveRebirthTime"></td>
+                                                <th style="color:red">Total Floors</th>
+                                                <td colspan="3"><input type="text" id="Part1_Total Floors" ></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">Total Waters</th>
+                                                <td colspan="3"><input type="text" id="Part1_TotalMW" ></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="color:red">Effective RebirthTime</th>
+                                                <td  colspan="3"><input type="text" id="Part1_EffectiveRebirthTime"></td>
                                             </tr>
                                         </table>
 
@@ -152,7 +173,7 @@
                                 <div class="content">
 
                                     <header class="major">
-                                        <h2>2.Item's Max Stat (아이템 강화 스탯확인)</h2>
+                                        <h2>2.Item's Max Stat</h2>
                                     </header>
 
                                     <table>
@@ -196,7 +217,7 @@
 						<!-- Item's Origin Stats Section -->
                             <section id="ItemOriginStat" class="main">
                                 <header class="major">
-                                    <h2>3.Item's Origin Stat (아이템 기본 스탯확인)</h2>
+                                    <h2>3.Item's Origin Stat</h2>
                                 </header>
 
                                 <table>
