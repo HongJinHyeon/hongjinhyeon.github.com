@@ -396,29 +396,64 @@ function load_palyerStat()
     if (this.readyState === this.DONE) {
 
         var resultObj = JSON.parse(this.responseText);
-       
-        document.getElementById("Part1_Attack1").value = resultObj.rows[0].rows[0].attack;
-        document.getElementById("Part1_Attack2").value = resultObj.rows[0].rows[1].attack;
-        document.getElementById("Part1_Attack3").value = resultObj.rows[0].rows[2].attack;
 
-        document.getElementById("Part1_Defense1").value = resultObj.rows[0].rows[0].defense;
-        document.getElementById("Part1_Defense2").value = resultObj.rows[0].rows[1].defense;
-        document.getElementById("Part1_Defense3").value = resultObj.rows[0].rows[2].defense;
+        var type = resultObj.rows[0].rows[0].type;
+        var attack = resultObj.rows[0].rows[0].attack;
+        var defense = resultObj.rows[0].rows[0].defense;
+        var hp = resultObj.rows[0].rows[0].hp;
+        var luck = resultObj.rows[0].rows[0].luck;
 
-        document.getElementById("Part1_HP1").value = resultObj.rows[0].rows[0].hp;
-        document.getElementById("Part1_HP2").value = resultObj.rows[0].rows[1].hp;
-        document.getElementById("Part1_HP3").value = resultObj.rows[0].rows[2].hp;
+        setStat(type, attack, defense, hp, luck);
 
-        document.getElementById("Part1_Luck1").value = resultObj.rows[0].rows[0].luck;
-        document.getElementById("Part1_Luck2").value = resultObj.rows[0].rows[1].luck;
-        document.getElementById("Part1_Luck3").value = resultObj.rows[0].rows[2].luck;
+        type = resultObj.rows[0].rows[1].type;
+        attack = resultObj.rows[0].rows[1].attack;
+        defense = resultObj.rows[0].rows[1].defense;
+        hp = resultObj.rows[0].rows[1].hp;
+        luck = resultObj.rows[0].rows[1].luck;
 
+        setStat(type, attack, defense, hp, luck);
+
+        type = resultObj.rows[0].rows[2].type;
+        attack = resultObj.rows[0].rows[2].attack;
+        defense = resultObj.rows[0].rows[2].defense;
+        hp = resultObj.rows[0].rows[2].hp;
+        luck = resultObj.rows[0].rows[2].luck;
+
+        setStat(type, attack, defense, hp, luck);
     }
     });
 
     xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
     xhr.send(data);
 }
+
+function setStat(type, attack, def, hp, luck)
+{
+    if (type == "1")
+    {
+
+        document.getElementById("Part1_Attack1").value = attack;
+        document.getElementById("Part1_Defense1").value = def;
+        document.getElementById("Part1_HP1").value = hp;
+        document.getElementById("Part1_Luck1").value = luck;
+    }
+    else if (type == "2")
+    {
+        document.getElementById("Part1_Attack2").value = attack;
+        document.getElementById("Part1_Defense2").value = def;
+        document.getElementById("Part1_HP2").value = hp;
+        document.getElementById("Part1_Luck2").value = luck;
+    }
+    else
+    {
+        document.getElementById("Part1_Attack3").value = attack;
+        document.getElementById("Part1_Defense3").value = def;
+        document.getElementById("Part1_HP3").value = hp;
+        document.getElementById("Part1_Luck3").value = luck;
+    }
+
+}
+
 
 function load_palyerRevenu()
 {
