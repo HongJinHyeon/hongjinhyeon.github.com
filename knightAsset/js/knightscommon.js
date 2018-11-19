@@ -378,7 +378,7 @@ function load_palyerStatAndRevenue()
 {
     load_playerStat();
     load_playerRevenue();
-    load_palyerMaxFoorAndNowPowder();
+    load_playerMaxFoorAndNowPowder();
 }
 
 function load_playerStat()
@@ -493,7 +493,7 @@ function load_playerRevenue()
     xhr.send(data);
 }
 
-function load_palyerMaxFoorAndNowPowder()
+function load_playerMaxFoorAndNowPowder()
 {
     
     var EOSAccountName = document.getElementById("EOSAccountName").value
