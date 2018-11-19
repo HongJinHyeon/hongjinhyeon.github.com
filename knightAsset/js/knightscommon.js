@@ -530,7 +530,6 @@ function enter_check()
 
 function startRebirthAlarm_func()
 {
-    
     if(knightsLastRebirthTime == "" || want_knightRebirthTime == "")
     {
         alert("First load account info and press the calculate button");
@@ -539,6 +538,8 @@ function startRebirthAlarm_func()
 
     /* document.getElementById("startRebirthAlarm").disabled = true;
     document.getElementById("stopRebirthAlarm").disabled = false; */
+
+    displayNextRebirthTime();
 
     startRebirthAlert();
 
@@ -558,16 +559,15 @@ function stopRebirthAlarm_func()
 var knightsLastRebirthTime = "";
 var want_knightRebirthTime = ""; 
 var snd = new Audio('knightAsset/audio/alarm01.mp3');
-snd.addEventListener('ended', function(){
 
+snd.addEventListener('ended', function ()
+{
     this.currentTime=0;
     this.play();
-
 },false);
 
 startRebirthAlert = function() 
 {
-
     playAlert = setInterval(function() 
     {
         //1.get last_rebirthTime from api
@@ -600,12 +600,12 @@ function rebirthAlarmCheck()
 function playAlertAudio()
 {
     stopAlert();
+    snd.currentTime = 0;
     snd.play();
     alert("It's time to rebirth!");
     snd.pause();
     snd.currentTime = 0;
     startRebirthAlert();
-
 }
 
 function displayNextRebirthTime()
@@ -614,6 +614,6 @@ function displayNextRebirthTime()
     var t = new Date('1970-01-01');
     t.setSeconds(t.getSeconds() + date);
 
-    document.getElementById("nextRebirthTime").innerHTML = t.getFullYear() + "-" + t.getMonth()+1 +"-"+ t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.setSeconds();
+    document.getElementById("nextRebirthTime").innerHTML = " Next Rebirth Time : " + t.getFullYear() + "-" + (t.getMonth()+1) +"-"+ t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
 
 }
