@@ -69,10 +69,10 @@ function calculate_max_floors() {
     effectiveRibirthTime = parseInt(effectiveRibirthTime / 60);
 
     if (effectiveRibirthTime > 60) {
-        document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(effectiveRibirthTime / 60) + ":" + pad(parseInt(effectiveRibirthTime % 60),2);
+        document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(effectiveRibirthTime / 60) + " hours : " + pad(parseInt(effectiveRibirthTime % 60),2) + " minutes";
     }
     else {
-        document.getElementById("Part1_EffectiveRebirthTime").value =  pad(effectiveRibirthTime,2);
+        document.getElementById("Part1_EffectiveRebirthTime").value =  pad(effectiveRibirthTime,2) + " minutes";
     }
 
 
@@ -374,7 +374,7 @@ function load_saved_stats() {
     alert("load complete!");
 }
 
-function load_palyerStatAndRevenue()
+function load_playerStatAndRevenue()
 {
     load_playerStat();
     load_playerRevenue();
@@ -475,7 +475,7 @@ function load_playerRevenue()
         //minus -3% tax
         var profit = parseFloat(resultObj.rows[0].selling.replace("EOS","")) - (parseFloat(resultObj.rows[0].selling.replace("EOS","")) * 0.03) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
 
-        document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + ",Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
+        document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + " including 3% tax,Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
 
         if (profit < 0) 
         {
@@ -517,4 +517,11 @@ function load_playerMaxFoorAndNowPowder()
 
     xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
     xhr.send(data);
+}
+
+function enter_check()
+{
+    if(event.keyCode == 13){
+        load_playerStatAndRevenue();
+   }
 }
