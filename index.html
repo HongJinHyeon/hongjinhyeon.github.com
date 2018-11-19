@@ -24,7 +24,7 @@
             if( 0 > filter.indexOf(navigator.platform.toLowerCase()))
             {
                 //모바일용 페이지로 접속처리하기
-                window.location.href = "http://naver.com";
+                window.location.href = "";
                 
             }
         }
@@ -41,10 +41,10 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-						<h1>EOS Knights Calculrator Ver 3.0</h1>
+                        <h1>EOS Knights Calculartor Ver 3.3</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">If there are UI Breakdown on mobile devices, please use the landscape mode</font> <br />
-						presendted by <a href="">JinHyeon Hong</a> </p>
+						presented by <a href="">JinHyeon Hong</a> </p>
 					</header>
 
 				<!-- Nav -->
@@ -63,107 +63,103 @@
 						<!-- Max Floors Section -->
 							<section id="MaxFloors" class="main">
 								
-                                    <div class="content">
+                                <div class="content">
 
-                                        <header class="major">
-                                            <h2>1.Max Floors you can reach</h2>
-                                        </header>
+                                    <header class="major">
+                                        <h2>1.Max Floors you can reach</h2>
+                                    </header>
 
-                                        <h4>You can load your knights stats by your account name</h4>
-                                        
-                                        <table>
-                                                 
-                                            <tr style="padding: 2px">
-                                                <th style="width: 180px;"><input type="text" id="EOSAccountName" tabindex="0" style="width: 200px; height: 30px;"> </th>        
-                                                <th><input type="button"  style="height: 40px;" onclick="load_palyerStatAndRevenu()" value="load account info">  </th>
-                                            </tr>
-                                             <tr>
-                                                    <label id="revenu" style="color:red" ></label>
-                                             </tr>
-                                        </table>
- 
-                                       
+                                    <h4>You can load your knights stats and profit by your account name</h4>
 
-                                        <table>
-                                            <tr>
-                                                <th></th>
-                                                <th text-algin="center">Knight</th>
-                                                <th text-algin="center">Archer</th>
-                                                <th text-algin="center">Mage</th>
-                                            </tr>
-                                            <tr>
-                                                <th>Attack</th>
-                                                <td><input type="text" id="Part1_Attack1" tabindex="1"></td>
-                                                <td><input type="text" id="Part1_Attack2" tabindex="5"></td>
-                                                <td><input type="text" id="Part1_Attack3" tabindex="9"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Defense</th>
-                                                <td><input type="text" id="Part1_Defense1" tabindex="2"></td>
-                                                <td><input type="text" id="Part1_Defense2" tabindex="6"></td>
-                                                <td><input type="text" id="Part1_Defense3" tabindex="10"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>HP</th>
-                                                <td><input type="text" id="Part1_HP1" tabindex="3"></td>
-                                                <td><input type="text" id="Part1_HP2" tabindex="7"></td>
-                                                <td><input type="text" id="Part1_HP3" tabindex="11"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Luck</th>
-                                                <td><input type="text" id="Part1_Luck1" tabindex="4"></td>
-                                                <td><input type="text" id="Part1_Luck2" tabindex="8"></td>
-                                                <td><input type="text" id="Part1_Luck3" tabindex="12"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Stage Drop Bonus</th>
-                                                <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
-                                               
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">Survival Minutes</th>
-                                                <td><input type="text" id="Part1_SurvivalMiniute1" readonly></td>
-                                                <td><input type="text" id="Part1_SurvivalMiniute2" readonly></td>
-                                                <td><input type="text" id="Part1_SurvivalMiniute3" readonly></td>
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">Kill</th>
-                                                <td><input type="text" id="Part1_KillCount1" readonly></td>
-                                                <td><input type="text" id="Part1_KillCount2" readonly></td>
-                                                <td><input type="text" id="Part1_KillCount3" readonly></td>
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">DropRate</th>
-                                                <td><input type="text" id="Part1_DropRate1" readonly></td>
-                                                <td><input type="text" id="Part1_DropRate2" readonly></td>
-                                                <td><input type="text" id="Part1_DropRate3" readonly></td>
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">Magic Water</th>
-                                                <td><input type="text" id="Part1_MW1" readonly></td>
-                                                <td><input type="text" id="Part1_MW2" readonly></td>
-                                                <td><input type="text" id="Part1_MW3" readonly></td>
+                                    <label id="revenue"></label>
+                                    <label id="nowmaxfloorandpowder"></label>
 
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">Total Floors</th>
-                                                <td colspan="3"><input type="text" id="Part1_Total Floors" readonly></td>
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">Total Waters</th>
-                                                <td colspan="3"><input type="text" id="Part1_TotalMW" readonly></td>
-                                            </tr>
-                                            <tr>
-                                                <th style="color:red">Effective RebirthTime</th>
-                                                <td  colspan="3"><input type="text" id="Part1_EffectiveRebirthTime" readonly></td>
-                                            </tr>
-                                        </table>
+                                    <input type="text" id="EOSAccountName" tabindex="0">
+                                    <input style="margin-top:5px" type="button"  onclick="load_palyerStatAndRevenue()" value="load account info and profit">
 
-                                        <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br><br>
-                                        <input type="button" title="save now stat" onclick="save_now_stats()" value="save now stat"> 
-                                        <input type="button" title="load saved stat" onclick="load_saved_stats()" value="load saved stat">
+                                    <br />
+                                    <br />
 
-                                    </div>
+                                    <table>
+                                        <tr>
+                                            <th></th>
+                                            <th text-algin="center">Knight</th>
+                                            <th text-algin="center">Archer</th>
+                                            <th text-algin="center">Mage</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Attack</th>
+                                            <td><input type="text" id="Part1_Attack1" tabindex="1"></td>
+                                            <td><input type="text" id="Part1_Attack2" tabindex="5"></td>
+                                            <td><input type="text" id="Part1_Attack3" tabindex="9"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Defense</th>
+                                            <td><input type="text" id="Part1_Defense1" tabindex="2"></td>
+                                            <td><input type="text" id="Part1_Defense2" tabindex="6"></td>
+                                            <td><input type="text" id="Part1_Defense3" tabindex="10"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>HP</th>
+                                            <td><input type="text" id="Part1_HP1" tabindex="3"></td>
+                                            <td><input type="text" id="Part1_HP2" tabindex="7"></td>
+                                            <td><input type="text" id="Part1_HP3" tabindex="11"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Luck</th>
+                                            <td><input type="text" id="Part1_Luck1" tabindex="4"></td>
+                                            <td><input type="text" id="Part1_Luck2" tabindex="8"></td>
+                                            <td><input type="text" id="Part1_Luck3" tabindex="12"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Stage Drop Bonus</th>
+                                            <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Survival Minutes</th>
+                                            <td><input type="text" id="Part1_SurvivalMiniute1" readonly></td>
+                                            <td><input type="text" id="Part1_SurvivalMiniute2" readonly></td>
+                                            <td><input type="text" id="Part1_SurvivalMiniute3" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Kill</th>
+                                            <td><input type="text" id="Part1_KillCount1" readonly></td>
+                                            <td><input type="text" id="Part1_KillCount2" readonly></td>
+                                            <td><input type="text" id="Part1_KillCount3" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">DropRate</th>
+                                            <td><input type="text" id="Part1_DropRate1" readonly></td>
+                                            <td><input type="text" id="Part1_DropRate2" readonly></td>
+                                            <td><input type="text" id="Part1_DropRate3" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Magic Water</th>
+                                            <td><input type="text" id="Part1_MW1" readonly></td>
+                                            <td><input type="text" id="Part1_MW2" readonly></td>
+                                            <td><input type="text" id="Part1_MW3" readonly></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Total Floors</th>
+                                            <td colspan="3"><input type="text" id="Part1_Total Floors" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Total Waters</th>
+                                            <td colspan="3"><input type="text" id="Part1_TotalMW" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Effective RebirthTime</th>
+                                            <td colspan="3"><input type="text" id="Part1_EffectiveRebirthTime" readonly></td>
+                                        </tr>
+                                    </table>
+
+                                    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br>
+                                    <input type="button" style="margin-top:10px" title="save now stat" onclick="save_now_stats()" value="save now stat">
+                                    <input type="button" style="margin-top:10px" title="load saved stat" onclick="load_saved_stats()" value="load saved stat">
+
+                                </div>
                                 
 							</section>
 
@@ -254,25 +250,38 @@
 					</div>
 
 				<!-- Footer -->
-					<footer id="footer">
+                    <footer id="footer">
                         <section>
                             <h2>Hello~ EOSKinights Players</h2>
-                            <p>Please feel free to send your opinion about adding new features and repoting bugs. 
-                            If this page is helped, please consider setting "kordeveloper" as your referrer   </p>
-                            <p><a href="previousIndex.html">You can use the previous versions of EOS Knights Calculator to click here </a></p>
+                            <p>
+                                Please feel free to send your opinion about adding new features and repoting bugs.
+                                If this page is helped, please consider setting "kordeveloper" as your referrer
+                            </p>
+
+                            <p><a href="previousIndex.html">You can use the previous versions of EOS Knights Calculator by clicking here </a></p>
+
                         </section>
-						<section>
-							<h2>Donating</h2>
+                        <section>
+                            <h2>Donating</h2>
                             <dl class="alt">
                                 <dt>EOSAccount</dt>
                                 <dd>kordeveloper</dd>
                                 <dt>Email</dt>
                                 <dd>kerriganhjh@naver.com</dd>
+                                <br />
+                                <dt>Donators&nbsp;&nbsp;:)</dt>
                             </dl>
-							 
-						</section>
-						<p class="copyright">&copy; Jinhyeon Hong.</p>
-					</footer>
+                            <div style="margin-top:-25px">
+                                <p>please write memo starting with "donating"</p>
+                                <a href="https://eosflare.io/tx/82c872d26f8f64d0e0484a2021db46d2e83cb62073484b7193013f830a60da45" target="_blank"> eos11godmuse : 0.1000 EOS </a><br />
+                            </div>
+                            
+
+                        </section>
+                         
+                        <p class="copyright">&copy; Jinhyeon Hong</p>
+                         
+                    </footer>
 
 			</div>
 
