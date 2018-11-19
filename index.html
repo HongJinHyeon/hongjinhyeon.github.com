@@ -155,9 +155,24 @@
                                         </tr>
                                     </table>
 
-                                    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br>
-                                    <input type="button" style="margin-top:10px" title="save now stat" onclick="save_now_stats()" value="save now stat">
-                                    <input type="button" style="margin-top:10px" title="load saved stat" onclick="load_saved_stats()" value="load saved stat">
+                                    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br><br>
+                                    
+                                    <table>
+                                        <label id="nextRebirthTime" style="color:red"></label>
+                                        <tr>
+                                            <td style="width: 120px">
+                                                <select name="rebirthRefKnightsDeadCount" style="width: 120px">
+                                                    <option value="1"  >1Dead</option>
+                                                    <option value="2"  >3Dead</option>
+                                                </select>
+                                            </td>
+                                            <td style="width: 100px;"> <input  type="button" onclick="startRebirthAlarm_func()" title="If you changed the Items or pet after calculate Max Floors, you must press one more befor start alarm"  value="start alarm"></td>
+                                            <td><input type="button"  onclick="stopRebirthAlarm_func()"  value="stop alarm"><br></td>
+                                        </tr>
+                                    </table>
+                                   
+                                    <input type="button" style="margin-top:10px" onclick="save_now_stats()" value="save now stat">
+                                    <input type="button" style="margin-top:10px" onclick="load_saved_stats()" value="load saved stat">
 
                                 </div>
                                 

@@ -66,6 +66,7 @@ function calculate_max_floors() {
     document.getElementById("Part1_Total Floors").value = maxFloor + " floors  |  " + (total_kill_count % 10) + "/10";
 
 
+    want_knightRebirthTime = effectiveRibirthTime;
     effectiveRibirthTime = parseInt(effectiveRibirthTime / 60);
 
     if (effectiveRibirthTime > 60) {
@@ -509,6 +510,7 @@ function load_playerMaxFoorAndNowPowder()
     if (this.readyState === this.DONE) {
 
         var resultObj = JSON.parse(this.responseText);
+        knightsLastRebirthTime = resultObj.rows[0].last_rebirth;
 
         document.getElementById("nowmaxfloorandpowder").innerHTML = " Your now max floors : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font> and have <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font> Magic Waters";
         
@@ -524,4 +526,94 @@ function enter_check()
     if(event.keyCode == 13){
         load_playerStatAndRevenue();
    }
+}
+
+function startRebirthAlarm_func()
+{
+    
+    if(knightsLastRebirthTime == "" || want_knightRebirthTime == "")
+    {
+        alert("First load account info and press the calculate button");
+        return;
+    }
+
+    /* document.getElementById("startRebirthAlarm").disabled = true;
+    document.getElementById("stopRebirthAlarm").disabled = false; */
+
+    startRebirthAlert();
+
+}
+
+
+function stopRebirthAlarm_func()
+{
+    stopAlert();
+    /* document.getElementById("startRebirthAlarm").disabled = false;
+    document.getElementById("stopRebirthAlarm").disabled = true;
+    //stopAlert(); */
+    /* snd.pause();
+    snd.currentTime = 0; */
+}
+
+var knightsLastRebirthTime = "";
+var want_knightRebirthTime = ""; 
+var snd = new Audio('knightAsset/audio/alarm01.mp3');
+snd.addEventListener('ended', function(){
+
+    this.currentTime=0;
+    this.play();
+
+},false);
+
+startRebirthAlert = function() 
+{
+
+    playAlert = setInterval(function() 
+    {
+        //1.get last_rebirthTime from api
+        load_playerMaxFoorAndNowPowder();
+        rebirthAlarmCheck();
+
+    }, 10000);
+
+  };
+  
+stopAlert = function() 
+{
+     clearInterval(playAlert);
+};
+
+function rebirthAlarmCheck()
+{
+    var nowTimeStamp =  ( Math.floor(Date.now() / 1000) );
+    console.log("nowTimeStamp:" +nowTimeStamp + ", RebirthTime : " + (knightsLastRebirthTime + want_knightRebirthTime + 1500000000));
+
+    displayNextRebirthTime();
+
+    if( (knightsLastRebirthTime + want_knightRebirthTime + 1500000000) <= nowTimeStamp)
+    {
+        playAlertAudio();
+    }
+
+}
+
+function playAlertAudio()
+{
+    stopAlert();
+    snd.play();
+    alert("It's time to rebirth!");
+    snd.pause();
+    snd.currentTime = 0;
+    startRebirthAlert();
+
+}
+
+function displayNextRebirthTime()
+{
+    var date = knightsLastRebirthTime + want_knightRebirthTime + 1500000000;
+    var t = new Date('1970-01-01');
+    t.setSeconds(t.getSeconds() + date);
+
+    document.getElementById("nextRebirthTime").innerHTML = t.getFullYear() + "-" + t.getMonth()+1 +"-"+ t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.setSeconds();
+
 }
