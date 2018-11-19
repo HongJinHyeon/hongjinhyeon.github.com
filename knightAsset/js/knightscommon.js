@@ -376,11 +376,12 @@ function load_saved_stats() {
 
 function load_palyerStatAndRevenue()
 {
-    load_palyerStat();
-    load_palyerRevenu();
+    load_playerStat();
+    load_playerRevenue();
+    load_palyerMaxFoorAndNowPowder();
 }
 
-function load_palyerStat()
+function load_playerStat()
 {
     
     var EOSAccountName = document.getElementById("EOSAccountName").value
@@ -455,7 +456,7 @@ function setStat(type, attack, def, hp, luck)
 }
 
 
-function load_palyerRevenu()
+function load_playerRevenue()
 {
     
     var EOSAccountName = document.getElementById("EOSAccountName").value
@@ -471,9 +472,10 @@ function load_palyerRevenu()
     if (this.readyState === this.DONE) {
 
         var resultObj = JSON.parse(this.responseText);
-        var profit = parseFloat(  resultObj.rows[0].selling.replace("EOS","")) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
+        //minus -3% tax
+        var profit = parseFloat(resultObj.rows[0].selling.replace("EOS","")) - (parseFloat(resultObj.rows[0].selling.replace("EOS","")) * 0.03) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
 
-        document.getElementById("revenue").innerHTML = " Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + ",Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS )";
+        document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + ",Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
 
         if (profit < 0) 
         {
@@ -484,6 +486,32 @@ function load_palyerRevenu()
             document.getElementById("revenue").style.color = "red";
         }
 
+    }
+    });
+
+    xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
+    xhr.send(data);
+}
+
+function load_palyerMaxFoorAndNowPowder()
+{
+    
+    var EOSAccountName = document.getElementById("EOSAccountName").value
+
+    if (EOSAccountName == "") return;
+   
+    var data = JSON.stringify({"json":true,"code":"eosknightsio","scope":"eosknightsio","table":"player","key_type":"name","lower_bound":EOSAccountName,"index_position":1,"limit":1});
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+
+        var resultObj = JSON.parse(this.responseText);
+
+        document.getElementById("nowmaxfloorandpowder").innerHTML = " Your now max floors : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font> and have <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font> Magic Waters";
+        
     }
     });
 
