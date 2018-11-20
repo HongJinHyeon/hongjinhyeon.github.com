@@ -708,7 +708,7 @@ function stopAlert()
 function rebirthAlarmCheck()
 {
     var nowTimeStamp =  ( Math.floor(Date.now() / 1000) );
-    console.log("nowTimeStamp:" +nowTimeStamp + ", RebirthTime : " + (knightsLastRebirthTime + want_knightRebirthTime + 1500000000));
+    //console.log("nowTimeStamp:" +nowTimeStamp + ", RebirthTime : " + (knightsLastRebirthTime + want_knightRebirthTime + 1500000000));
 
     displayNextRebirthTime();
 
@@ -747,11 +747,32 @@ function displayNextRebirthTime()
     t.setSeconds(t.getSeconds() + lastrbd);
 
     document.getElementById("lastRebirthTime").innerHTML = "Last Rebirth Time : " + t.getFullYear() + "-" + pad((t.getMonth()+1),2) +"-"+  pad(t.getDate(),2) + " " + pad(t.getHours(),2) + ":" + pad(t.getMinutes(),2) + ":" + pad(t.getSeconds(),2);
+    
+    var leftsecond = date - ( Math.floor(Date.now() /1000));
+    var leftmin;
 
+    if(leftsecond > 0)
+    {
+        leftmin = parseInt(leftsecond / 60);
+    }
+    else
+    {
+        leftmin = 0;
+    }
+    
     t = new Date('1970-01-01');
     t.setSeconds(t.getSeconds() + date);
 
-    
-    document.getElementById("nextRebirthTime").innerHTML = "Next Rebirth Time : " + t.getFullYear() + "-" + pad((t.getMonth()+1),2) +"-"+  pad(t.getDate(),2) + " " + pad(t.getHours(),2) + ":" + pad(t.getMinutes(),2) + ":" + pad(t.getSeconds(),2) + "( + " + parseInt(want_knightRebirthTime / 60) +" minutes )" ;
+    var displaylefthoursAndmin;
+
+    if (leftmin > 60) {
+        displaylefthoursAndmin =  parseInt(leftmin / 60) + " hours : " + pad(parseInt(leftmin % 60),2) + " minutes";
+    }
+    else {
+        displaylefthoursAndmin =  pad(leftmin,2) + " minutes";
+    }
+
+
+    document.getElementById("nextRebirthTime").innerHTML = "Next Rebirth Time : " + t.getFullYear() + "-" + pad((t.getMonth()+1),2) +"-"+  pad(t.getDate(),2) + " " + pad(t.getHours(),2) + ":" + pad(t.getMinutes(),2) + ":" + pad(t.getSeconds(),2) + " ( " + displaylefthoursAndmin +" left )" ;
 
 }
