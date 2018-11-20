@@ -41,7 +41,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-                        <h1>EOS Knights Calculartor Ver 3.4</h1>
+                        <h1>EOS Knights Calculartor Ver 5.0</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">If there are UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presented by <a href="">JinHyeon Hong</a> </p>
@@ -51,6 +51,7 @@
 					<nav id="nav">
                         <ul>
                             <li><a href="#MaxFloors" class="active">Max Floors</a></li>
+                            <li><a href="#RebirthAlarm">Rebirth Alarm</a></li>
                             <li><a href="#ItemMaxStat">Item's Max Stats</a></li>
                             <li><a href="#ItemOriginStat">Item's Origin Stat</a></li>
                             <li><a href="#footer">Contacts</a></li>
@@ -75,7 +76,7 @@
                                     <label id="nowmaxfloorandpowder"></label>
 
                                     <input type="text" id="EOSAccountName" tabindex="0" onkeydown="enter_check()">
-                                    <input style="margin-top:5px" type="button"  onclick="load_playerStatAndRevenue()" value="load account info and profit">
+                                    <input style="margin-top:5px" type="button" class="button primary"  onclick="load_playerStatAndRevenue()" value="load account info and profit">
 
                                     <br />
                                     <br />
@@ -155,28 +156,71 @@
                                         </tr>
                                     </table>
 
-                                    <input type="button" onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br><br>
-                                    
-                                    <table>
-                                        <label id="nextRebirthTime" style="color:red"></label>
-                                        <tr>
-                                            <td style="width: 120px">
-                                                <select name="rebirthRefKnightsDeadCount" style="width: 120px">
-                                                    <option value="1"  >1Dead</option>
-                                                    <option value="2"  >3Dead</option>
-                                                </select>
-                                            </td>
-                                            <td style="width: 100px;"> <input  type="button" onclick="startRebirthAlarm_func()" title="If you changed the Items or pet after calculate Max Floors, you must press one more befor start alarm"  value="start alarm"></td>
-                                            <td><input type="button"  onclick="stopRebirthAlarm_func()"  value="stop alarm"><br></td>
-                                        </tr>
-                                    </table>
-                                   
+                                    <input type="button"  onclick="calculate_max_floors()" value="calculate Max Floors" tabindex="14"><br><br>
                                     <input type="button" style="margin-top:10px" onclick="save_now_stats()" value="save now stat">
                                     <input type="button" style="margin-top:10px" onclick="load_saved_stats()" value="load saved stat">
 
                                 </div>
                                 
-							</section>
+                            </section>
+                            
+                            <section id="RebirthAlarm" class="main">
+                                    
+                                <div class="content">
+                                
+                                    <header class="major">
+                                        <h2>2.Rebirth Alarm</h2>
+                                    </header>
+                                
+                                    <p>
+                                        Before use this Rebirth Alarm, you <b>must</b> load account info and calcurate max floors.<br>
+                                        If you changed any Items or pet that affect the stat after calculate Max Floors, you have to press one more before start alarm.<br>
+                                        The Alarm Sound goes off for about 20 second.
+                                    </p>
+
+                                    <form method="post" action="#">
+
+                                            <div class="row gtr-uniform">
+                                                
+                                                <div class="col-12">
+                                                    <label id="lastRebirthTime" style="color:blue"></label>
+                                                    <label id="nextRebirthTime" style="color:red"></label>
+                                                </div>
+
+                                                <div class="col-7">
+                                                    <select id="rebirthKnightCount">
+                                                        <option value="1">After 1 Knight died</option>
+                                                        <option value="2">After 2 Knights died</option>
+                                                        <option value="3">After 3 Knights died</option>
+                                                        
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-5">
+                                                    <input type="text" id="alarmCheckIntervalMin" value="1" placeholder="Check Every Xmins"/>
+                                                </div>
+
+                                                <div class="col-12">
+                                                        <ul class="actions">
+                                                            <li><input id="startRebirthAlarm" class="" type="button" onclick="startRebirthAlarm_func()"  value="start alarm"/></li>
+                                                            <li><input id="stopRebirthAlarm" class="disabled" type="button" onclick="stopRebirthAlarm_func()"  value="stop alarm"/></li>
+                                                            <!-- <li><input id="pauseAlarmSound" class="disabled" type="button" onclick="pauseAlarmSound()"  value="off the sound"/></li> -->
+                                                        </ul>
+                                                    </div>
+    
+
+                                            </div>
+
+                                    </form>
+
+
+
+
+                                </div>
+
+
+
+                            </section>
 
 						<!-- Items' Max Stats Section -->
                             <section id="ItemMaxStat" class="main">
@@ -184,7 +228,7 @@
                                 <div class="content">
 
                                     <header class="major">
-                                        <h2>2.Item's Max Stat</h2>
+                                        <h2>3.Item's Max Stat</h2>
                                     </header>
 
                                     <table>
@@ -228,7 +272,7 @@
 						<!-- Item's Origin Stats Section -->
                             <section id="ItemOriginStat" class="main">
                                 <header class="major">
-                                    <h2>3.Item's Origin Stat</h2>
+                                    <h2>4.Item's Origin Stat</h2>
                                 </header>
 
                                 <table>

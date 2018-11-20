@@ -16,6 +16,7 @@ function calculate_max_floors() {
     defense = document.getElementById("Part1_Defense1").value;
     health = document.getElementById("Part1_HP1").value;
     max_sec = calculate_max_alive_time(defense, health);
+    rebirth1Sec = max_sec;
 
     effectiveRibirthTime = max_sec;
 
@@ -31,6 +32,7 @@ function calculate_max_floors() {
     defense = document.getElementById("Part1_Defense2").value;
     health = document.getElementById("Part1_HP2").value;
     max_sec = calculate_max_alive_time(defense, health);
+    rebirth2Sec = max_sec;
 
     if (max_sec < effectiveRibirthTime) {
         effectiveRibirthTime = max_sec;
@@ -50,6 +52,7 @@ function calculate_max_floors() {
     health = document.getElementById("Part1_HP3").value;
 
     max_sec = calculate_max_alive_time(defense, health);
+    rebirth3Sec = max_sec;
     current_kill_count = getTotalKillCount(attack, max_sec);
     total_kill_count += current_kill_count;
     killcount3 = current_kill_count;
@@ -328,6 +331,11 @@ function addComma(num) {
     return num.toString().replace(regexp, ',');
 }
 
+function pad(n, width) {
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+  }
+
 function setCookie(name, value) {
     var date = new Date();
     date.setTime(date.getTime() + 1000 * 24 * 60 * 60 * 1000);
@@ -536,12 +544,19 @@ function startRebirthAlarm_func()
         return;
     }
 
-    /* document.getElementById("startRebirthAlarm").disabled = true;
-    document.getElementById("stopRebirthAlarm").disabled = false; */
+    document.getElementById("startRebirthAlarm").className = "disabled";
+    document.getElementById("stopRebirthAlarm").classList.remove("disabled");
+    document.getElementById("stopRebirthAlarm").className = "primary";
 
+    setWantRebirthSec();
     displayNextRebirthTime();
 
     startRebirthAlert();
+
+    //initial start 1
+    setWantRebirthSec();
+    load_playerMaxFoorAndNowPowder();
+    rebirthAlarmCheck();
 
 }
 
@@ -549,36 +564,143 @@ function startRebirthAlarm_func()
 function stopRebirthAlarm_func()
 {
     stopAlert();
-    /* document.getElementById("startRebirthAlarm").disabled = false;
-    document.getElementById("stopRebirthAlarm").disabled = true;
+    document.getElementById("startRebirthAlarm").classList.remove("disabled");
+    document.getElementById("stopRebirthAlarm").className = "disabled";
     //stopAlert(); */
-    /* snd.pause();
-    snd.currentTime = 0; */
+    snd.pause();
+    snd.currentTime = 0;
 }
 
 var knightsLastRebirthTime = "";
+var rebirth1Sec;
+var rebirth2Sec;
+var rebirth3Sec;
 var want_knightRebirthTime = ""; 
 var snd = new Audio('knightAsset/audio/alarm01.mp3');
+var alarmplaycount = 0;
 
-snd.addEventListener('ended', function ()
-{
-    this.currentTime=0;
-    this.play();
-},false);
+//snd.addEventListener('ended', function ()
+//{
+    //only loop one more (twice )
+    //playtime is 21sec
 
-startRebirthAlert = function() 
+    /* if(alarmplaycount != 1)
+    {
+        alarmplaycount = 1;
+        this.currentTime=0;
+        this.play();
+    } */
+
+//    this.currentTime=0;
+//    this.play();
+ 
+
+//},false);
+
+function startRebirthAlert()
 {
+    var rebirthCheckInterval = document.getElementById("alarmCheckIntervalMin").value;
+
+    if(rebirthCheckInterval == "")
+    {
+        alert("set the alarm check interval");
+        return;
+    }
+
+    if(isNaN(rebirthCheckInterval)==true)
+    {
+        rebirthCheckInterval = 1;
+    }
+
+    setWantRebirthSec();
+ 
     playAlert = setInterval(function() 
     {
         //1.get last_rebirthTime from api
         load_playerMaxFoorAndNowPowder();
         rebirthAlarmCheck();
 
-    }, 10000);
+    }, rebirthCheckInterval * 60000);
 
-  };
+};
+
+function setWantRebirthSec()
+{
+    var rebirthKnightCountTarget = document.getElementById("rebirthKnightCount");
+    var selectedRebirthKinght = rebirthKnightCountTarget.options[rebirthKnightCountTarget.selectedIndex].value; 
+     
+        var firstSec; // max
+        var secondSec; //meduim
+        var thirdSec; //min
+
+        if(rebirth1Sec >= rebirth2Sec)
+        {
+            if(rebirth1Sec >= rebirth3Sec)
+            {
+                firstSec = rebirth1Sec;
+
+                if(rebirth3Sec >= rebirth2Sec)
+                {
+                    secondSec = rebirth3Sec;
+                    thirdSec =rebirth2Sec;
+                }
+                else
+                {
+                    secondSec = rebirth2Sec;
+                    thirdSec =rebirth3Sec;
+                }
+            }
+            else
+            {
+                firstSec = rebirth3Sec;
+                secondSec = rebirth1Sec;
+                thirdSec =rebirth2Sec;
+            }
+        }
+        else
+        {
+            if(rebirth2Sec >= rebirth3Sec)
+            {
+                firstSec = rebirth2Sec;
+
+                if(rebirth3Sec >= rebirth1Sec)
+                {
+                    secondSec = rebirth3Sec;
+                    thirdSec =rebirth1Sec;
+                }
+                else
+                {
+                    secondSec = rebirth1Sec;
+                    thirdSec =rebirth3Sec;
+                }
+            }
+            else
+            {
+                firstSec = rebirth3Sec;
+                secondSec = rebirth2Sec;
+                thirdSec =rebirth1Sec;
+            }
+        }
+ 
+        if(selectedRebirthKinght=="1")
+        {
+            want_knightRebirthTime = thirdSec;
+        }
+        else if(selectedRebirthKinght=="2")
+        {
+            //medium
+            want_knightRebirthTime = secondSec;
+        }
+        else
+        {
+            //max value
+            want_knightRebirthTime = firstSec;
+        }
+
+    
+}
   
-stopAlert = function() 
+function stopAlert()
 {
      clearInterval(playAlert);
 };
@@ -599,21 +721,37 @@ function rebirthAlarmCheck()
 
 function playAlertAudio()
 {
-    stopAlert();
-    snd.currentTime = 0;
+    //stopAlert();
+    //snd.currentTime = 0;
+    //alarmplaycount = 0;
     snd.play();
-    alert("It's time to rebirth!");
+    //alert("It's time to rebirth!");
+    /* alert("It's time to rebirth!");
     snd.pause();
     snd.currentTime = 0;
-    startRebirthAlert();
+    startRebirthAlert(); */
+}
+
+function pauseAlarmSound()
+{
+    alarmplaycount = 0;
+    snd.pause();
+    this.currentTime=0;
 }
 
 function displayNextRebirthTime()
 {
     var date = knightsLastRebirthTime + want_knightRebirthTime + 1500000000;
+    var lastrbd = knightsLastRebirthTime + 1500000000;
     var t = new Date('1970-01-01');
+    t.setSeconds(t.getSeconds() + lastrbd);
+
+    document.getElementById("lastRebirthTime").innerHTML = "Last Rebirth Time : " + t.getFullYear() + "-" + pad((t.getMonth()+1),2) +"-"+  pad(t.getDate(),2) + " " + pad(t.getHours(),2) + ":" + pad(t.getMinutes(),2) + ":" + pad(t.getSeconds(),2);
+
+    t = new Date('1970-01-01');
     t.setSeconds(t.getSeconds() + date);
 
-    document.getElementById("nextRebirthTime").innerHTML = " Next Rebirth Time : " + t.getFullYear() + "-" + (t.getMonth()+1) +"-"+ t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
+    
+    document.getElementById("nextRebirthTime").innerHTML = "Next Rebirth Time : " + t.getFullYear() + "-" + pad((t.getMonth()+1),2) +"-"+  pad(t.getDate(),2) + " " + pad(t.getHours(),2) + ":" + pad(t.getMinutes(),2) + ":" + pad(t.getSeconds(),2) + "( + " + parseInt(want_knightRebirthTime / 60) +" minutes )" ;
 
 }
