@@ -1,3 +1,9 @@
+
+var attack1;
+var attack2;
+var attack3;
+
+
 function calculate_max_floors() {
     var max_sec;
     var current_kill_count;
@@ -10,6 +16,7 @@ function calculate_max_floors() {
     var killcount1;
     var killcount2;
     var killcount3;
+      
 
     //knight
     attack = document.getElementById("Part1_Attack1").value;
@@ -17,6 +24,7 @@ function calculate_max_floors() {
     health = document.getElementById("Part1_HP1").value;
     max_sec = calculate_max_alive_time(defense, health);
     rebirth1Sec = max_sec;
+    attack1 = attack;
 
     effectiveRibirthTime = max_sec;
 
@@ -33,6 +41,7 @@ function calculate_max_floors() {
     health = document.getElementById("Part1_HP2").value;
     max_sec = calculate_max_alive_time(defense, health);
     rebirth2Sec = max_sec;
+    attack2 = attack;
 
     if (max_sec < effectiveRibirthTime) {
         effectiveRibirthTime = max_sec;
@@ -50,6 +59,7 @@ function calculate_max_floors() {
     attack = document.getElementById("Part1_Attack3").value;
     defense = document.getElementById("Part1_Defense3").value;
     health = document.getElementById("Part1_HP3").value;
+    attack3 = attack;
 
     max_sec = calculate_max_alive_time(defense, health);
     rebirth3Sec = max_sec;
@@ -550,11 +560,9 @@ function startRebirthAlarm_func()
 
     setWantRebirthSec();
     displayNextRebirthTime();
-
     startRebirthAlert();
 
     //initial start 1
-    setWantRebirthSec();
     load_playerMaxFoorAndNowPowder();
     rebirthAlarmCheck();
 
@@ -624,80 +632,107 @@ function startRebirthAlert()
 
 };
 
+var maxliveSecList = new Array();
+var attackList = new Array();
+
 function setWantRebirthSec()
 {
     var rebirthKnightCountTarget = document.getElementById("rebirthKnightCount");
     var selectedRebirthKinght = rebirthKnightCountTarget.options[rebirthKnightCountTarget.selectedIndex].value; 
      
-        var firstSec; // max
-        var secondSec; //meduim
-        var thirdSec; //min
+        //0 max
+        //1 meduim
+        //2 min
 
         if(rebirth1Sec >= rebirth2Sec)
         {
             if(rebirth1Sec >= rebirth3Sec)
             {
-                firstSec = rebirth1Sec;
+                maxliveSecList[0] = rebirth1Sec;
+                attackList[0] = attack1;
 
                 if(rebirth3Sec >= rebirth2Sec)
                 {
-                    secondSec = rebirth3Sec;
-                    thirdSec =rebirth2Sec;
+                    maxliveSecList[1] = rebirth3Sec;
+                    maxliveSecList[2] = rebirth2Sec;
+
+                    attackList[1] = attack3;
+                    attackList[2] = attack2;
                 }
                 else
                 {
-                    secondSec = rebirth2Sec;
-                    thirdSec =rebirth3Sec;
+                    maxliveSecList[1] = rebirth2Sec;
+                    maxliveSecList[2] = rebirth3Sec;
+
+                    attackList[1] = attack2;
+                    attackList[2] = attack3;
                 }
             }
             else
             {
-                firstSec = rebirth3Sec;
-                secondSec = rebirth1Sec;
-                thirdSec =rebirth2Sec;
+                maxliveSecList[0] = rebirth3Sec;
+                maxliveSecList[1] = rebirth1Sec;
+                maxliveSecList[2] = rebirth2Sec;
+
+                attackList[0] = attack3;
+                attackList[1] = attack1;
+                attackList[2] = attack2;
+
             }
         }
         else
         {
             if(rebirth2Sec >= rebirth3Sec)
             {
-                firstSec = rebirth2Sec;
+                maxliveSecList[0] = rebirth2Sec;
+                attackList[0] = attack2;
 
                 if(rebirth3Sec >= rebirth1Sec)
                 {
-                    secondSec = rebirth3Sec;
-                    thirdSec =rebirth1Sec;
+                    maxliveSecList[1] = rebirth3Sec;
+                    maxliveSecList[2] = rebirth1Sec;
+
+                    attackList[1] = attack3;
+                    attackList[2] = attack1;
+
                 }
                 else
                 {
-                    secondSec = rebirth1Sec;
-                    thirdSec =rebirth3Sec;
+                    maxliveSecList[1] = rebirth1Sec;
+                    maxliveSecList[2] = rebirth3Sec;
+
+                    attackList[1] = attack1;
+                    attackList[2] = attack3;
                 }
             }
             else
             {
-                firstSec = rebirth3Sec;
-                secondSec = rebirth2Sec;
-                thirdSec =rebirth1Sec;
+               maxliveSecList[0] = rebirth3Sec;
+               maxliveSecList[1] = rebirth2Sec;
+               maxliveSecList[2] = rebirth1Sec;
+
+               attackList[0] = attack3;
+               attackList[1] = attack2;
+               attackList[2] = attack1;
+
             }
         }
  
         if(selectedRebirthKinght=="1")
         {
-            want_knightRebirthTime = thirdSec;
+            want_knightRebirthTime = maxliveSecList[2];
         }
         else if(selectedRebirthKinght=="2")
         {
             //medium
-            want_knightRebirthTime = secondSec;
+            want_knightRebirthTime = maxliveSecList[1];
         }
         else
         {
             //max value
-            want_knightRebirthTime = firstSec;
+            want_knightRebirthTime = maxliveSecList[0];
         }
-
-    
+     
 }
   
 function stopAlert()
@@ -705,31 +740,77 @@ function stopAlert()
      clearInterval(playAlert);
 };
 
+function getSecTargetFloor(_targetFloor)
+{
+    var targetKillCount = _targetFloor * 10;
+    var returnRebirthSec;
+    //0 max, 1 middle , 2 min
+
+    //var maxliveSecList = new Array();
+    //var attackList = new Array();
+    var temp_attack_sum = attackList[0] + attackList[1] + attackList[2];
+
+    //1.총 3명의 공격력 합을 minlivesec 시간을 곱해서 킬카운트를 구한다.
+
+    var temp_kill_count = parseInt(temp_attack_sum * maxliveSecList[2] / 60 / 200);
+    var kill_count_sum = temp_kill_count;
+
+    if (temp_kill_count >= targetKillCount)
+    {
+        //1명의 기사가 죽기전에 킬카운트를 충촉할때
+        returnRebirthSec = parseInt((targetKillCount * 60 * 200) / temp_attack_sum);
+    }
+    else
+    {
+        //2번째 기사가 죽기전까지 킬카운트 계산
+        temp_attack_sum = attackList[0] + attackList[1];
+        temp_kill_count = parseInt(temp_attack_sum * (maxliveSecList[1] - maxliveSecList[2]) / 60 / 200);
+
+        if ((kill_count_sum + temp_kill_count) >= targetKillCount)
+        {
+            //2번째 기사가 죽기전에 킬카운트를 충족할때
+            var secondKillSec = parseInt(((targetKillCount - kill_count_sum) * 60 * 200) / temp_attack_sum);
+            returnRebirthSec = maxliveSecList[2] + secondKillSec;
+        }
+        else
+        {
+            //3번째 기사가 
+            kill_count_sum += temp_kill_count; //2번째 기사것까지 더하기(1번기사 +2번기사까지 합)
+            temp_attack_sum = attackList[0];
+            temp_kill_count = parseInt(temp_attack_sum * (maxliveSecList[0] - maxliveSecList[1]) / 60 / 200);
+
+            if ((kill_count_sum + temp_kill_count) >= targetKillCount)
+            {
+
+                //3번째 기사가 죽기전에 충족할때
+                var thirdKillSec = parseInt(((targetKillCount - kill_count_sum) * 60 * 200) / temp_attack_sum);
+                returnRebirthSec = maxliveSecList[1] + thirdKillSec;
+            }
+            else
+            {
+                returnRebirthSec = maxliveSecList[0];
+            }
+        }
+         
+
+    }
+
+    want_knightRebirthTime = returnRebirthSec;
+     
+}
+
+
 function rebirthAlarmCheck()
 {
     var nowTimeStamp =  ( Math.floor(Date.now() / 1000) );
-    //console.log("nowTimeStamp:" +nowTimeStamp + ", RebirthTime : " + (knightsLastRebirthTime + want_knightRebirthTime + 1500000000));
 
     displayNextRebirthTime();
 
     if( (knightsLastRebirthTime + want_knightRebirthTime + 1500000000) <= nowTimeStamp)
     {
-        playAlertAudio();
+        snd.play();
     }
 
-}
-
-function playAlertAudio()
-{
-    //stopAlert();
-    //snd.currentTime = 0;
-    //alarmplaycount = 0;
-    snd.play();
-    //alert("It's time to rebirth!");
-    /* alert("It's time to rebirth!");
-    snd.pause();
-    snd.currentTime = 0;
-    startRebirthAlert(); */
 }
 
 function pauseAlarmSound()
