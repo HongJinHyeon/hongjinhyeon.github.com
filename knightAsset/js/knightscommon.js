@@ -22,12 +22,24 @@ function calculate_max_floors()
     var killcount1;
     var killcount2;
     var killcount3;
-      
+
+    var cbChangeStatAfterCalulation = document.getElementById("changeStatAfterCalulate").checked;
+
+    
+    
 
     //knight
-    attack = document.getElementById("Part1_Attack1").value;
-    defense = document.getElementById("Part1_Defense1").value;
-    health = document.getElementById("Part1_HP1").value;
+    attack = getCalculatedValue(document.getElementById("Part1_Attack1").value);
+    defense = getCalculatedValue(document.getElementById("Part1_Defense1").value);
+    health = getCalculatedValue(document.getElementById("Part1_HP1").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Attack1").value = attack;
+        document.getElementById("Part1_Defense1").value = defense;
+        document.getElementById("Part1_HP1").value = health;
+    }
+
     max_sec = calculate_max_alive_time(defense, health);
     rebirth1Sec = max_sec;
     attack1 = attack;
@@ -42,9 +54,17 @@ function calculate_max_floors()
     document.getElementById("Part1_KillCount1").value = addComma(current_kill_count);
 
     //Archer
-    attack = document.getElementById("Part1_Attack2").value;
-    defense = document.getElementById("Part1_Defense2").value;
-    health = document.getElementById("Part1_HP2").value;
+    attack = getCalculatedValue(document.getElementById("Part1_Attack2").value);
+    defense = getCalculatedValue(document.getElementById("Part1_Defense2").value);
+    health = getCalculatedValue(document.getElementById("Part1_HP2").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Attack2").value = attack;
+        document.getElementById("Part1_Defense2").value = defense;
+        document.getElementById("Part1_HP2").value = health;
+    }
+
     max_sec = calculate_max_alive_time(defense, health);
     rebirth2Sec = max_sec;
     attack2 = attack;
@@ -62,10 +82,17 @@ function calculate_max_floors()
     document.getElementById("Part1_KillCount2").value = addComma(current_kill_count);
 
     //Mage
-    attack = document.getElementById("Part1_Attack3").value;
-    defense = document.getElementById("Part1_Defense3").value;
-    health = document.getElementById("Part1_HP3").value;
+    attack = getCalculatedValue(document.getElementById("Part1_Attack3").value);
+    defense = getCalculatedValue(document.getElementById("Part1_Defense3").value);
+    health = getCalculatedValue(document.getElementById("Part1_HP3").value);
     attack3 = attack;
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Attack3").value = attack;
+        document.getElementById("Part1_Defense3").value = defense;
+        document.getElementById("Part1_HP3").value = health;
+    }
 
     max_sec = calculate_max_alive_time(defense, health);
     rebirth3Sec = max_sec;
@@ -107,7 +134,14 @@ function calculate_max_floors()
     var dropMaterialCount1;
 
     //1.knight
-    drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck1").value);
+    var nowluck = getCalculatedValue(document.getElementById("Part1_Luck1").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Luck1").value = nowluck; 
+    }
+
+    drop_rate = get_drop_rate_with_luck(nowluck);
     drop_rate += floor_drop_bonus;
 
 
@@ -121,7 +155,14 @@ function calculate_max_floors()
     document.getElementById("Part1_DropAncient1").value  = prop(prop_acient,dropMaterialCount1) + " %";
 
     //2.Archer
-    drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck2").value);
+    nowluck = getCalculatedValue(document.getElementById("Part1_Luck2").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Luck2").value = nowluck; 
+    }
+
+    drop_rate = get_drop_rate_with_luck(nowluck);
     drop_rate += floor_drop_bonus;
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
@@ -135,7 +176,14 @@ function calculate_max_floors()
 
 
     //3.Mage
-    drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck3").value);
+    nowluck = getCalculatedValue(document.getElementById("Part1_Luck3").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Luck3").value = nowluck; 
+    }
+
+    drop_rate = get_drop_rate_with_luck(nowluck);
     drop_rate += floor_drop_bonus;
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
@@ -185,6 +233,52 @@ function pad(n, width)
 {
     n = n + '';
     return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+}
+
+function getCalculatedValue(originInput)
+{
+    if(originInput == "")
+    {
+        return "";
+    }
+
+    var parseData;
+    var sumvalue = 0;
+
+    if(originInput.includes("+"))
+    {
+        parseData = originInput.split('+');
+
+        for ( var i in parseData ) 
+        {
+          sumvalue += Number(parseData[i]) ;
+        }
+
+    }
+    else if(originInput.includes("-"))
+    {
+        parseData = originInput.split('-');
+
+        for ( var i in parseData ) 
+        {
+            if(i==0)
+            {
+                sumvalue = Number(parseData[i]);
+            }
+            else
+            {
+                sumvalue -=  Number(parseData[i]) ;
+            }
+          
+        }
+    }
+    else
+    {
+        return originInput;
+    }
+
+    return sumvalue;
+    
 }
 
 function get_MagicWater(kill_count, luck, maxFloor) {
