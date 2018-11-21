@@ -3,8 +3,14 @@ var attack1;
 var attack2;
 var attack3;
 
+var prop_unique1 = 0.0001283109616;
+var prop_unique2 = 0.00006415548081;
+var prop_legendary = 0.000008019435101;
+var prop_acient = 0.0000005012146938;
 
-function calculate_max_floors() {
+
+function calculate_max_floors() 
+{
     var max_sec;
     var current_kill_count;
     var attack;
@@ -93,10 +99,12 @@ function calculate_max_floors() {
 
 
     //Drop Rate
+    //calculate material drop rate
+
     var kv_floor_bonus_1000 = 20.0;
     var floor_drop_bonus = kv_floor_bonus_1000 * (maxFloor / 1000.0);
     var drop_rate;
-
+    var dropMaterialCount1;
 
     //1.knight
     drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck1").value);
@@ -105,7 +113,12 @@ function calculate_max_floors() {
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
     document.getElementById("Part1_DropRate1").value = drop_rate.toFixed(2) + " %";
-
+ 
+    dropMaterialCount1 = (Number(killcount1) * drop_rate / 100);
+    document.getElementById("Part1_DropUnique1_1").value  = prop(prop_unique1,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropUnique2_1").value  = prop(prop_unique2,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropLegendary1").value  = prop(prop_legendary,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropAncient1").value  = prop(prop_acient,dropMaterialCount1) + " %";
 
     //2.Archer
     drop_rate = get_drop_rate_with_luck(document.getElementById("Part1_Luck2").value);
@@ -113,6 +126,12 @@ function calculate_max_floors() {
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
     document.getElementById("Part1_DropRate2").value = drop_rate.toFixed(2) + " %";
+
+    dropMaterialCount1 = (Number(killcount2) * drop_rate / 100);
+    document.getElementById("Part1_DropUnique1_2").value  = prop(prop_unique1,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropUnique2_2").value  = prop(prop_unique2,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropLegendary2").value  = prop(prop_legendary,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropAncient2").value  = prop(prop_acient,dropMaterialCount1) + " %";
 
 
     //3.Mage
@@ -122,8 +141,12 @@ function calculate_max_floors() {
     if (drop_rate > 100.0) { drop_rate = 100.0; }
     document.getElementById("Part1_DropRate3").value = drop_rate.toFixed(2) + " %";
 
-
-
+    dropMaterialCount1 = (Number(killcount3) * drop_rate / 100);
+    document.getElementById("Part1_DropUnique1_3").value  = prop(prop_unique1,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropUnique2_3").value  = prop(prop_unique2,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropLegendary3").value  = prop(prop_legendary,dropMaterialCount1) + " %";
+    document.getElementById("Part1_DropAncient3").value  = prop(prop_acient,dropMaterialCount1) + " %";
+    
     //[Magic Water]
     var mw_killcount;
     var mw_luck;
@@ -152,7 +175,12 @@ function calculate_max_floors() {
 
 
 }
- 
+
+function prop(_p,_c)
+{
+    return parseFloat( (1 - Math.pow((1-_p),_c)) * 100).toFixed(6);
+}
+
 function pad(n, width) 
 {
     n = n + '';
