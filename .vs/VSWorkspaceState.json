@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\knightAsset",
+    "\\knightAsset\\audio",
     "\\knightAsset\\js"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\knightAsset\\js\\knightscommon.js",
   "PreviewInSolutionExplorer": false
 }
