@@ -22,7 +22,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-                        <h1>EOS Knights Calculator Ver 5.1</h1>
+                        <h1>EOS Knights Calculator Ver 5.2</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">If there are UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presented by <a href="">JinHyeon Hong</a> </p>
@@ -169,16 +169,16 @@
                                                 </div>
 
                                                 <div class="col-8">
-                                                    <select id="rebirthKnightCount">
+                                                    <select id="rebirthKnightCount" onchange="rebirthKnightsTypeChanged()">
                                                         <option value="1">After 1 Knight died</option>
                                                         <option value="2">After 2 Knights died</option>
                                                         <option value="3">After 3 Knights died</option>
-                                                        
+                                                        <option value="4">Target Floors</option>
                                                     </select>
                                                 </div>
 
                                                 <div class="col-4">
-                                                    <input type="text" id="alarmCheckIntervalMin" value="1" placeholder="Check Every Xmins"/>
+                                                    <input type="text" style="visibility:hidden"  id="rebirthTargetFloor" title="If knights can reach target floors,It set the rebirth time as max survival time of your knights" value="500" placeholder="target floors"/>
                                                 </div>
 
                                                 <div class="col-12">
@@ -223,7 +223,7 @@
                                             <td><input type="text" id="Part2_NowItemLevel" value="1" tabindex="15"></td>
                                         </tr>
                                         <tr>
-                                            <th>Target Level</th>
+                                            <th>TargetLevel</th>
                                             <td><input type="text" id="Part2_TargetItemLevel" value="5" tabindex="16"></td>
                                         </tr>
                                         <tr>
@@ -263,7 +263,7 @@
                                         <th>Result</th>
                                     </tr>
                                     <tr>
-                                        <th>Now Level</th>
+                                        <th>NowLevel</th>
                                         <td><input type="text" id="Part3_NowItemLevel" tabindex="21"></td>
                                     </tr>
                                     <tr>
@@ -313,6 +313,8 @@
                             </dl>
                             <div style="margin-top:-25px">
                                 <p>please write memo starting with "donating"</p>
+                                <a href="https://eosflare.io/tx/2cd03d3e39bcecab3fc6b84bfeca48600a441285cf0d305a75801de7b5cad610" target="_blank"> donald1trump : 1.0000 EOS </a><br />
+                                <a href="https://eosflare.io/tx/4233c7c34b2f0bf12d26d226761382e662fa532e0c9633ca5fc40b018dcd6049" target="_blank"> gq3daobrhege : 1.0000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/afffc0ef93a41a059a31d1cc1bfffd3695eadd7bd0238f68cbe9f18a98117434" target="_blank"> bootiboxboot : 0.2000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/82c872d26f8f64d0e0484a2021db46d2e83cb62073484b7193013f830a60da45" target="_blank"> eos11godmuse : 0.1000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/be760606b86b289a68cfa5f99d9839442cfcf417b63f6159d9d67126aab022f1" target="_blank"> guzdcnztgige : 0.1000 EOS </a><br />

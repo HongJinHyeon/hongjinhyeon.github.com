@@ -152,7 +152,7 @@ function calculate_max_floors() {
 
 
 }
-
+ 
 function pad(n, width) 
 {
     n = n + '';
@@ -554,6 +554,21 @@ function startRebirthAlarm_func()
         return;
     }
 
+    var rebirthKnightCountTarget = document.getElementById("rebirthKnightCount");
+    var selectedRebirthType = rebirthKnightCountTarget.options[rebirthKnightCountTarget.selectedIndex].value; 
+
+    if(selectedRebirthType=="4")
+    {
+        var rebirthKnightCountTarget = document.getElementById("rebirthTargetFloor").value;
+
+        if(rebirthKnightCountTarget == "")
+        {
+            alert("First set the Target Floors");
+            return;
+        }
+        
+    }
+
     document.getElementById("startRebirthAlarm").className = "disabled";
     document.getElementById("stopRebirthAlarm").classList.remove("disabled");
     document.getElementById("stopRebirthAlarm").className = "primary";
@@ -565,6 +580,22 @@ function startRebirthAlarm_func()
     //initial start 1
     load_playerMaxFoorAndNowPowder();
     rebirthAlarmCheck();
+
+}
+
+function rebirthKnightsTypeChanged()
+{
+    var rebirthKnightCountTarget = document.getElementById("rebirthKnightCount");
+    var selectedRebirthType = rebirthKnightCountTarget.options[rebirthKnightCountTarget.selectedIndex].value; 
+
+    if(selectedRebirthType=="4")
+    {
+        document.getElementById("rebirthTargetFloor").style.visibility ="visible";
+    }
+    else
+    {
+        document.getElementById("rebirthTargetFloor").style.visibility ="hidden";
+    }
 
 }
 
@@ -607,19 +638,19 @@ var alarmplaycount = 0;
 
 function startRebirthAlert()
 {
-    var rebirthCheckInterval = document.getElementById("alarmCheckIntervalMin").value;
+    /* var rebirthCheckInterval = document.getElementById("alarmCheckIntervalMin").value;
 
     if(rebirthCheckInterval == "")
     {
         alert("set the alarm check interval");
         return;
-    }
+    } */
 
-    if(isNaN(rebirthCheckInterval)==true)
+   /*  if(isNaN(rebirthCheckInterval)==true)
     {
         rebirthCheckInterval = 1;
     }
-
+ */
     setWantRebirthSec();
  
     playAlert = setInterval(function() 
@@ -628,7 +659,7 @@ function startRebirthAlert()
         load_playerMaxFoorAndNowPowder();
         rebirthAlarmCheck();
 
-    }, rebirthCheckInterval * 60000);
+    }, 1 * 60000);
 
 };
 
@@ -638,91 +669,100 @@ var attackList = new Array();
 function setWantRebirthSec()
 {
     var rebirthKnightCountTarget = document.getElementById("rebirthKnightCount");
-    var selectedRebirthKinght = rebirthKnightCountTarget.options[rebirthKnightCountTarget.selectedIndex].value; 
-     
-        //0 max
-        //1 meduim
-        //2 min
+    var selectedRebirthType = rebirthKnightCountTarget.options[rebirthKnightCountTarget.selectedIndex].value; 
+    //0 max
+    //1 meduim
+    //2 min
 
-        if(rebirth1Sec >= rebirth2Sec)
+    //
+
+    if(rebirth1Sec >= rebirth2Sec)
+    {
+        if(rebirth1Sec >= rebirth3Sec)
         {
-            if(rebirth1Sec >= rebirth3Sec)
+            maxliveSecList[0] = rebirth1Sec;
+            attackList[0] = attack1;
+
+            if(rebirth3Sec >= rebirth2Sec)
             {
-                maxliveSecList[0] = rebirth1Sec;
-                attackList[0] = attack1;
+                maxliveSecList[1] = rebirth3Sec;
+                maxliveSecList[2] = rebirth2Sec;
 
-                if(rebirth3Sec >= rebirth2Sec)
-                {
-                    maxliveSecList[1] = rebirth3Sec;
-                    maxliveSecList[2] = rebirth2Sec;
-
-                    attackList[1] = attack3;
-                    attackList[2] = attack2;
-                }
-                else
-                {
-                    maxliveSecList[1] = rebirth2Sec;
-                    maxliveSecList[2] = rebirth3Sec;
-
-                    attackList[1] = attack2;
-                    attackList[2] = attack3;
-                }
+                attackList[1] = attack3;
+                attackList[2] = attack2;
             }
             else
             {
-                maxliveSecList[0] = rebirth3Sec;
-                maxliveSecList[1] = rebirth1Sec;
-                maxliveSecList[2] = rebirth2Sec;
+                maxliveSecList[1] = rebirth2Sec;
+                maxliveSecList[2] = rebirth3Sec;
 
-                attackList[0] = attack3;
-                attackList[1] = attack1;
-                attackList[2] = attack2;
-
+                attackList[1] = attack2;
+                attackList[2] = attack3;
             }
         }
         else
         {
-            if(rebirth2Sec >= rebirth3Sec)
+            maxliveSecList[0] = rebirth3Sec;
+            maxliveSecList[1] = rebirth1Sec;
+            maxliveSecList[2] = rebirth2Sec;
+
+            attackList[0] = attack3;
+            attackList[1] = attack1;
+            attackList[2] = attack2;
+
+        }
+    }
+    else
+    {
+        if(rebirth2Sec >= rebirth3Sec)
+        {
+            maxliveSecList[0] = rebirth2Sec;
+            attackList[0] = attack2;
+
+            if(rebirth3Sec >= rebirth1Sec)
             {
-                maxliveSecList[0] = rebirth2Sec;
-                attackList[0] = attack2;
+                maxliveSecList[1] = rebirth3Sec;
+                maxliveSecList[2] = rebirth1Sec;
 
-                if(rebirth3Sec >= rebirth1Sec)
-                {
-                    maxliveSecList[1] = rebirth3Sec;
-                    maxliveSecList[2] = rebirth1Sec;
+                attackList[1] = attack3;
+                attackList[2] = attack1;
 
-                    attackList[1] = attack3;
-                    attackList[2] = attack1;
-
-                }
-                else
-                {
-                    maxliveSecList[1] = rebirth1Sec;
-                    maxliveSecList[2] = rebirth3Sec;
-
-                    attackList[1] = attack1;
-                    attackList[2] = attack3;
-                }
             }
             else
             {
-               maxliveSecList[0] = rebirth3Sec;
-               maxliveSecList[1] = rebirth2Sec;
-               maxliveSecList[2] = rebirth1Sec;
+                maxliveSecList[1] = rebirth1Sec;
+                maxliveSecList[2] = rebirth3Sec;
 
-               attackList[0] = attack3;
-               attackList[1] = attack2;
-               attackList[2] = attack1;
-
+                attackList[1] = attack1;
+                attackList[2] = attack3;
             }
         }
- 
-        if(selectedRebirthKinght=="1")
+        else
+        {
+           maxliveSecList[0] = rebirth3Sec;
+           maxliveSecList[1] = rebirth2Sec;
+           maxliveSecList[2] = rebirth1Sec;
+
+           attackList[0] = attack3;
+           attackList[1] = attack2;
+           attackList[2] = attack1;
+
+        }
+    }
+
+    if(selectedRebirthType =="4")
+    {
+        //seleted floor
+        var rebirthKnightCountTarget = document.getElementById("rebirthTargetFloor").value;
+        getSecTargetFloor(rebirthKnightCountTarget);
+    }
+    else
+    {
+        if(selectedRebirthType=="1")
         {
             want_knightRebirthTime = maxliveSecList[2];
         }
-        else if(selectedRebirthKinght=="2")
+        else if(selectedRebirthType=="2")
         {
             //medium
             want_knightRebirthTime = maxliveSecList[1];
@@ -732,6 +772,8 @@ function setWantRebirthSec()
             //max value
             want_knightRebirthTime = maxliveSecList[0];
         }
+    }
+    
      
 }
   
@@ -745,56 +787,49 @@ function getSecTargetFloor(_targetFloor)
     var targetKillCount = _targetFloor * 10;
     var returnRebirthSec;
     //0 max, 1 middle , 2 min
-
-    //var maxliveSecList = new Array();
-    //var attackList = new Array();
-    var temp_attack_sum = attackList[0] + attackList[1] + attackList[2];
-
-    //1.총 3명의 공격력 합을 minlivesec 시간을 곱해서 킬카운트를 구한다.
+ 
+    var temp_attack_sum = Number(attackList[0]) + Number(attackList[1]) + Number(attackList[2]);
 
     var temp_kill_count = parseInt(temp_attack_sum * maxliveSecList[2] / 60 / 200);
     var kill_count_sum = temp_kill_count;
 
     if (temp_kill_count >= targetKillCount)
     {
-        //1명의 기사가 죽기전에 킬카운트를 충촉할때
+        //3rd knight survival time meet the target floors
         returnRebirthSec = parseInt((targetKillCount * 60 * 200) / temp_attack_sum);
     }
     else
     {
-        //2번째 기사가 죽기전까지 킬카운트 계산
-        temp_attack_sum = attackList[0] + attackList[1];
+        temp_attack_sum = Number(attackList[0]) + Number(attackList[1]);
         temp_kill_count = parseInt(temp_attack_sum * (maxliveSecList[1] - maxliveSecList[2]) / 60 / 200);
 
         if ((kill_count_sum + temp_kill_count) >= targetKillCount)
         {
-            //2번째 기사가 죽기전에 킬카운트를 충족할때
+            //2nd kinght survial time meet the target floors
             var secondKillSec = parseInt(((targetKillCount - kill_count_sum) * 60 * 200) / temp_attack_sum);
             returnRebirthSec = maxliveSecList[2] + secondKillSec;
         }
         else
         {
-            //3번째 기사가 
-            kill_count_sum += temp_kill_count; //2번째 기사것까지 더하기(1번기사 +2번기사까지 합)
-            temp_attack_sum = attackList[0];
+            kill_count_sum += temp_kill_count;
+            temp_attack_sum = Number(attackList[0]);
             temp_kill_count = parseInt(temp_attack_sum * (maxliveSecList[0] - maxliveSecList[1]) / 60 / 200);
 
             if ((kill_count_sum + temp_kill_count) >= targetKillCount)
             {
-
-                //3번째 기사가 죽기전에 충족할때
+                //1st kinight servial time meet the target floors
                 var thirdKillSec = parseInt(((targetKillCount - kill_count_sum) * 60 * 200) / temp_attack_sum);
                 returnRebirthSec = maxliveSecList[1] + thirdKillSec;
             }
             else
             {
+                //else return max survial time
                 returnRebirthSec = maxliveSecList[0];
             }
         }
-         
 
     }
-
+    
     want_knightRebirthTime = returnRebirthSec;
      
 }
