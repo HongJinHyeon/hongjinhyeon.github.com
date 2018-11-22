@@ -24,10 +24,7 @@ function calculate_max_floors()
     var killcount3;
 
     var cbChangeStatAfterCalulation = document.getElementById("changeStatAfterCalulate").checked;
-
-    
-    
-
+ 
     //knight
     attack = getCalculatedValue(document.getElementById("Part1_Attack1").value);
     defense = getCalculatedValue(document.getElementById("Part1_Defense1").value);
@@ -221,6 +218,44 @@ function calculate_max_floors()
 
     document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " Magic Waters";
 
+}
+
+function clearResultFields()
+{
+    document.getElementById("Part1_SurvivalMiniute1").value = "";
+    document.getElementById("Part1_SurvivalMiniute2").value = "";
+    document.getElementById("Part1_SurvivalMiniute3").value = "";
+
+    document.getElementById("Part1_KillCount1").value = "";
+    document.getElementById("Part1_KillCount2").value = "";
+    document.getElementById("Part1_KillCount3").value = "";
+
+    document.getElementById("Part1_DropRate1").value = "";
+    document.getElementById("Part1_DropRate2").value = "";
+    document.getElementById("Part1_DropRate3").value = "";
+
+    document.getElementById("Part1_MW1").value = "";
+    document.getElementById("Part1_MW2").value = "";
+    document.getElementById("Part1_MW3").value = "";
+    
+    document.getElementById("Part1_DropUnique1_1").value  = "";
+    document.getElementById("Part1_DropUnique2_1").value   = "";
+    document.getElementById("Part1_DropLegendary1").value   = "";
+    document.getElementById("Part1_DropAncient1").value   = "";
+
+    document.getElementById("Part1_DropUnique1_2").value  = "";
+    document.getElementById("Part1_DropUnique2_2").value   = "";
+    document.getElementById("Part1_DropLegendary2").value   = "";
+    document.getElementById("Part1_DropAncient2").value   = "";
+
+    document.getElementById("Part1_DropUnique1_3").value  = "";
+    document.getElementById("Part1_DropUnique2_3").value   = "";
+    document.getElementById("Part1_DropLegendary3").value   = "";
+    document.getElementById("Part1_DropAncient3").value   = "";
+
+    document.getElementById("Part1_Total Floors").value   = "";
+    document.getElementById("Part1_TotalMW").value   = "";
+    document.getElementById("Part1_EffectiveRebirthTime").value   = "";
 
 }
 
@@ -520,6 +555,7 @@ function load_playerStatAndRevenue()
     load_playerStat();
     load_playerRevenue();
     load_playerMaxFoorAndNowPowder();
+    clearResultFields();
 }
 
 function load_playerStat()
