@@ -130,15 +130,19 @@ function calculate_max_floors()
     var drop_rate;
     var dropMaterialCount1;
 
+    var luck_knight;
+    var luck_Archer;
+    var luck_Mage;
+
     //1.knight
-    var nowluck = getCalculatedValue(document.getElementById("Part1_Luck1").value);
+    luck_knight = getCalculatedValue(document.getElementById("Part1_Luck1").value);
 
     if(cbChangeStatAfterCalulation)
     {
-        document.getElementById("Part1_Luck1").value = nowluck; 
+        document.getElementById("Part1_Luck1").value = luck_knight; 
     }
 
-    drop_rate = get_drop_rate_with_luck(nowluck);
+    drop_rate = get_drop_rate_with_luck(luck_knight);
     drop_rate += floor_drop_bonus;
 
 
@@ -152,14 +156,14 @@ function calculate_max_floors()
     document.getElementById("Part1_DropAncient1").value  = prop(prop_acient,dropMaterialCount1) + " %";
 
     //2.Archer
-    nowluck = getCalculatedValue(document.getElementById("Part1_Luck2").value);
+    luck_Archer = getCalculatedValue(document.getElementById("Part1_Luck2").value);
 
     if(cbChangeStatAfterCalulation)
     {
-        document.getElementById("Part1_Luck2").value = nowluck; 
+        document.getElementById("Part1_Luck2").value = luck_Archer; 
     }
 
-    drop_rate = get_drop_rate_with_luck(nowluck);
+    drop_rate = get_drop_rate_with_luck(luck_Archer);
     drop_rate += floor_drop_bonus;
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
@@ -173,14 +177,14 @@ function calculate_max_floors()
 
 
     //3.Mage
-    nowluck = getCalculatedValue(document.getElementById("Part1_Luck3").value);
+    luck_Mage = getCalculatedValue(document.getElementById("Part1_Luck3").value);
 
     if(cbChangeStatAfterCalulation)
     {
-        document.getElementById("Part1_Luck3").value = nowluck; 
+        document.getElementById("Part1_Luck3").value = luck_Mage; 
     }
 
-    drop_rate = get_drop_rate_with_luck(nowluck);
+    drop_rate = get_drop_rate_with_luck(luck_Mage);
     drop_rate += floor_drop_bonus;
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
@@ -194,25 +198,21 @@ function calculate_max_floors()
     
     //[Magic Water]
     var mw_killcount;
-    var mw_luck;
     var mw_now;
     var mw_total = 0;
 
     mw_killcount = killcount1;
-    mw_luck = document.getElementById("Part1_Luck1").value;
-    mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+    mw_now = get_MagicWater(mw_killcount, luck_knight, maxFloor);
     document.getElementById("Part1_MW1").value = mw_now;
     mw_total = mw_now;
 
     mw_killcount = killcount2;
-    mw_luck = document.getElementById("Part1_Luck2").value;
-    mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+    mw_now = get_MagicWater(mw_killcount, luck_Archer, maxFloor);
     document.getElementById("Part1_MW2").value = mw_now;
     mw_total = parseFloat(mw_total) + parseFloat(mw_now);
 
     mw_killcount =killcount3;
-    mw_luck = document.getElementById("Part1_Luck3").value;
-    mw_now = get_MagicWater(mw_killcount, mw_luck, maxFloor);
+    mw_now = get_MagicWater(mw_killcount, luck_Mage, maxFloor);
     document.getElementById("Part1_MW3").value = mw_now;
     mw_total = parseFloat(mw_total) + parseFloat(mw_now);
 
