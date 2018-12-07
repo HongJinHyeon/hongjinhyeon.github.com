@@ -112,16 +112,24 @@ function calculate_max_floors()
     want_knightRebirthTime = effectiveRibirthTime;
     effectiveRibirthTime = parseInt(effectiveRibirthTime / 60);
 
+    document.getElementById("Part1_EffectiveRebirthTimeTitle").innerText = "Effective RebirthTime";
+
     if (effectiveRibirthTime > 60) {
         document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(effectiveRibirthTime / 60) + " hours : " + pad(parseInt(effectiveRibirthTime % 60),2) + " minutes";
     }
     else {
         document.getElementById("Part1_EffectiveRebirthTime").value =  pad(effectiveRibirthTime,2) + " minutes";
     }
+ 
 
+    SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
 
+    setTargetFloorData(maxFloor);
+ 
+}
 
-
+function SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor)
+{
     //Drop Rate
     //calculate material drop rate
 
@@ -148,8 +156,10 @@ function calculate_max_floors()
 
     if (drop_rate > 100.0) { drop_rate = 100.0; }
     document.getElementById("Part1_DropRate1").value = drop_rate.toFixed(2) + " %";
- 
+
     dropMaterialCount1 = (Number(killcount1) * drop_rate / 100);
+    document.getElementById("Part1_Material1").value  = addComma(parseInt(dropMaterialCount1));
+
     document.getElementById("Part1_DropUnique1_1").value  = prop(prop_unique1,dropMaterialCount1) + " %";
     document.getElementById("Part1_DropUnique2_1").value  = prop(prop_unique2,dropMaterialCount1) + " %";
     document.getElementById("Part1_DropLegendary1").value  = prop(prop_legendary,dropMaterialCount1) + " %";
@@ -170,6 +180,8 @@ function calculate_max_floors()
     document.getElementById("Part1_DropRate2").value = drop_rate.toFixed(2) + " %";
 
     dropMaterialCount1 = (Number(killcount2) * drop_rate / 100);
+    document.getElementById("Part1_Material2").value  =  addComma(parseInt(dropMaterialCount1));
+
     document.getElementById("Part1_DropUnique1_2").value  = prop(prop_unique1,dropMaterialCount1) + " %";
     document.getElementById("Part1_DropUnique2_2").value  = prop(prop_unique2,dropMaterialCount1) + " %";
     document.getElementById("Part1_DropLegendary2").value  = prop(prop_legendary,dropMaterialCount1) + " %";
@@ -191,6 +203,8 @@ function calculate_max_floors()
     document.getElementById("Part1_DropRate3").value = drop_rate.toFixed(2) + " %";
 
     dropMaterialCount1 = (Number(killcount3) * drop_rate / 100);
+    document.getElementById("Part1_Material3").value  =  addComma(parseInt(dropMaterialCount1));
+
     document.getElementById("Part1_DropUnique1_3").value  = prop(prop_unique1,dropMaterialCount1) + " %";
     document.getElementById("Part1_DropUnique2_3").value  = prop(prop_unique2,dropMaterialCount1) + " %";
     document.getElementById("Part1_DropLegendary3").value  = prop(prop_legendary,dropMaterialCount1) + " %";
@@ -217,8 +231,246 @@ function calculate_max_floors()
     mw_total = parseFloat(mw_total) + parseFloat(mw_now);
 
     document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " Magic Waters";
-
 }
+
+function setTargetFloorData(nowMaxFloor)
+{
+    //입력된 것이 도달할 수 있는 MaxFloor보다 높으면 처리 안한다.
+    var rebirthKnightCountTarget = document.getElementById("Part1_targetFloorsForDropRateAndMW").value;
+    
+    if(rebirthKnightCountTarget == "")
+    {
+        return;
+    }
+
+    if(rebirthKnightCountTarget >= nowMaxFloor)
+    {
+        return;
+    }
+ 
+
+    setOrderKnightDataByMaxLiveSec();
+
+    var arryMaxLiveSecEachKnights = getEachMaxLiveSecTargetFloor(rebirthKnightCountTarget);
+ 
+    var attack;
+    var current_kill_count;
+    var max_sec;
+    var killcount1,killcount2,killcount3;
+
+    //1.knights
+    attack  = attackList[knight1Index];
+    max_sec = arryMaxLiveSecEachKnights[knight1Index];
+    current_kill_count = getTotalKillCount(attack, max_sec);
+    killcount1 = current_kill_count;
+    document.getElementById("Part1_SurvivalMiniute1").value = parseInt(max_sec / 60);
+    document.getElementById("Part1_KillCount1").value = addComma(current_kill_count);
+
+    //2.Archer
+    attack  = attackList[knight2Index];
+    max_sec = arryMaxLiveSecEachKnights[knight2Index];
+    current_kill_count = getTotalKillCount(attack, max_sec);
+    killcount2 = current_kill_count;
+    document.getElementById("Part1_SurvivalMiniute2").value = parseInt(max_sec / 60);
+    document.getElementById("Part1_KillCount2").value = addComma(current_kill_count);
+
+    //3.Mage
+    attack  = attackList[knight3Index];
+    max_sec = arryMaxLiveSecEachKnights[knight3Index];
+    current_kill_count = getTotalKillCount(attack, max_sec);
+    killcount3 = current_kill_count;
+    document.getElementById("Part1_SurvivalMiniute3").value = parseInt(max_sec / 60);
+    document.getElementById("Part1_KillCount3").value = addComma(current_kill_count);
+
+    //max-floor
+    document.getElementById("Part1_Total Floors").value = rebirthKnightCountTarget + " Floors ( Max:" + nowMaxFloor + ")";
+
+    //time...
+    var effectiveRibirthTime = parseInt(arryMaxLiveSecEachKnights[0] / 60);
+
+    document.getElementById("Part1_EffectiveRebirthTimeTitle").innerText = "Elapsed Time";
+
+    if (effectiveRibirthTime > 60) {
+        document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(effectiveRibirthTime / 60) + " hours : " + pad(parseInt(effectiveRibirthTime % 60),2) + " minutes";
+    }
+    else {
+        document.getElementById("Part1_EffectiveRebirthTime").value =  pad(effectiveRibirthTime,2) + " minutes";
+    }
+
+    SetDropRateAndMagicWater(killcount1,killcount2,killcount3,false,rebirthKnightCountTarget);
+}
+
+var knight1Index,knights2Index,knights3Index;
+
+function setOrderKnightDataByMaxLiveSec()
+{
+     
+    if(rebirth1Sec >= rebirth2Sec)
+    {
+
+        if(rebirth1Sec >= rebirth3Sec)
+        {
+            maxliveSecList[0] = rebirth1Sec;
+            attackList[0] = attack1;
+            knight1Index = 0;
+
+            if(rebirth3Sec >= rebirth2Sec)
+            {
+                maxliveSecList[1] = rebirth3Sec;
+                maxliveSecList[2] = rebirth2Sec;
+                                
+                attackList[1] = attack3;
+                attackList[2] = attack2;
+
+                knight3Index = 1;
+                knight2Index = 2;
+            }
+            else
+            {
+                maxliveSecList[1] = rebirth2Sec;
+                maxliveSecList[2] = rebirth3Sec;
+
+                attackList[1] = attack2;
+                attackList[2] = attack3;
+
+                knight3Index = 2;
+                knight2Index = 1;
+            }
+        }
+        else
+        {
+            maxliveSecList[0] = rebirth3Sec;
+            maxliveSecList[1] = rebirth1Sec;
+            maxliveSecList[2] = rebirth2Sec;
+
+            attackList[0] = attack3;
+            attackList[1] = attack1;
+            attackList[2] = attack2;
+            
+            knight3Index = 0;
+            knight1Index = 1;
+            knight2Index = 2;
+
+        }
+    }
+    else
+    {
+        if(rebirth2Sec >= rebirth3Sec)
+        {
+            maxliveSecList[0] = rebirth2Sec;
+            attackList[0] = attack2;
+            knight2Index = 0;
+
+            if(rebirth3Sec >= rebirth1Sec)
+            {
+                maxliveSecList[1] = rebirth3Sec;
+                maxliveSecList[2] = rebirth1Sec;
+
+                attackList[1] = attack3;
+                attackList[2] = attack1;
+                
+                knight3Index = 1;
+                knight1Index = 2;
+                
+            }
+            else
+            {
+                maxliveSecList[1] = rebirth1Sec;
+                maxliveSecList[2] = rebirth3Sec;
+
+                attackList[1] = attack1;
+                attackList[2] = attack3;
+
+                knight1Index = 1;
+                knight3Index = 2;
+                
+            }
+        }
+        else
+        {
+           maxliveSecList[0] = rebirth3Sec;
+           maxliveSecList[1] = rebirth2Sec;
+           maxliveSecList[2] = rebirth1Sec;
+
+           attackList[0] = attack3;
+           attackList[1] = attack2;
+           attackList[2] = attack1;
+
+           knight3Index = 0;
+           knight2Index = 1;
+           knight1Index = 2;
+
+        }
+    }
+ 
+}
+
+//For TargetFloor's DropRate And Waters..
+function getEachMaxLiveSecTargetFloor(_targetFloor)
+{
+    var targetFloorMaxLiveSecOfEachKnights = new Array();
+
+    var targetKillCount = _targetFloor * 10;
+    var returnRebirthSec;
+    //0 max, 1 middle , 2 min
+ 
+    var temp_attack_sum = Number(attackList[0]) + Number(attackList[1]) + Number(attackList[2]);
+
+    var temp_kill_count = parseInt(temp_attack_sum * maxliveSecList[2] / 60 / 200);
+    var kill_count_sum = temp_kill_count;
+
+    if (temp_kill_count >= targetKillCount)
+    {
+        //3rd knight survival time meet the target floors
+        returnRebirthSec = parseInt((targetKillCount * 60 * 200) / temp_attack_sum);
+        targetFloorMaxLiveSecOfEachKnights[0] = returnRebirthSec;
+        targetFloorMaxLiveSecOfEachKnights[1] = returnRebirthSec;
+        targetFloorMaxLiveSecOfEachKnights[2] = returnRebirthSec;
+    }
+    else
+    {
+        targetFloorMaxLiveSecOfEachKnights[2] =  maxliveSecList[2] ;
+
+        temp_attack_sum = Number(attackList[0]) + Number(attackList[1]);
+        temp_kill_count = parseInt(temp_attack_sum * (maxliveSecList[1] - maxliveSecList[2]) / 60 / 200);
+
+        if ((kill_count_sum + temp_kill_count) >= targetKillCount)
+        {
+            //2nd kinght survial time meet the target floors
+            var secondKillSec = parseInt(((targetKillCount - kill_count_sum) * 60 * 200) / temp_attack_sum);
+            returnRebirthSec = maxliveSecList[2] + secondKillSec;
+
+            targetFloorMaxLiveSecOfEachKnights[0] = returnRebirthSec;
+            targetFloorMaxLiveSecOfEachKnights[1] = returnRebirthSec;
+        }
+        else
+        {
+            targetFloorMaxLiveSecOfEachKnights[1] = maxliveSecList[1];
+
+            kill_count_sum += temp_kill_count;
+            temp_attack_sum = Number(attackList[0]);
+            temp_kill_count = parseInt(temp_attack_sum * (maxliveSecList[0] - maxliveSecList[1]) / 60 / 200);
+
+            if ((kill_count_sum + temp_kill_count) >= targetKillCount)
+            {
+                //1st kinight servial time meet the target floors
+                var thirdKillSec = parseInt(((targetKillCount - kill_count_sum) * 60 * 200) / temp_attack_sum);
+                returnRebirthSec = maxliveSecList[1] + thirdKillSec;
+                targetFloorMaxLiveSecOfEachKnights[0] = returnRebirthSec;
+            }
+            else
+            {
+                //else return max survial time
+                targetFloorMaxLiveSecOfEachKnights[0] =  maxliveSecList[0];
+            }
+        }
+
+    }
+    
+    return targetFloorMaxLiveSecOfEachKnights;
+        
+}
+
 
 function clearResultFields()
 {
@@ -233,6 +485,10 @@ function clearResultFields()
     document.getElementById("Part1_DropRate1").value = "";
     document.getElementById("Part1_DropRate2").value = "";
     document.getElementById("Part1_DropRate3").value = "";
+
+    document.getElementById("Part1_Material1").value = "";
+    document.getElementById("Part1_Material2").value = "";
+    document.getElementById("Part1_Material3").value = "";
 
     document.getElementById("Part1_MW1").value = "";
     document.getElementById("Part1_MW2").value = "";
@@ -256,6 +512,8 @@ function clearResultFields()
     document.getElementById("Part1_Total Floors").value   = "";
     document.getElementById("Part1_TotalMW").value   = "";
     document.getElementById("Part1_EffectiveRebirthTime").value   = "";
+
+    document.getElementById("Part1_targetFloorsForDropRateAndMW").value   = "";
 
 }
 

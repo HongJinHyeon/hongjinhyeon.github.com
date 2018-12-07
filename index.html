@@ -22,7 +22,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img width="200" height="200" src="http://eosknights.io/img/resource/origin/knight/knight_2.png" alt="" /></span>
-                        <h1>EOS Knights Calculator Ver 5.3</h1>
+                        <h1>EOS Knights Calculator Ver 5.5</h1>
 						<p>Simulate Knight's Max Floors you can reach and Item's Upgrade Stats <br />
                         <font color="red">If there are UI Breakdown on mobile devices, please use the landscape mode</font> <br />
 						presented by <a href="">JinHyeon Hong</a> </p>
@@ -96,7 +96,7 @@
                                         <tr>
                                             <th>Stage Drop Bonus</th>
                                             <td><input type="text" id="Part1_StageDropBonus" value="35" tabindex="13"></td>
-
+                                            <td><input type="text" id="Part1_targetFloorsForDropRateAndMW" title="Floors you want to rebirth"  tabindex="13" placeholder="Target Floors"></td>
                                         </tr>
                                         <tr>
                                             <th style="color:red">Survival Minutes</th>
@@ -115,6 +115,12 @@
                                             <td><input type="text" id="Part1_DropRate1" readonly></td>
                                             <td><input type="text" id="Part1_DropRate2" readonly></td>
                                             <td><input type="text" id="Part1_DropRate3" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="color:red">Droped Materials</th>
+                                            <td><input type="text" id="Part1_Material1" readonly></td>
+                                            <td><input type="text" id="Part1_Material2" readonly></td>
+                                            <td><input type="text" id="Part1_Material3" readonly></td>
                                         </tr>
                                         <tr>
                                             <th style="color:red">Magic Water</th>
@@ -155,7 +161,7 @@
                                             <td colspan="3"><input type="text" id="Part1_TotalMW" readonly></td>
                                         </tr>
                                         <tr>
-                                            <th style="color:red">Effective RebirthTime</th>
+                                            <th id="Part1_EffectiveRebirthTimeTitle" style="color:red">Effective RebirthTime</th>
                                             <td colspan="3"><input type="text" id="Part1_EffectiveRebirthTime" readonly></td>
                                         </tr>
                                     </table>
@@ -362,10 +368,10 @@
                                 <a href="https://eosflare.io/tx/4ec4a06aff845fcf75cacd4840df907599314fab2cfb7351303973213de8b32b" target="_blank"> universalist<sup>3rd</sup> : 1.0100 EOS </a><br />
                                 <a href="https://eosflare.io/tx/2cd03d3e39bcecab3fc6b84bfeca48600a441285cf0d305a75801de7b5cad610" target="_blank"> donald1trump : 1.0000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/4233c7c34b2f0bf12d26d226761382e662fa532e0c9633ca5fc40b018dcd6049" target="_blank"> gq3daobrhege : 1.0000 EOS </a><br />
+                                <a href="https://eosflare.io/tx/82c872d26f8f64d0e0484a2021db46d2e83cb62073484b7193013f830a60da45" title="3 transactions with 0.1, 0.1, 0.5 Each" target="_blank"> eos11godmuse : 0.7000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/f0ca6b04934d79101a7b54566f1a17c83d4acf7c708009b90e7d1f85c625fc7e" title="3 transactions with 0.2 EOS each" target="_blank"> gu3tanrtgqge : 0.6000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/e46fb4277d70f6d25f00191d4cc58f77c6d23f4d015a6c8ff7444fede0a160df" target="_blank"> rovobiello13 : 0.2000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/afffc0ef93a41a059a31d1cc1bfffd3695eadd7bd0238f68cbe9f18a98117434" target="_blank"> bootiboxboot : 0.2000 EOS </a><br />
-                                <a href="https://eosflare.io/tx/82c872d26f8f64d0e0484a2021db46d2e83cb62073484b7193013f830a60da45" title="2 transactions with 0.1 EOS each" target="_blank"> eos11godmuse : 0.2000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/be760606b86b289a68cfa5f99d9839442cfcf417b63f6159d9d67126aab022f1" target="_blank"> guzdcnztgige : 0.1000 EOS </a><br />
                                 <a href="https://eosflare.io/tx/413a1ffad6b9fb78b90bc103be99d38a6007f38b488a2f95b6202074b69cf74c" target="_blank"> nannana11111 : 0.0100 EOS </a><br />
                             </div>
