@@ -220,6 +220,124 @@ function calculate_max_floors()
 
 }
 
+function setTargetFloorData()
+{
+
+}
+
+var knight1Index,knights2Index,knights3Index;
+
+function setOrderKnightDataByMaxLiveSec()
+{
+     
+
+    if(rebirth1Sec >= rebirth2Sec)
+    {
+        if(rebirth1Sec >= rebirth3Sec)
+        {
+            maxliveSecList[0] = rebirth1Sec;
+            attackList[0] = attack1;
+            knight1Index = 0;
+
+            if(rebirth3Sec >= rebirth2Sec)
+            {
+                maxliveSecList[1] = rebirth3Sec;
+                maxliveSecList[2] = rebirth2Sec;
+                                
+                attackList[1] = attack3;
+                attackList[2] = attack2;
+
+                knight3Index = 1;
+                knight2Index = 2;
+
+            }
+            else
+            {
+                maxliveSecList[1] = rebirth2Sec;
+                maxliveSecList[2] = rebirth3Sec;
+
+                attackList[1] = attack2;
+                attackList[2] = attack3;
+            }
+        }
+        else
+        {
+            maxliveSecList[0] = rebirth3Sec;
+            maxliveSecList[1] = rebirth1Sec;
+            maxliveSecList[2] = rebirth2Sec;
+
+            attackList[0] = attack3;
+            attackList[1] = attack1;
+            attackList[2] = attack2;
+
+        }
+    }
+    else
+    {
+        if(rebirth2Sec >= rebirth3Sec)
+        {
+            maxliveSecList[0] = rebirth2Sec;
+            attackList[0] = attack2;
+
+            if(rebirth3Sec >= rebirth1Sec)
+            {
+                maxliveSecList[1] = rebirth3Sec;
+                maxliveSecList[2] = rebirth1Sec;
+
+                attackList[1] = attack3;
+                attackList[2] = attack1;
+
+            }
+            else
+            {
+                maxliveSecList[1] = rebirth1Sec;
+                maxliveSecList[2] = rebirth3Sec;
+
+                attackList[1] = attack1;
+                attackList[2] = attack3;
+            }
+        }
+        else
+        {
+           maxliveSecList[0] = rebirth3Sec;
+           maxliveSecList[1] = rebirth2Sec;
+           maxliveSecList[2] = rebirth1Sec;
+
+           attackList[0] = attack3;
+           attackList[1] = attack2;
+           attackList[2] = attack1;
+
+        }
+    }
+
+    if(selectedRebirthType =="4")
+    {
+        //seleted floor
+        var rebirthKnightCountTarget = document.getElementById("rebirthTargetFloor").value;
+        getSecTargetFloor(rebirthKnightCountTarget);
+    }
+    else
+    {
+        if(selectedRebirthType=="1")
+        {
+            want_knightRebirthTime = maxliveSecList[2];
+        }
+        else if(selectedRebirthType=="2")
+        {
+            //medium
+            want_knightRebirthTime = maxliveSecList[1];
+        }
+        else
+        {
+            //max value
+            want_knightRebirthTime = maxliveSecList[0];
+        }
+    }
+    
+     
+}
+
+
 function clearResultFields()
 {
     document.getElementById("Part1_SurvivalMiniute1").value = "";
@@ -258,6 +376,9 @@ function clearResultFields()
     document.getElementById("Part1_EffectiveRebirthTime").value   = "";
 
 }
+
+
+
 
 function prop(_p,_c)
 {
@@ -831,9 +952,7 @@ function setWantRebirthSec()
     //0 max
     //1 meduim
     //2 min
-
-    //
-
+ 
     if(rebirth1Sec >= rebirth2Sec)
     {
         if(rebirth1Sec >= rebirth3Sec)
