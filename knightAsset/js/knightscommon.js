@@ -654,6 +654,9 @@ function getOriginStat(itemlevel, nowStat) {
         case "5":
             percent = 2.6;
             break;
+        case "6":
+            percent = 3.4;
+            break;
         default:
             break;
     }
@@ -683,6 +686,9 @@ function calculate_max_ItemLevel() {
             break;
         case "5":
             percent = 2.6;
+            break;
+        case "6":
+            percent = 3.4;
             break;
         default:
             break;
@@ -733,6 +739,9 @@ function calculate_origin_ItemLevel() {
             break;
         case "5":
             percent = 2.6;
+            break;
+        case "6":
+            percent = 3.4;
             break;
         default:
             break;
