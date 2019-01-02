@@ -12,6 +12,7 @@ var prop_acient = 0.0000005012146938;
 function calculate_max_floors() 
 {
     var max_sec;
+    var totalmaxsec;
     var current_kill_count;
     var attack;
     var defense;
@@ -42,6 +43,7 @@ function calculate_max_floors()
     attack1 = attack;
 
     effectiveRibirthTime = max_sec;
+    totalmaxsec = max_sec;
 
     current_kill_count = getTotalKillCount(attack, max_sec);
     total_kill_count += current_kill_count;
@@ -70,7 +72,10 @@ function calculate_max_floors()
         effectiveRibirthTime = max_sec;
     }
 
-
+    if (max_sec > totalmaxsec) {
+        totalmaxsec = max_sec;
+    }
+ 
     current_kill_count = getTotalKillCount(attack, max_sec);
     total_kill_count += current_kill_count;
     killcount2 = current_kill_count;
@@ -101,6 +106,11 @@ function calculate_max_floors()
         effectiveRibirthTime = max_sec;
     }
 
+    if (max_sec > totalmaxsec) {
+        totalmaxsec = max_sec;
+    }
+
+
     document.getElementById("Part1_SurvivalMiniute3").value = parseInt(max_sec / 60);
     document.getElementById("Part1_KillCount3").value = addComma(current_kill_count);
 
@@ -110,15 +120,14 @@ function calculate_max_floors()
 
 
     want_knightRebirthTime = effectiveRibirthTime;
-    effectiveRibirthTime = parseInt(effectiveRibirthTime / 60);
+    totalmaxsec = parseInt(totalmaxsec / 60);
+    //document.getElementById("Part1_EffectiveRebirthTimeTitle").innerText = "Effective RebirthTime";
 
-    document.getElementById("Part1_EffectiveRebirthTimeTitle").innerText = "Effective RebirthTime";
-
-    if (effectiveRibirthTime > 60) {
-        document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(effectiveRibirthTime / 60) + " hours : " + pad(parseInt(effectiveRibirthTime % 60),2) + " minutes";
+    if (totalmaxsec > 60) {
+        document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(totalmaxsec / 60) + " hours : " + pad(parseInt(totalmaxsec % 60),2) + " minutes";
     }
     else {
-        document.getElementById("Part1_EffectiveRebirthTime").value =  pad(effectiveRibirthTime,2) + " minutes";
+        document.getElementById("Part1_EffectiveRebirthTime").value =  pad(totalmaxsec,2) + " minutes";
     }
  
 
@@ -288,7 +297,7 @@ function setTargetFloorData(nowMaxFloor)
     //time...
     var effectiveRibirthTime = parseInt(arryMaxLiveSecEachKnights[0] / 60);
 
-    document.getElementById("Part1_EffectiveRebirthTimeTitle").innerText = "Elapsed Time";
+    //document.getElementById("Part1_EffectiveRebirthTimeTitle").innerText = "Elapsed Time";
 
     if (effectiveRibirthTime > 60) {
         document.getElementById("Part1_EffectiveRebirthTime").value =  parseInt(effectiveRibirthTime / 60) + " hours : " + pad(parseInt(effectiveRibirthTime % 60),2) + " minutes";
