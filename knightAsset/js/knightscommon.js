@@ -137,14 +137,15 @@ function calculate_max_floors(VerType)
     if(VerType == "OLD")
     {
         SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
+        
     }
     else
     {
         SetDropRateAndMagicWater_GDR(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
+        
     }
     
-
-    setTargetFloorData(maxFloor);
+    setTargetFloorData(maxFloor,VerType);
  
 }
 
@@ -384,7 +385,7 @@ function get_global_drop_factor(avg_floor)
     return parseFloat(drop_rate);
 }
  
-function setTargetFloorData(nowMaxFloor)
+function setTargetFloorData(nowMaxFloor,VerType)
 {
     //입력된 것이 도달할 수 있는 MaxFloor보다 높으면 처리 안한다.
     var rebirthKnightCountTarget = document.getElementById("Part1_targetFloorsForDropRateAndMW").value;
@@ -448,9 +449,17 @@ function setTargetFloorData(nowMaxFloor)
         document.getElementById("Part1_EffectiveRebirthTime").value =  pad(effectiveRibirthTime,2) + " minutes";
     }
 
-    SetDropRateAndMagicWater(killcount1,killcount2,killcount3,false,rebirthKnightCountTarget);
+    if(VerType == "OLD")
+    {
+        SetDropRateAndMagicWater(killcount1,killcount2,killcount3,false,rebirthKnightCountTarget);
+    }
+    else
+    {
+        SetDropRateAndMagicWater_GDR(killcount1,killcount2,killcount3,false,rebirthKnightCountTarget);
+    }
+   
 }
-
+ 
 var knight1Index,knights2Index,knights3Index;
 
 function setOrderKnightDataByMaxLiveSec()
