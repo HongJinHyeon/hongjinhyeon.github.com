@@ -8,8 +8,9 @@ var prop_unique2 = 0.00006415548081;
 var prop_legendary = 0.000008019435101;
 var prop_acient = 0.0000005012146938;
 
+var eosknights_avgFloor = 0.0;
 
-function calculate_max_floors() 
+function calculate_max_floors(VerType) 
 {
     var max_sec;
     var totalmaxsec;
@@ -131,7 +132,17 @@ function calculate_max_floors()
     }
  
 
-    SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
+    //SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
+    
+    if(VerType == "OLD")
+    {
+        SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
+    }
+    else
+    {
+        SetDropRateAndMagicWater_GDR(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor);
+    }
+    
 
     setTargetFloorData(maxFloor);
  
@@ -242,6 +253,137 @@ function SetDropRateAndMagicWater(killcount1,killcount2,killcount3,cbChangeStatA
     document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " Magic Waters";
 }
 
+function SetDropRateAndMagicWater_GDR(killcount1,killcount2,killcount3,cbChangeStatAfterCalulation,maxFloor)
+{
+    //가변드랍률
+
+    load_AvgFloors();
+
+    //eosknights_avgFloor 평균층수
+    var gdr = get_global_drop_factor(eosknights_avgFloor);
+
+    var kv_floor_bonus_1000 = 20.0;
+    var floor_drop_bonus = kv_floor_bonus_1000 * (maxFloor / 1000.0);
+    var drop_rate;
+    var dropMaterialCount1;
+
+    var luck_knight;
+    var luck_Archer;
+    var luck_Mage;
+
+    //1.knight
+    luck_knight = getCalculatedValue(document.getElementById("Part1_Luck1").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Luck1").value = luck_knight; 
+    }
+
+    drop_rate = get_drop_rate_with_luck(luck_knight);
+    drop_rate += floor_drop_bonus;
+
+
+    if (drop_rate > 100.0) { drop_rate = 100.0; }
+    document.getElementById("Part1_DropRate1").value = drop_rate.toFixed(2) + " %";
+
+    dropMaterialCount1 = (Number(killcount1) * drop_rate / 100);
+    document.getElementById("Part1_Material1").value  = addComma(parseInt(dropMaterialCount1));
+
+    document.getElementById("Part1_DropUnique1_1").value  = prop_GDR(prop_unique1,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropUnique2_1").value  = prop_GDR(prop_unique2,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropLegendary1").value  = prop_GDR(prop_legendary,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropAncient1").value  = prop_GDR(prop_acient,dropMaterialCount1,drop_rate,gdr) + " %";
+
+    //2.Archer
+    luck_Archer = getCalculatedValue(document.getElementById("Part1_Luck2").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Luck2").value = luck_Archer; 
+    }
+
+    drop_rate = get_drop_rate_with_luck(luck_Archer);
+    drop_rate += floor_drop_bonus;
+
+    if (drop_rate > 100.0) { drop_rate = 100.0; }
+    document.getElementById("Part1_DropRate2").value = drop_rate.toFixed(2) + " %";
+
+    dropMaterialCount1 = (Number(killcount2) * drop_rate / 100);
+    document.getElementById("Part1_Material2").value  =  addComma(parseInt(dropMaterialCount1));
+
+    document.getElementById("Part1_DropUnique1_2").value  = prop_GDR(prop_unique1,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropUnique2_2").value  = prop_GDR(prop_unique2,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropLegendary2").value  = prop_GDR(prop_legendary,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropAncient2").value  = prop_GDR(prop_acient,dropMaterialCount1,drop_rate,gdr) + " %";
+
+
+    //3.Mage
+    luck_Mage = getCalculatedValue(document.getElementById("Part1_Luck3").value);
+
+    if(cbChangeStatAfterCalulation)
+    {
+        document.getElementById("Part1_Luck3").value = luck_Mage; 
+    }
+
+    drop_rate = get_drop_rate_with_luck(luck_Mage);
+    drop_rate += floor_drop_bonus;
+
+    if (drop_rate > 100.0) { drop_rate = 100.0; }
+    document.getElementById("Part1_DropRate3").value = drop_rate.toFixed(2) + " %";
+
+    dropMaterialCount1 = (Number(killcount3) * drop_rate / 100);
+    document.getElementById("Part1_Material3").value  =  addComma(parseInt(dropMaterialCount1));
+
+    document.getElementById("Part1_DropUnique1_3").value  = prop_GDR(prop_unique1,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropUnique2_3").value  = prop_GDR(prop_unique2,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropLegendary3").value  = prop_GDR(prop_legendary,dropMaterialCount1,drop_rate,gdr) + " %";
+    document.getElementById("Part1_DropAncient3").value  = prop_GDR(prop_acient,dropMaterialCount1,drop_rate,gdr) + " %";
+    
+    //[Magic Water]
+    var mw_killcount;
+    var mw_now;
+    var mw_total = 0;
+
+    mw_killcount = killcount1;
+    mw_now = get_MagicWater_GDR(mw_killcount, luck_knight, maxFloor,eosknights_avgFloor,gdr);
+    document.getElementById("Part1_MW1").value = mw_now;
+    mw_total = mw_now;
+
+    mw_killcount = killcount2;
+    mw_now = get_MagicWater_GDR(mw_killcount, luck_Archer, maxFloor,eosknights_avgFloor,gdr);
+    document.getElementById("Part1_MW2").value = mw_now;
+    mw_total = parseFloat(mw_total) + parseFloat(mw_now);
+
+    mw_killcount =killcount3;
+    mw_now = get_MagicWater_GDR(mw_killcount, luck_Mage, maxFloor,eosknights_avgFloor,gdr);
+    document.getElementById("Part1_MW3").value = mw_now;
+    mw_total = parseFloat(mw_total) + parseFloat(mw_now);
+
+    document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " Magic Waters";
+}
+
+
+function get_bonus_floor_bonus(floor, avg_floor) 
+{
+     var base_floor = avg_floor * 5;
+     var res_new = Math.min(parseInt(base_floor), floor) / (parseFloat(base_floor) * 0.5);
+     return parseFloat(res_new);     
+}
+
+function get_global_drop_factor(avg_floor) 
+{
+    var rular = 1000.0;
+    var length = parseFloat(avg_floor) / rular;
+    
+    if (length < 1.0) {
+        length = 1.0;
+    }
+
+    var drop_rate = 1.0 / Math.pow(2.0, length - 1.0);
+
+    return parseFloat(drop_rate);
+}
+ 
 function setTargetFloorData(nowMaxFloor)
 {
     //입력된 것이 도달할 수 있는 MaxFloor보다 높으면 처리 안한다.
@@ -531,6 +673,13 @@ function prop(_p,_c)
     return parseFloat( (1 - Math.pow((1-_p),_c)) * 100).toFixed(6);
 }
 
+function prop_GDR(_p,_c,drop_rate,gdr)
+{
+    _p = _p * (drop_rate / 100.0) * gdr;
+    return parseFloat( (1 - Math.pow((1-_p),_c)) * 100).toFixed(6);
+}
+
+
 function pad(n, width) 
 {
     n = n + '';
@@ -592,16 +741,7 @@ function get_MagicWater(kill_count, luck, maxFloor) {
     if (scaler > 8) {
         scaler = 8;
     }
-
-    //alert(kill_count);
-    //alert(luck);
-    //alert(maxFloor);
-    //alert(current_powder);
-    //alert(scaler);
-    //alert(current_powder * scaler);
-
-    //return  current_powder * scaler;
-
+ 
     current_powder = current_powder * scaler;
 
     current_powder = parseFloat(current_powder * (1.0 + (Math.min(1000, maxFloor) / 500.0)));
@@ -612,6 +752,28 @@ function get_MagicWater(kill_count, luck, maxFloor) {
 
     return current_powder.toFixed(2);
 }
+
+function get_MagicWater_GDR(kill_count, luck, maxFloor,avg_floor, gdr) {
+    var powder = 0;
+    var kv_kill_powder_rate = 50;
+
+    var current_powder = parseInt(kill_count) / parseInt(kv_kill_powder_rate);
+    var scaler = 1.0 + (parseInt(luck) / 1000.0);
+    if (scaler > 8) {
+        scaler = 8;
+    }
+ 
+    current_powder = current_powder * scaler;
+
+    current_powder = parseFloat(current_powder * (1.0 + get_bonus_floor_bonus(maxFloor, avg_floor)  * gdr) );
+    
+    if (current_powder <= 0) {
+        current_powder = 1;
+    }
+
+    return current_powder.toFixed(2);
+}
+
 
 function get_drop_rate_with_luck(luck) {
 
@@ -832,6 +994,7 @@ function load_playerStatAndRevenue()
     load_playerRevenue();
     load_playerMaxFoorAndNowPowder();
     clearResultFields();
+    load_AvgFloors();
 }
 
 function load_playerStat()
@@ -971,6 +1134,28 @@ function load_playerMaxFoorAndNowPowder()
 
     xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
     xhr.send(data);
+}
+
+function load_AvgFloors()
+{
+     
+    var data = JSON.stringify({"json":true,"code":"eosknightsio","scope":"eosknightsio","table":"globalvar","key_type":"name","lower_bound":"","index_position":1,"limit":1});
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+
+        var resultObj = JSON.parse(this.responseText);
+        eosknights_avgFloor = resultObj.rows[0].floor_sum / resultObj.rows[0].floor_submit_count;
+        document.getElementById("nowTotalAvgFloor").innerHTML = "Total Average floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (Now Drop Rate is <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(3) + " %</font>)";
+    }
+    });
+
+    xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
+    xhr.send(data);
+
 }
 
 function enter_check()
