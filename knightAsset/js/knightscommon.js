@@ -1100,7 +1100,7 @@ function load_playerRevenue()
         //minus -3% tax
         var profit = parseFloat(resultObj.rows[0].selling.replace("EOS","")) - (parseFloat(resultObj.rows[0].selling.replace("EOS","")) * 0.03) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
 
-        document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + " including 3% tax,Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
+        document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + " including 5% tax,Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
 
         if (profit < 0) 
         {
@@ -1158,7 +1158,7 @@ function load_AvgFloors()
 
         var resultObj = JSON.parse(this.responseText);
         eosknights_avgFloor = resultObj.rows[0].floor_sum / resultObj.rows[0].floor_submit_count;
-        document.getElementById("nowTotalAvgFloor").innerHTML = "Total Average floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (Now Drop Rate is <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(3) + " %</font>)";
+        document.getElementById("nowTotalAvgFloor").innerHTML = "Average Floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (Now Drop Rate is <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(4) + " %</font>)";
     }
     });
 
