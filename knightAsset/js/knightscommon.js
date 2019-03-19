@@ -380,7 +380,7 @@ function get_global_drop_factor(avg_floor)
         length = 1.0;
     }
 
-    var drop_rate = 1.0 / Math.pow(2.0, length - 1.0);
+    var drop_rate = 1.0 / Math.pow(2.0, parseFloat(length) - 1.0);
 
     return parseFloat(drop_rate);
 }
@@ -763,10 +763,10 @@ function get_MagicWater(kill_count, luck, maxFloor) {
 }
 
 function get_MagicWater_GDR(kill_count, luck, maxFloor,avg_floor, gdr) {
-    var powder = 0;
+
     var kv_kill_powder_rate = 50;
 
-    var current_powder = parseInt(kill_count) / parseInt(kv_kill_powder_rate);
+    var current_powder = parseFloat(kill_count) / parseFloat(kv_kill_powder_rate);
     var scaler = 1.0 + (parseInt(luck) / 1000.0);
     if (scaler > 8) {
         scaler = 8;
@@ -774,7 +774,7 @@ function get_MagicWater_GDR(kill_count, luck, maxFloor,avg_floor, gdr) {
  
     current_powder = current_powder * scaler;
 
-    current_powder = parseFloat(current_powder * (1.0 + get_bonus_floor_bonus(maxFloor, avg_floor)  * gdr) );
+    current_powder = parseFloat(current_powder * (1.0 + get_bonus_floor_bonus(maxFloor, avg_floor)  * parseFloat(gdr) ) );
     
     if (current_powder <= 0) {
         current_powder = 1;
