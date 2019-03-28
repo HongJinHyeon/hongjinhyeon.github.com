@@ -997,13 +997,13 @@ function load_saved_stats() {
     alert("load complete!");
 }
 
-function load_playerStatAndRevenue()
+function load_playerStatAndRevenue(lang)
 {
     load_playerStat();
-    load_playerRevenue();
-    load_playerMaxFoorAndNowPowder();
+    load_playerRevenue(lang);
+    load_playerMaxFoorAndNowPowder(lang);
     clearResultFields();
-    load_AvgFloors();
+    load_AvgFloors(lang);
 }
 
 function load_playerStat()
@@ -1081,7 +1081,7 @@ function setStat(type, attack, def, hp, luck)
 }
 
 
-function load_playerRevenue()
+function load_playerRevenue(lang)
 {
     
     var EOSAccountName = document.getElementById("EOSAccountName").value
@@ -1100,7 +1100,15 @@ function load_playerRevenue()
         //minus -3% tax
         var profit = parseFloat(resultObj.rows[0].selling.replace("EOS","")) - (parseFloat(resultObj.rows[0].selling.replace("EOS","")) * 0.03) - parseFloat( resultObj.rows[0].spending.replace("EOS","")) - parseFloat( resultObj.rows[0].buying.replace("EOS",""));
 
-        document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + " including 5% tax,Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
+        if (lang == "ko")
+        {
+            document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>총 수익 : " + profit.toFixed(4) + " EOS ( 판매:" + resultObj.rows[0].selling + " 5% 세금 포함,지출:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
+        }
+        else
+        {
+            document.getElementById("revenue").innerHTML = " <a href='" + "https://eosflare.io/account/"+ EOSAccountName + "' target='_blank'>Your profit : " + profit.toFixed(4) + " EOS ( Selling:" + resultObj.rows[0].selling + " including 5% tax,Spending:" + (parseFloat(resultObj.rows[0].spending.replace("EOS", "")) + parseFloat(resultObj.rows[0].buying.replace("EOS", ""))).toFixed(4) + " EOS ) </a>";
+        }
+        
 
         if (profit < 0) 
         {
@@ -1118,7 +1126,7 @@ function load_playerRevenue()
     xhr.send(data);
 }
 
-function load_playerMaxFoorAndNowPowder()
+function load_playerMaxFoorAndNowPowder(lang)
 {
     
     var EOSAccountName = document.getElementById("EOSAccountName").value
@@ -1136,7 +1144,16 @@ function load_playerMaxFoorAndNowPowder()
         var resultObj = JSON.parse(this.responseText);
         knightsLastRebirthTime = resultObj.rows[0].last_rebirth;
 
-        document.getElementById("nowmaxfloorandpowder").innerHTML = " Your now max floors : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font> and have <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font> Magic Waters";
+        if (lang == "ko")
+        {
+            document.getElementById("nowmaxfloorandpowder").innerHTML = "나의 최대 도달 층수 : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font>    소유한 매직워터 <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font>";
+        }
+        else
+        {
+            document.getElementById("nowmaxfloorandpowder").innerHTML = " Your now max floors : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font> and have <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font> Magic Waters";
+        }
+
+        
         
     }
     });
@@ -1145,7 +1162,7 @@ function load_playerMaxFoorAndNowPowder()
     xhr.send(data);
 }
 
-function load_AvgFloors()
+function load_AvgFloors(lang)
 {
      
     var data = JSON.stringify({"json":true,"code":"eosknightsio","scope":"eosknightsio","table":"globalvar","key_type":"name","lower_bound":"","index_position":1,"limit":1});
@@ -1158,7 +1175,17 @@ function load_AvgFloors()
 
         var resultObj = JSON.parse(this.responseText);
         eosknights_avgFloor = resultObj.rows[0].floor_sum / resultObj.rows[0].floor_submit_count;
-        document.getElementById("nowTotalAvgFloor").innerHTML = "Average Floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (Now Drop Rate is <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(4) + " %</font>)";
+      
+        if (lang == "ko")
+        {
+            document.getElementById("nowTotalAvgFloor").innerHTML = "전체 유저 평균 : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (현재 시스템 드랍률 <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(4) + " %</font>)";
+        }
+        else
+        {
+            document.getElementById("nowTotalAvgFloor").innerHTML = "Average Floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (Now Drop Rate is <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(4) + " %</font>)";
+        }
+
+        
     }
     });
 
@@ -1167,10 +1194,10 @@ function load_AvgFloors()
 
 }
 
-function enter_check()
+function enter_check(lang)
 {
     if(event.keyCode == 13){
-        load_playerStatAndRevenue();
+        load_playerStatAndRevenue(lang);
    }
 }
 
