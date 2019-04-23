@@ -994,7 +994,7 @@ function load_saved_stats() {
     document.getElementById("Part1_Luck1").value = getCookie("K4");
     document.getElementById("Part1_Luck2").value = getCookie("A4");
     document.getElementById("Part1_Luck3").value = getCookie("M4");
-    alert("load complete!");
+    alert("load complete!!");
 }
 
 function load_playerStatAndRevenue(lang)
