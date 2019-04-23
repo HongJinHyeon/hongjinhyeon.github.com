@@ -1006,6 +1006,15 @@ function load_playerStatAndRevenue(lang)
     load_AvgFloors(lang);
 }
 
+function load_playerStatAndRevenue_Season(lang)
+{
+    load_playerStat_Season();
+    load_playerRevenue(lang);
+    load_playerMaxFoorAndNowPowder(lang);
+    clearResultFields();
+    load_AvgFloors(lang);
+}
+
 function load_playerStat()
 {
     
@@ -1046,6 +1055,53 @@ function load_playerStat()
         luck = resultObj.rows[0].rows[2].luck;
 
         setStat(type, attack, defense, hp, luck);
+    }
+    });
+
+    xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
+    xhr.send(data);
+}
+
+function load_playerStat_Season()
+{
+    
+    var EOSAccountName = document.getElementById("EOSAccountName").value
+
+    if (EOSAccountName == "") return;
+
+    var data = JSON.stringify({"json":true,"code":"eosknightsio","scope":"eosknightsio","table":"sknight","key_type":"name","lower_bound":EOSAccountName,"index_position":1,"limit":1});
+    
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+
+        var resultObj = JSON.parse(this.responseText);
+
+        var type = resultObj.rows[0].rows[0].type;
+        var attack = resultObj.rows[0].rows[0].attack;
+        var defense = resultObj.rows[0].rows[0].defense;
+        var hp = resultObj.rows[0].rows[0].hp;
+        var luck = resultObj.rows[0].rows[0].luck;
+
+        setStat(type, attack * 10, defense, hp, luck);
+
+        type = resultObj.rows[0].rows[1].type;
+        attack = resultObj.rows[0].rows[1].attack;
+        defense = resultObj.rows[0].rows[1].defense;
+        hp = resultObj.rows[0].rows[1].hp;
+        luck = resultObj.rows[0].rows[1].luck;
+
+        setStat(type, attack * 10, defense, hp, luck);
+
+        type = resultObj.rows[0].rows[2].type;
+        attack = resultObj.rows[0].rows[2].attack;
+        defense = resultObj.rows[0].rows[2].defense;
+        hp = resultObj.rows[0].rows[2].hp;
+        luck = resultObj.rows[0].rows[2].luck;
+
+        setStat(type, attack * 10, defense, hp, luck);
     }
     });
 
