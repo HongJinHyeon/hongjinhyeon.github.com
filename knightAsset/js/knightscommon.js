@@ -1101,7 +1101,7 @@ function load_playerStat_Season()
         hp = resultObj.rows[0].rows[2].hp;
         luck = resultObj.rows[0].rows[2].luck;
 
-        setStat(type, attack * 10, defense, hp, luck);
+        setStat(type, attack * 15, defense, hp, luck);
     }
     });
 
