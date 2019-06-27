@@ -120,7 +120,7 @@ function calculate_max_floors(VerType)
 
 
     var maxFloor = (parseInt(total_kill_count / 10) + 1);
-    document.getElementById("Part1_Total Floors").value = maxFloor + " floors  |  " + (total_kill_count % 10) + "/10";
+    document.getElementById("Part1_Total Floors").value = maxFloor + " castles  |  " + (total_kill_count % 10) + "/10";
 
 
     want_knightRebirthTime = effectiveRibirthTime;
@@ -363,7 +363,7 @@ function SetDropRateAndMagicWater_GDR(killcount1,killcount2,killcount3,cbChangeS
     document.getElementById("Part1_MW3").value = mw_now;
     mw_total = parseFloat(mw_total) + parseFloat(mw_now);
 
-    document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " Magic Waters";
+    document.getElementById("Part1_TotalMW").value = mw_total.toFixed(2) + " Tiger Runes";
 }
 
 
