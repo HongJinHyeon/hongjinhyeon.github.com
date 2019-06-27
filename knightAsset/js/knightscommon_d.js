@@ -1017,6 +1017,7 @@ function load_playerStatAndRevenue(lang)
     load_playerMaxFoorAndNowPowder(lang);
     clearResultFields();
     load_AvgFloors(lang);
+    load_playerDivRevenue(lang);
 }
  
 function load_playerStat()
@@ -1207,6 +1208,43 @@ function load_AvgFloors(lang)
     xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
     xhr.send(data);
 
+}
+
+function load_playerDivRevenue(lang)
+{
+    
+    var EOSAccountName = document.getElementById("EOSAccountName").value
+
+    if (EOSAccountName == "") return;
+   
+    var data = JSON.stringify({"json":true,"code":"eossanguoone","scope":"eossanguoone","table":"revenue2","key_type":"name","lower_bound":EOSAccountName,"index_position":1,"limit":1});
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+
+        var resultObj = JSON.parse(this.responseText);
+        var div_eos = resultObj.rows[0].div_eos;
+        var div_tkt = resultObj.rows[0].div_tkt;
+
+        if (lang == "ko")
+        {
+            document.getElementById("revenuediv").innerHTML = " Your Reward : <font color='red'>" +div_eos + "</font> and <font color='red'>" + div_tkt +"</font>";
+        }
+        else
+        {
+            document.getElementById("revenuediv").innerHTML = " Your Reward : <font color='red'>" +div_eos + "</font> and <font color='red'>" + div_tkt +"</font>";
+        }
+
+        
+        
+    }
+    });
+
+    xhr.open("POST", "https://eos.greymass.com/v1/chain/get_table_rows");
+    xhr.send(data);
 }
 
 function enter_check(lang)
