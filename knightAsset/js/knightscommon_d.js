@@ -1165,7 +1165,7 @@ function load_playerMaxFoorAndNowPowder(lang)
         }
         else
         {
-            document.getElementById("nowmaxfloorandpowder").innerHTML = " Your now max floors : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font> and have <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font> Tiger Runes";
+            document.getElementById("nowmaxfloorandpowder").innerHTML = " Your now max Castles : <font color='red'>" + addComma(resultObj.rows[0].maxfloor) + "</font> and have <font color='red'>" + addComma(resultObj.rows[0].powder) +"</font> Tiger Runes";
         }
 
         
@@ -1198,7 +1198,7 @@ function load_AvgFloors(lang)
         else
         {
             //document.getElementById("nowTotalAvgFloor").innerHTML = "Average Floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font> (Now Drop Rate is <font color='blue'>  ▼ " + (100 - (get_global_drop_factor(eosknights_avgFloor) * 100)).toFixed(4) + " %</font>)";
-            document.getElementById("nowTotalAvgFloor").innerHTML = "Average Floors : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font>";
+            document.getElementById("nowTotalAvgFloor").innerHTML = "Average Castles : <font color='red'>" + addComma( parseInt(eosknights_avgFloor) ) + "</font>";
         }
 
         
